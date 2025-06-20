@@ -65,6 +65,16 @@
     </style>
 </head>
 <body>
+    <div style="position: absolute; top: 18px; right: 32px; z-index: 10; display: flex; gap: 12px;">
+        {% if user.is_authenticated %}
+            <span style="color: #002147; font-weight: 600;">Hi, {{ user.username }}</span>
+            <a href="{% url 'profile' %}" class="btn btn-outline-primary" style="padding: 8px 16px; border-radius: 8px; border: 1.5px solid #002147; color: #002147; text-decoration: none; font-weight: 600; background: #fff;">Profile</a>
+            <a href="{% url 'logout' %}" class="btn btn-danger" style="padding: 8px 16px; border-radius: 8px; background: #c00; color: #fff; text-decoration: none; font-weight: 600;">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-primary" style="padding: 8px 18px; border-radius: 8px; background: #002147; color: #fff; text-decoration: none; font-weight: 600;">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-outline-primary" style="padding: 8px 16px; border-radius: 8px; border: 1.5px solid #002147; color: #002147; text-decoration: none; font-weight: 600; background: #fff;">Register</a>
+        {% endif %}
+    </div>
     <div class="hero">
         <h1>Find Anything on PyShop</h1>
         <p>Buy products easily. Browse by category below.</p>

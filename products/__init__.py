@@ -1,0 +1,1 @@
+# Ensure admin_interface signal is registered

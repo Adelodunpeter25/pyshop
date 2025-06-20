@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<style>
+  .register-card {
+    max-width: 420px;
+    width: 100%;
+    border-radius: 18px;
+    box-shadow: 0 2px 16px rgba(0,33,71,0.10), 0 1.5px 6px rgba(10,61,145,0.08);
+    transition: box-shadow 0.25s, transform 0.18s;
+    background: #fff;
+    margin: 0 auto;
+  }
+  .register-card:hover {
+    box-shadow: 0 8px 32px rgba(0,33,71,0.18), 0 4px 16px rgba(10,61,145,0.13);
+    transform: scale(1.025) translateY(-4px);
+  }
+  .register-title {
+    font-weight: 800;
+    color: #002147;
+    letter-spacing: 1px;
+    margin-bottom: 0.5em;
+    text-align: center;
+  }
+  .register-btn {
+    background: linear-gradient(90deg, #002147 80%, #0a3d91 100%);
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .register-btn:hover {
+    background: linear-gradient(90deg, #0a3d91 80%, #002147 100%);
+    box-shadow: 0 4px 16px rgba(0,33,71,0.13);
+  }
+  .register-link {
+    color: #0a3d91;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.18s;
+  }
+  .register-link:hover {
+    color: #002147;
+    text-decoration: underline;
+  }
+</style>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card register-card p-4">
+    <h2 class="register-title">Create Account</h2>
+    <form method="post" autocomplete="off">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-3">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn register-btn w-100">Register</button>
+    </form>
+    <div class="mt-3 text-center">
+      Already have an account? <a href="{% url 'login' %}" class="register-link">Login</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

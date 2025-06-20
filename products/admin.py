@@ -12,6 +12,7 @@ class ProductResource(resources.ModelResource):
 class ProductAdmin(ImportExportModelAdmin):
     resource_class = ProductResource
     list_display = ('name', 'price', 'stock', 'category', 'subcategory')
+    search_fields = ('name', 'category', 'subcategory', 'description')
 
 
 class OfferAdmin(admin.ModelAdmin):

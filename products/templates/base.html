@@ -18,8 +18,8 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-          <ul class="navbar-nav">
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNavDarkDropdown">
+          <ul class="navbar-nav me-auto">
             <li class="nav-item">
               <a class="nav-link" href="/all/">All</a>
             </li>
@@ -36,6 +36,15 @@
               <a class="nav-link" href="/vehicles/">Vehicles</a>
             </li>
           </ul>
+          <form class="d-flex mx-auto" method="get" action="{% url 'all_products' %}" style="max-width: 320px;">
+            <input class="form-control me-2" type="search" name="q" placeholder="Search products..." aria-label="Search">
+            <button class="btn btn-outline-light" type="submit">Search</button>
+          </form>
+          <div class="d-flex align-items-center ms-3">
+            <button id="toggle-theme" class="btn btn-outline-light btn-sm" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+              <span id="theme-icon">🌙</span>
+            </button>
+          </div>
         </div>
       </div>
     </nav>
@@ -44,5 +53,32 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
+    <script>
+      function setDarkMode() {
+        document.body.classList.add('bg-dark', 'text-light');
+        document.querySelector('.navbar-custom').classList.add('navbar-dark');
+        document.querySelector('.navbar-custom').classList.remove('navbar-light');
+        localStorage.setItem('theme', 'dark');
+        document.getElementById('theme-icon').textContent = '☀️';
+      }
+      function setLightMode() {
+        document.body.classList.remove('bg-dark', 'text-light');
+        document.querySelector('.navbar-custom').classList.remove('navbar-dark');
+        document.querySelector('.navbar-custom').classList.add('navbar-light');
+        localStorage.setItem('theme', 'light');
+        document.getElementById('theme-icon').textContent = '🌙';
+      }
+      function toggleTheme() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark') setLightMode();
+        else setDarkMode();
+      }
+      // On page load, set theme from localStorage
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark') setDarkMode();
+        else setLightMode();
+      })();
+    </script>
   </body>
 </html>

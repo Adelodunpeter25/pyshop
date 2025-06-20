@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'products.apps.ProductsConfig',
     'django.contrib.sites',
-    'import_export',  # Added for django-import-export
+    'import_export',  
+    'admin_interface',
+    'colorfield',
 ]
 
 MIDDLEWARE = [

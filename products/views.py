@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import AuthenticationForm
 from .models import Product
-from .forms import ProductForm
+from .forms import ProductForm, UserRegisterForm
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
 def index(request):
     products = Product.objects.all()
@@ -11,8 +15,13 @@ def landing(request):
     return render(request, 'landing.html')
 
 def all_products(request):
+    query = request.GET.get('q', '').strip()
     products = Product.objects.all()
-    return render(request, 'index.html', {'products': products, 'category': 'All'})
+    if query:
+        products = products.filter(
+            name__icontains=query
+        )
+    return render(request, 'index.html', {'products': products, 'category': 'All', 'search_query': query})
 
 def groceries(request):
     products = Product.objects.filter(category__iexact='Groceries')
@@ -52,3 +61,33 @@ def add_product(request):
     else:
         form = ProductForm()
     return render(request, 'add_product.html', {'form': form})
+
+def register_view(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('profile')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'register.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('profile')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+@login_required
+def profile_view(request):
+    return render(request, 'profile.html')
