@@ -1,0 +1,12 @@
+id,name,price,stock,image_url,category,description,subcategory
+31,Samsung Galaxy S21,699.0,45,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s21-5g.jpg,Electronics,"Flagship 2021 smartphone with 6.2″ Dynamic AMOLED 2X display, Exynos/Snapdragon chipset, triple rear camera, IP68 water resistance",Smartphones
+32,Samsung Galaxy S23,799.0,40,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s23.jpg,Electronics,"2023 flagship with Snapdragon 8 Gen 2, 6.1″ AMOLED display, 50 MP main camera, AI-enhanced photography, narrow bezels, IP68",Smartphones
+33,Samsung Galaxy A06,129.0,80,https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a06.jpg,Electronics,"Entry-level smartphone with 6.7″ HD+ display, MediaTek Helio G85, 50 MP camera, 5000 mAh battery—great budget pick",Smartphones
+35,Toyota Corolla 2016,14900.0,5,https://example.com/toyota-corolla-2016.jpg,Automobile,"Reliable compact sedan with 132–140 hp 1.8 L engine, ~31 mpg combined, spacious interior, strong safety record, dependability award",Sedan
+34,Toyota Camry 2020,24900.0,3,https://www.toyota.com/imgix/responsive/images/gallery/photos/2020/camry/2020-camry-gallery-01.jpg?auto=format%2Ccompress&fit=crop&h=500&w=1000&q=80,Automobile,"Mid-size sedan with 203 hp 2.5 L engine, ~28 mpg combined, spacious interior, advanced safety features, strong resale value",Sedan
+36,Nissan Pathfinder 2025,36400.0,10,https://cdn.nissanusa.com/pathfinder-2025/galaxy.jpg,Automobile,"3‑row midsize SUV with 3.5 L V6 (284 hp, or 295 hp in Rock Creek), 9‑speed auto, seats 7–8, up to 6,000 lb towing, terrain modes, ProPILOT Assist, top safety ratings",
+37,Google Pixel 5,699.0,60,https://fdn2.gsmarena.com/vv/bigpic/google-pixel-5-5g.jpg,Electronics,"6″ OLED 90 Hz display, Snapdragon 765G, 8 GB RAM, dual cameras, 4080 mAh battery, IP68",
+38,OnePlus 7T,599.0,35,https://fdn2.gsmarena.com/vv/bigpic/oneplus-7t.jpg,Electronics,"6.55″ Fluid AMOLED 90 Hz, Snapdragon 855+, triple camera, 30 W fast charge",
+39,itel A06,99.0,100,https://fdn2.gsmarena.com/vv/bigpic/itel-a06.jpg,Electronics,"Android 14 Go, quad-core 1.4 GHz, 2 GB + virtual RAM, 5000 mAh battery, budget",
+40,Tecno Spark 10,129.0,80,https://fdn2.gsmarena.com/vv/bigpic/tecno-spark-10.jpg,Electronics,"6.6″ HD+ 90 Hz, Helio G37, 8 GB RAM, 50 MP camera, 5000 mAh battery",
+41,iPhone 6s,199.0,30,https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-6s.jpg,Electronics,"4.7″ Retina HD, A9 chip, 12 MP camera, 3D Touch, headphone jack",

@@ -13,7 +13,7 @@
                              alt="{{ product.name|default:'Product image' }}">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text mb-2">${{ product.price }}</p>
+                            <p class="card-text mb-2">₦{{ product.price }}</p>
                             <p class="card-text text-muted">Stock: {{ product.stock }}</p>
                         </div>
                         <div class="card-footer bg-transparent border-top-0">

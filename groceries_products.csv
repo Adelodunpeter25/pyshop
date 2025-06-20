@@ -1,0 +1,8 @@
+id,name,price,stock,image_url,category,description,subcategory
+30,apple,0.99,100,https://img.example.com/apple.jpg,Groceries,Fresh apple,fruit
+24,orange,1.10,80,https://img.example.com/orange.jpg,Groceries,Juicy orange,fruit
+25,strawberry,2.50,60,https://img.example.com/strawberry.jpg,Groceries,Fresh strawberries,fruit
+26,banana,0.50,120,https://img.example.com/banana.jpg,Groceries,Yellow bananas,fruit
+27,watermelon,4.99,30,https://img.example.com/watermelon.jpg,Groceries,Large watermelon,fruit
+28,pineapple,3.20,40,https://img.example.com/pineapple.jpg,Groceries,Fresh pineapple,fruit
+29,avocado,1.75,70,https://img.example.com/avocado.jpg,Groceries,Fresh avocado,fruit

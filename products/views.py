@@ -15,7 +15,7 @@ def all_products(request):
     return render(request, 'index.html', {'products': products, 'category': 'All'})
 
 def groceries(request):
-    products = Product.objects.filter(name__icontains='grocery')
+    products = Product.objects.filter(category__iexact='Groceries')
     return render(request, 'index.html', {'products': products, 'category': 'Groceries'})
 
 def footwears(request):
@@ -25,6 +25,23 @@ def footwears(request):
     else:
         products = Product.objects.filter(category__iexact=selected_category)
     return render(request, 'footwears.html', {'products': products, 'category': selected_category})
+
+def vehicles(request):
+    products = Product.objects.filter(category__iexact='Vehicles')
+    return render(request, 'index.html', {'products': products, 'category': 'Vehicles'})
+
+def electronics(request):
+    subcategory = request.GET.get('subcategory', '')
+    products = Product.objects.filter(category__iexact='Electronics')
+    if subcategory:
+        products = products.filter(subcategory__iexact=subcategory)
+    subcategories = ['Mobile Phone', 'Computer', 'Audio Devices']
+    return render(request, 'index.html', {
+        'products': products,
+        'category': 'Electronics',
+        'subcategories': subcategories,
+        'selected_subcategory': subcategory
+    })
 
 def add_product(request):
     if request.method == 'POST':

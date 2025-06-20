@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/bibleway/Documents/Python Projects/pyshop/firstwebsite/bin/python3" "$0" "$@"
+'''exec' "/Users/bibleway/Documents/Python Projects/pyshop/firstwebsite/bin/python" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re

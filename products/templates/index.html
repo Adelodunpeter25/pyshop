@@ -11,6 +11,17 @@
 {% endblock %}
 
 {% block content %}
+    {% if category == 'Electronics' and subcategories %}
+        <form method="get" class="mb-4 d-flex align-items-center">
+            <label for="subcategory" class="me-2 mb-0 subcategory-label">Subcategory:</label>
+            <select name="subcategory" id="subcategory" class="form-select me-2 subcategory-select" style="width:auto;" onchange="this.form.submit()">
+                <option value="">All</option>
+                {% for sub in subcategories %}
+                    <option value="{{ sub }}" {% if selected_subcategory == sub %}selected{% endif %}>{{ sub }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    {% endif %}
     <div class="row g-4">
         {% if products %}
             {% for product in products %}
@@ -21,8 +32,11 @@
                              alt="{{ product.name|default:'Product image' }}">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text mb-2">${{ product.price }}</p>
+                            <p class="card-text mb-2">₦{{ product.price }}</p>
                             <p class="card-text text-muted">Stock: {{ product.stock }}</p>
+                            {% if product.description %}
+                                <p class="card-text mt-2 text-secondary" style="font-size:0.97em;">{{ product.description }}</p>
+                            {% endif %}
                         </div>
                         <div class="card-footer bg-transparent border-top-0">
                             <a href="#" class="btn btn-footwear w-100">Add To Cart</a>
@@ -39,6 +53,16 @@
         {% endif %}
     </div>
     <style>
+        .subcategory-label {
+            font-size: 1.05em;
+            font-weight: 600;
+            padding: 0.32em 0.6em 0.32em 0;
+        }
+        .subcategory-select {
+            font-size: 1em;
+            font-weight: 600;
+            padding: 0.4em 1em 0.4em 0.7em;
+        }
         .footwear-card {
             border-radius: 14px !important;
             border: 1.5px solid #e0e0e0;
