@@ -24,7 +24,8 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "https://pyshop1.onrender.com/").split(",")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "pyshop1.onrender.com,127.0.0.1,localhost").split(",")
+
 
 
 # Application definition
