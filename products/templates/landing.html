@@ -12,8 +12,6 @@
     <div class="navbar-right">
         {% if user.is_authenticated %}
             <span class="navbar-user">Hi, {{ user.username }}</span>
-            <a href="{% url 'profile' %}" class="navbar-btn">Profile</a>
-            <a href="{% url 'logout' %}" class="navbar-btn navbar-btn-logout">Logout</a>
         {% else %}
             <a href="{% url 'login' %}" class="navbar-btn navbar-btn-login">Login</a>
             <a href="{% url 'register' %}" class="navbar-btn">Register</a>
