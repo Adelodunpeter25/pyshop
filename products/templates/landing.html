@@ -5,16 +5,21 @@
 
 
 {% block content %}
-<div style="position: absolute; top: 18px; right: 32px; z-index: 10; display: flex; gap: 12px;">
-    {% if user.is_authenticated %}
-        <span style="color: #002147; font-weight: 600;">Hi, {{ user.username }}</span>
-        <a href="{% url 'profile' %}" class="btn btn-outline-primary" style="padding: 8px 16px; border-radius: 8px; border: 1.5px solid #002147; color: #002147; text-decoration: none; font-weight: 600; background: #fff;">Profile</a>
-        <a href="{% url 'logout' %}" class="btn btn-danger" style="padding: 8px 16px; border-radius: 8px; background: #c00; color: #fff; text-decoration: none; font-weight: 600;">Logout</a>
-    {% else %}
-        <a href="{% url 'login' %}" class="btn btn-primary" style="padding: 8px 18px; border-radius: 8px; background: #002147; color: #fff; text-decoration: none; font-weight: 600;">Login</a>
-        <a href="{% url 'register' %}" class="btn btn-outline-primary" style="padding: 8px 16px; border-radius: 8px; border: 1.5px solid #002147; color: #002147; text-decoration: none; font-weight: 600; background: #fff;">Register</a>
-    {% endif %}
-</div>
+<nav class="navbar">
+    <div class="navbar-left">
+        <a href="/" class="navbar-brand">PyShop</a>
+    </div>
+    <div class="navbar-right">
+        {% if user.is_authenticated %}
+            <span class="navbar-user">Hi, {{ user.username }}</span>
+            <a href="{% url 'profile' %}" class="navbar-btn">Profile</a>
+            <a href="{% url 'logout' %}" class="navbar-btn navbar-btn-logout">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="navbar-btn navbar-btn-login">Login</a>
+            <a href="{% url 'register' %}" class="navbar-btn">Register</a>
+        {% endif %}
+    </div>
+</nav>
 <div class="hero">
     <h1>Find Anything on PyShop</h1>
     <p>Buy products easily. Browse by category below.</p>
@@ -42,7 +47,101 @@
     </a>
 </div>
 <style>
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        border-bottom: 1.5px solid #e0e0e0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 36px;
+        z-index: 100;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .navbar-left {
+        display: flex;
+        align-items: center;
+    }
+    .navbar-brand {
+        font-size: 1.6em;
+        font-weight: 800;
+        color: #002147;
+        text-decoration: none;
+        letter-spacing: 1px;
+    }
+    .navbar-right {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+    .navbar-user {
+        color: #002147;
+        font-weight: 600;
+        margin-right: 8px;
+    }
+    .navbar-btn {
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 1.5px solid #002147;
+        color: #002147;
+        background: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.2s, color 0.2s;
+    }
+    .navbar-btn:hover {
+        background: #002147;
+        color: #fff;
+    }
+    .navbar-btn-login {
+        background: #002147;
+        color: #fff;
+        border: none;
+    }
+    .navbar-btn-login:hover {
+        background: #00112a;
+    }
+    .navbar-btn-logout {
+        background: #c00;
+        color: #fff;
+        border: none;
+    }
+    .navbar-btn-logout:hover {
+        background: #900;
+    }
+    body.dark-mode .navbar {
+        background: #23272f;
+        border-bottom: 1.5px solid #444a57;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+    }
+    body.dark-mode .navbar-brand,
+    body.dark-mode .navbar-user {
+        color: #f1f1f1;
+    }
+    body.dark-mode .navbar-btn {
+        background: #23272f;
+        color: #f1f1f1;
+        border: 1.5px solid #444a57;
+    }
+    body.dark-mode .navbar-btn:hover {
+        background: #002147;
+        color: #fff;
+    }
+    body.dark-mode .navbar-btn-login {
+        background: #002147;
+        color: #fff;
+        border: none;
+    }
+    body.dark-mode .navbar-btn-logout {
+        background: #c00;
+        color: #fff;
+        border: none;
+    }
     .hero {
+        margin-top: 70px;
         background: #002147;
         color: #fff;
         padding: 60px 20px 40px 20px;
