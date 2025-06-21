@@ -1,105 +1,107 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to PyShop</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #000;
-            margin: 0;
-            padding: 0;
-        }
-        .hero {
-            background: #002147;
-            color: #fff;
-            padding: 60px 20px 40px 20px;
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 3.5em;
-            font-weight: 800;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-            text-shadow: 2px 4px 12px rgba(0,0,0,0.12);
-        }
-        .hero p {
-            font-size: 1.2em;
-            margin-bottom: 30px;
-        }
+{% extends "base.html" %}
+
+{% block title %}Welcome to PyShop{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div style="position: absolute; top: 18px; right: 32px; z-index: 10; display: flex; gap: 12px;">
+    {% if user.is_authenticated %}
+        <span style="color: #002147; font-weight: 600;">Hi, {{ user.username }}</span>
+        <a href="{% url 'profile' %}" class="btn btn-outline-primary" style="padding: 8px 16px; border-radius: 8px; border: 1.5px solid #002147; color: #002147; text-decoration: none; font-weight: 600; background: #fff;">Profile</a>
+        <a href="{% url 'logout' %}" class="btn btn-danger" style="padding: 8px 16px; border-radius: 8px; background: #c00; color: #fff; text-decoration: none; font-weight: 600;">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary" style="padding: 8px 18px; border-radius: 8px; background: #002147; color: #fff; text-decoration: none; font-weight: 600;">Login</a>
+        <a href="{% url 'register' %}" class="btn btn-outline-primary" style="padding: 8px 16px; border-radius: 8px; border: 1.5px solid #002147; color: #002147; text-decoration: none; font-weight: 600; background: #fff;">Register</a>
+    {% endif %}
+</div>
+<div class="hero">
+    <h1>Find Anything on PyShop</h1>
+    <p>Buy products easily. Browse by category below.</p>
+</div>
+<div class="categories">
+    <a href="/all/" class="category" style="text-decoration: none; color: inherit;">
+        <div class="category-icon">🛒</div>
+        <div class="category-title">All</div>
+    </a>
+    <a href="/footwears/" class="category" style="text-decoration: none; color: inherit;">
+        <div class="category-icon">👟</div>
+        <div class="category-title">Footwears</div>
+    </a>
+    <a href="/groceries/" class="category" style="text-decoration: none; color: inherit;">
+        <div class="category-icon">🛍️</div>
+        <div class="category-title">Groceries</div>
+    </a>
+    <a href="/electronics/" class="category" style="text-decoration: none; color: inherit;">
+        <div class="category-icon">💻</div>
+        <div class="category-title">Electronics</div>
+    </a>
+    <a href="/vehicles/" class="category" style="text-decoration: none; color: inherit;">
+        <div class="category-icon">🚗</div>
+        <div class="category-title">Vehicles</div>
+    </a>
+</div>
+<style>
+    .hero {
+        background: #002147;
+        color: #fff;
+        padding: 60px 20px 40px 20px;
+        text-align: center;
+    }
+    .hero h1 {
+        font-size: 3.5em;
+        font-weight: 800;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+        text-shadow: 2px 4px 12px rgba(0,0,0,0.12);
+    }
+    .hero p {
+        font-size: 1.2em;
+        margin-bottom: 30px;
+    }
+    .categories {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        margin: 50px 0;
+    }
+    .category {
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        padding: 48px 26px;
+        width: 160px;
+        text-align: center;
+        transition: box-shadow 0.2s, transform 0.2s, background 0.2s, color 0.2s;
+        color: #222;
+    }
+    body.dark-mode .category {
+        background: #23272f;
+        color: #f1f1f1;
+        border: 1.5px solid #444a57;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+    }
+    .category-title {
+        font-size: 1.25em;
+        color: #222;
+    }
+    body.dark-mode .category-title {
+        color: #f1f1f1;
+    }
+    .category:hover {
+        box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+        transform: scale(1.08) translateY(-6px);
+    }
+    .category-icon {
+        font-size: 2.8em;
+        margin-bottom: 16px;
+    }
+    @media (max-width: 600px) {
         .categories {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin: 50px 0;
+            flex-direction: column;
+            align-items: center;
         }
-        .category {
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-            padding: 48px 26px;
-            width: 160px;
-            text-align: center;
-            transition: box-shadow 0.2s, transform 0.2s;
-        }
-        .category:hover {
-            box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-            transform: scale(1.08) translateY(-6px);
-        }
-        .category-icon {
-            font-size: 2.8em;
-            margin-bottom: 16px;
-        }
-        .category-title {
-            font-size: 1.25em;
-            color: #222;
-        }
-        @media (max-width: 600px) {
-            .categories {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div style="position: absolute; top: 18px; right: 32px; z-index: 10; display: flex; gap: 12px;">
-        {% if user.is_authenticated %}
-            <span style="color: #002147; font-weight: 600;">Hi, {{ user.username }}</span>
-            <a href="{% url 'profile' %}" class="btn btn-outline-primary" style="padding: 8px 16px; border-radius: 8px; border: 1.5px solid #002147; color: #002147; text-decoration: none; font-weight: 600; background: #fff;">Profile</a>
-            <a href="{% url 'logout' %}" class="btn btn-danger" style="padding: 8px 16px; border-radius: 8px; background: #c00; color: #fff; text-decoration: none; font-weight: 600;">Logout</a>
-        {% else %}
-            <a href="{% url 'login' %}" class="btn btn-primary" style="padding: 8px 18px; border-radius: 8px; background: #002147; color: #fff; text-decoration: none; font-weight: 600;">Login</a>
-            <a href="{% url 'register' %}" class="btn btn-outline-primary" style="padding: 8px 16px; border-radius: 8px; border: 1.5px solid #002147; color: #002147; text-decoration: none; font-weight: 600; background: #fff;">Register</a>
-        {% endif %}
-    </div>
-    <div class="hero">
-        <h1>Find Anything on PyShop</h1>
-        <p>Buy products easily. Browse by category below.</p>
-    </div>
-    <div class="categories">
-        <a href="/all/" class="category" style="text-decoration: none; color: inherit;">
-            <div class="category-icon">🛒</div>
-            <div class="category-title">All</div>
-        </a>
-        <a href="/footwears/" class="category" style="text-decoration: none; color: inherit;">
-            <div class="category-icon">👟</div>
-            <div class="category-title">Footwears</div>
-        </a>
-        <a href="/groceries/" class="category" style="text-decoration: none; color: inherit;">
-            <div class="category-icon">🛍️</div>
-            <div class="category-title">Groceries</div>
-        </a>
-        <a href="/electronics/" class="category" style="text-decoration: none; color: inherit;">
-            <div class="category-icon">💻</div>
-            <div class="category-title">Electronics</div>
-        </a>
-        <a href="/vehicles/" class="category" style="text-decoration: none; color: inherit;">
-            <div class="category-icon">🚗</div>
-            <div class="category-title">Vehicles</div>
-        </a>
-    </div>
-</body>
-</html>
+    }
+</style>
+{% endblock %}

@@ -9,6 +9,26 @@
       .navbar-custom {
         background: linear-gradient(90deg, #002147 80%, #00102a 100%) !important;
       }
+      .navbar-custom.navbar-light {
+        background: #fff !important;
+        color: #222 !important;
+        border-bottom: 1.5px solid #e0e0e0;
+      }
+      .navbar-custom.navbar-light .navbar-nav .nav-link,
+      .navbar-custom.navbar-light .navbar-brand {
+        color: #002147 !important;
+      }
+      .navbar-custom.navbar-light .nav-link.active {
+        color: #0a3d91 !important;
+      }
+      .navbar-custom.navbar-light .btn-outline-light {
+        color: #002147 !important;
+        border-color: #002147 !important;
+      }
+      .navbar-custom.navbar-light .btn-outline-light:hover {
+        background: #002147 !important;
+        color: #fff !important;
+      }
     </style>
   </head>
   <body>
@@ -55,14 +75,14 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
     <script>
       function setDarkMode() {
-        document.body.classList.add('bg-dark', 'text-light');
+        document.body.classList.add('bg-dark', 'text-light', 'dark-mode');
         document.querySelector('.navbar-custom').classList.add('navbar-dark');
         document.querySelector('.navbar-custom').classList.remove('navbar-light');
         localStorage.setItem('theme', 'dark');
         document.getElementById('theme-icon').textContent = '☀️';
       }
       function setLightMode() {
-        document.body.classList.remove('bg-dark', 'text-light');
+        document.body.classList.remove('bg-dark', 'text-light', 'dark-mode');
         document.querySelector('.navbar-custom').classList.remove('navbar-dark');
         document.querySelector('.navbar-custom').classList.add('navbar-light');
         localStorage.setItem('theme', 'light');
