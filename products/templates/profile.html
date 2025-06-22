@@ -53,6 +53,15 @@
   body.dark-mode .profile-info p, body.dark-mode .profile-info strong, body.dark-mode .profile-orders, body.dark-mode .profile-orders h5, body.dark-mode .profile-header h3 {
     color: #f1f1f1;
   }
+  .profile-info h3 {
+    font-weight: 800;
+    margin-bottom: 0.2em;
+    color: #002147;
+    transition: color 0.2s;
+  }
+  body.dark-mode .profile-info h3 {
+    color: #f1f1f1;
+  }
   .profile-actions .btn {
     font-weight: 600;
     border-radius: 8px;
@@ -112,10 +121,10 @@
         <div class="profile-initial">{{ user.username|slice:":1"|upper }}</div>
       {% endif %}
       <div class="profile-info">
-        <h3 style="font-weight: 800; color: #002147; margin-bottom: 0.2em;">{{ user.username }}</h3>
-        <p><strong>Email:</strong> {{ user.email }}</p>
+        <h3 class="profile-info-heading" style="font-weight: 800; margin-bottom: 0.2em;">{{ user.username }}</h3>
+        <p><strong>Email:</strong> <span class="profile-info-email">{{ user.email }}</span></p>
         {% if user.profile.bio %}
-          <p><strong>Bio:</strong> {{ user.profile.bio }}</p>
+          <p><strong>Bio:</strong> <span class="profile-info-bio">{{ user.profile.bio }}</span></p>
         {% endif %}
       </div>
     </div>
