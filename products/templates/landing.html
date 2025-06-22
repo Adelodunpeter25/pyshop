@@ -13,8 +13,8 @@
         {% if user.is_authenticated %}
             <span class="navbar-user">Hi, {{ user.username }}</span>
         {% else %}
-            <a href="{% url 'login' %}" class="navbar-btn navbar-btn-login">Login</a>
-            <a href="{% url 'register' %}" class="navbar-btn">Register</a>
+            <a href="{% url 'login' %}" class="btn btn-primary landing-btn" style="padding: 8px 18px; border-radius: 8px; background: #002147; color: #fff; text-decoration: none; font-weight: 600;">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-outline-primary landing-btn" style="padding: 8px 16px; border-radius: 8px; border: 1.5px solid #002147; color: #002147; text-decoration: none; font-weight: 600; background: #fff;">Sign Up</a>
         {% endif %}
     </div>
 </nav>
@@ -193,6 +193,17 @@
     .category-icon {
         font-size: 2.8em;
         margin-bottom: 16px;
+    }
+    .landing-btn {
+        transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+        box-shadow: 0 2px 8px rgba(0,33,71,0.08);
+    }
+    .landing-btn:hover, .landing-btn:focus {
+        background: #0a3d91 !important;
+        color: #fff !important;
+        box-shadow: 0 6px 18px rgba(0,33,71,0.18);
+        transform: scale(1.06) translateY(-2px);
+        text-decoration: none;
     }
     @media (max-width: 600px) {
         .categories {

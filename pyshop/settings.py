@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = False
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "pyshop1.onrender.com,127.0.0.1,localhost").split(",")
 
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'import_export',  
     'admin_interface',
     'colorfield',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
