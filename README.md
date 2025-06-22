@@ -29,8 +29,7 @@ PyShop is a modern, responsive e-commerce web application built with Django. It 
 |------------------------|----------------------------------|
 | Python 3 & Django 4    | Core backend framework          |
 | Bootstrap 5 (CDN)      | UI and responsive design        |
-| SQLite (default)       | Lightweight dev database        |
-| PostgreSQL (prod)      | Production database             |
+| SQLite (default)       | Lightweight dev database        |          |
 | Pillow                 | Image handling (avatars, etc.)  |
 | django-widget-tweaks   | Form rendering customization    |
 | django-import-export   | Admin CSV/XLS import-export     |
