@@ -50,7 +50,7 @@
         top: 0;
         left: 0;
         width: 100%;
-        background: #fff;
+        background: linear-gradient(90deg, #002147 80%, #00102a 100%);
         border-bottom: 1.5px solid #e0e0e0;
         display: flex;
         justify-content: space-between;
@@ -58,6 +58,48 @@
         padding: 12px 36px;
         z-index: 100;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        transition: background 0.2s;
+    }
+    body.dark-mode .navbar {
+        background: linear-gradient(90deg, #0a1931 80%, #002147 100%);
+        border-bottom: 1.5px solid #444a57;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+    }
+    .navbar, .navbar * {
+        color: #fff !important;
+        transition: color 0.2s;
+    }
+    .navbar .navbar-brand {
+        font-size: 1.6em;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+    .navbar .navbar-user {
+        font-weight: 600;
+        margin-right: 8px;
+    }
+    .navbar .btn, .navbar .navbar-btn {
+        color: #002147 !important;
+        background: #fff;
+        border: 1.5px solid #fff;
+        font-weight: 600;
+        transition: background 0.2s, color 0.2s;
+    }
+    .navbar .btn:hover, .navbar .navbar-btn:hover {
+        background: #ffd700 !important;
+        color: #002147 !important;
+    }
+    body.dark-mode .navbar, body.dark-mode .navbar * {
+        color: #f1f1f1 !important;
+    }
+    body.dark-mode .navbar .btn, body.dark-mode .navbar .navbar-btn {
+        color: #002147 !important;
+        background: #f1f1f1;
+        border: 1.5px solid #f1f1f1;
+    }
+    body.dark-mode .navbar .btn:hover, body.dark-mode .navbar .navbar-btn:hover {
+        background: #ffd700 !important;
+        color: #002147 !important;
     }
     .navbar-left {
         display: flex;
@@ -109,11 +151,6 @@
     }
     .navbar-btn-logout:hover {
         background: #900;
-    }
-    body.dark-mode .navbar {
-        background: #23272f;
-        border-bottom: 1.5px solid #444a57;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.18);
     }
     body.dark-mode .navbar-brand,
     body.dark-mode .navbar-user {

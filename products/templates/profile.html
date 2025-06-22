@@ -1,13 +1,135 @@
 {% extends "base.html" %}
 {% block title %}Profile{% endblock %}
 {% block content %}
-<div class="container mt-5" style="max-width: 500px;">
-  <h2 class="mb-4 text-center">Your Profile</h2>
-  <div class="card p-4">
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    {# Add more profile fields here if needed #}
-    <a href="{% url 'logout' %}" class="btn btn-secondary mt-3">Logout</a>
+<style>
+  .profile-card {
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0,33,71,0.13), 0 1.5px 6px rgba(10,61,145,0.08);
+    background: linear-gradient(120deg, #f5f8ff 60%, #eaf0fa 100%);
+    padding: 2.5rem 2rem 2rem 2rem;
+    margin-top: 2rem;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  body.dark-mode .profile-card {
+    background: linear-gradient(120deg, #23272f 60%, #1a1d23 100%);
+    box-shadow: 0 4px 32px rgba(0,0,0,0.22), 0 1.5px 6px rgba(10,61,145,0.08);
+  }
+  .profile-avatar {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #002147;
+    box-shadow: 0 2px 12px rgba(0,33,71,0.10);
+    background: #fff;
+  }
+  .profile-initial {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #002147;
+    color: #fff;
+    font-size: 2.8em;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #002147;
+    box-shadow: 0 2px 12px rgba(0,33,71,0.10);
+  }
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .profile-info p, .profile-info strong, .profile-orders, .profile-orders h5, .profile-header h3 {
+    color: #002147;
+    transition: color 0.2s;
+  }
+  body.dark-mode .profile-info p, body.dark-mode .profile-info strong, body.dark-mode .profile-orders, body.dark-mode .profile-orders h5, body.dark-mode .profile-header h3 {
+    color: #f1f1f1;
+  }
+  .profile-actions .btn {
+    font-weight: 600;
+    border-radius: 8px;
+    margin-bottom: 0.5em;
+    transition: box-shadow 0.2s, background 0.2s;
+  }
+  .profile-actions .btn-outline-primary:hover {
+    background: #002147;
+    color: #fff;
+  }
+  .btn-danger {
+    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(200,0,0,0.08);
+  }
+  .btn-danger:hover, .btn-danger:focus {
+    background: #a30000 !important;
+    color: #fff !important;
+    box-shadow: 0 6px 18px rgba(200,0,0,0.18);
+    transform: scale(1.04) translateY(-2px);
+  }
+  .profile-orders {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,33,71,0.07);
+    padding: 1.2rem 1rem;
+    margin-top: 2rem;
+  }
+  body.dark-mode .profile-orders {
+    background: #23272f;
+    color: #f1f1f1;
+  }
+  .profile-orders h5 {
+    color: #002147;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  .profile-main-heading {
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 1.8rem;
+    color: #002147;
+    transition: color 0.2s;
+  }
+  body.dark-mode .profile-main-heading {
+    color: #f1f1f1;
+  }
+</style>
+<div class="container mt-5" style="max-width: 520px;">
+  <div class="card profile-card">
+    <h2 class="profile-main-heading">Your Profile</h2>
+    <div class="profile-header">
+      {% if user.profile.avatar %}
+        <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="profile-avatar">
+      {% else %}
+        <div class="profile-initial">{{ user.username|slice:":1"|upper }}</div>
+      {% endif %}
+      <div class="profile-info">
+        <h3 style="font-weight: 800; color: #002147; margin-bottom: 0.2em;">{{ user.username }}</h3>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        {% if user.profile.bio %}
+          <p><strong>Bio:</strong> {{ user.profile.bio }}</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="profile-actions d-grid gap-2">
+      <a href="{% url 'edit_profile' %}" class="btn btn-outline-primary">Edit Profile</a>
+    </div>
+    <div class="profile-orders mt-4">
+      <h5>Order History</h5>
+      <div class="alert alert-info text-center mb-0">No orders yet.</div>
+      {# Replace above with order list when implemented #}
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+    </div>
   </div>
 </div>
 {% endblock %}

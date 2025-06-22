@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Product
-from .forms import ProductForm, UserRegisterForm
+from .models import Product, Profile
+from .forms import ProductForm, UserRegisterForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
@@ -91,3 +91,15 @@ def logout_view(request):
 @login_required
 def profile_view(request):
     return render(request, 'profile.html')
+
+@login_required
+def edit_profile_view(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'edit_profile.html', {'form': form})
