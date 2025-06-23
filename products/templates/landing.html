@@ -13,8 +13,8 @@
         {% if user.is_authenticated %}
             <span class="navbar-user">Hi, {{ user.username }}</span>
         {% else %}
-            <a href="{% url 'login' %}" class="btn btn-primary landing-btn" style="padding: 8px 18px; border-radius: 8px; background: #002147; color: #fff; text-decoration: none; font-weight: 600;">Login</a>
-            <a href="{% url 'register' %}" class="btn btn-outline-primary landing-btn" style="padding: 8px 16px; border-radius: 8px; border: 1.5px solid #002147; color: #002147; text-decoration: none; font-weight: 600; background: #fff;">Sign Up</a>
+            <a href="{% url 'login' %}" class="btn btn-primary login-btn" style="width: 96px; margin-right: 8px;">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-outline-primary signup-btn" style="width: 96px;">Sign Up</a>
         {% endif %}
     </div>
 </nav>
@@ -242,6 +242,41 @@
         transform: scale(1.06) translateY(-2px);
         text-decoration: none;
     }
+    .login-btn {
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 6px 0;
+      font-size: 1em;
+      background: #fff;
+      color: #002147;
+      border: 1.5px solid #002147;
+      box-shadow: 0 2px 8px rgba(0,33,71,0.08);
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .login-btn:hover, .login-btn:focus, .signup-btn:hover, .signup-btn:focus {
+      background: #0052cc !important;
+      color: #fff !important;
+      box-shadow: 0 6px 18px rgba(0,33,71,0.18);
+      transform: scale(1.04) translateY(-2px);
+    }
+    .signup-btn {
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 6px 0;
+      font-size: 1em;
+      background: #fff;
+      color: #002147;
+      border: 1.5px solid #002147;
+      box-shadow: 0 2px 8px rgba(0,33,71,0.08);
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .login-btn, .signup-btn {
+    display: inline-block;
+    width: 96px;
+    padding: 6px 0;
+    font-size: 1em;
+    text-align: center;
+  }
     @media (max-width: 600px) {
         .categories {
             flex-direction: column;
