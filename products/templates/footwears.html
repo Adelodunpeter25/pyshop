@@ -17,7 +17,7 @@
                             <p class="card-text text-muted">Stock: {{ product.stock }}</p>
                         </div>
                         <div class="card-footer bg-transparent border-top-0">
-                            <a href="#" class="btn btn-footwear w-100">View Details</a>
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-footwear w-100">View Details</a>
                         </div>
                     </div>
                 </div>
