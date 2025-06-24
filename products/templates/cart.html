@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block title %}Your Cart{% endblock %}
 {% block content %}
 <div class="container py-5">
@@ -11,16 +12,24 @@
             <th>Product</th>
             <th>Price</th>
             <th>Quantity</th>
-            <th>Total</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {% for item in cart_items %}
             <tr>
-              <td>{{ item.product.name }}</td>
+              <td class="d-flex align-items-center gap-2">
+                <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">
+                <span>{{ item.product.name }}</span>
+              </td>
               <td>₦{{ item.product.price }}</td>
               <td>{{ item.quantity }}</td>
-              <td>₦{{ item.product.price|floatformat:2|add:item.quantity|floatformat:2 }}</td>
+              <td>
+                <form method="post" action="{% url 'remove_from_cart' item.product.id %}">
+                  {% csrf_token %}
+                  <button class="btn btn-danger btn-sm">Remove</button>
+                </form>
+              </td>
             </tr>
           {% endfor %}
         </tbody>
@@ -29,6 +38,9 @@
   {% else %}
     <div class="alert alert-info text-center">Your cart is empty.</div>
   {% endif %}
+  <div class="text-end mt-3">
+    <h5><strong>Total Price: ₦{{ cart_total|default:0|floatformat:2|intcomma }}</strong></h5>
+  </div>
   <a href="{% url 'all_products' %}" class="btn btn-outline-primary mt-4">Continue Shopping</a>
 </div>
 {% endblock %}

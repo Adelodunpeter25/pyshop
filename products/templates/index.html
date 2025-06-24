@@ -33,8 +33,7 @@
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text mb-2">₦{{ product.price }}</p>
-                            {# Stock is only shown on the product details page #}
-                            {# Description is only shown on the product details page #}
+                            
                         </div>
                         <div class="card-footer bg-transparent border-top-0">
                             <a href="{% url 'product_detail' product.id %}" class="btn btn-footwear w-100">View Details</a>

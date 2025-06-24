@@ -7,6 +7,7 @@ from .forms import ProductForm, UserRegisterForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
 
 def index(request):
     products = Product.objects.all()
@@ -114,6 +115,8 @@ def add_to_cart(request, product_id):
         cart = request.session.get('cart', {})
         cart[str(product_id)] = cart.get(str(product_id), 0) + 1
         request.session['cart'] = cart
+        product = get_object_or_404(Product, id=product_id)
+        messages.success(request, f"{product.name} has been added to your cart.")
         return redirect('product_detail', product_id=product_id)
     return redirect('product_detail', product_id=product_id)
 
@@ -122,7 +125,23 @@ def view_cart(request):
     product_ids = [int(pid) for pid in cart.keys()]
     products = Product.objects.filter(id__in=product_ids)
     cart_items = []
+    cart_total = 0
     for product in products:
         quantity = cart.get(str(product.id), 0)
-        cart_items.append({'product': product, 'quantity': quantity})
-    return render(request, 'cart.html', {'cart_items': cart_items})
+        item_total = 0
+        try:
+            # Remove commas and currency symbols, then convert to float
+            price_str = str(product.price).replace(',', '').replace('₦', '').strip()
+            item_total = float(price_str) * quantity
+        except Exception:
+            pass
+        cart_total += item_total
+        cart_items.append({'product': product, 'quantity': quantity, 'item_total': item_total})
+    return render(request, 'cart.html', {'cart_items': cart_items, 'cart_total': cart_total})
+
+def remove_from_cart(request, product_id):
+    if request.method == 'POST':
+        cart = request.session.get('cart', {})
+        cart.pop(str(product_id), None)
+        request.session['cart'] = cart
+    return redirect('view_cart')
