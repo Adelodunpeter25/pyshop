@@ -90,14 +90,6 @@ python manage.py migrate
 python manage.py loaddata data.json
 ```
 
----
-
-## 📸 Screenshots
-
-_Add screenshots of your landing page, product list, cart, and profile page here._
-
----
-
 ## 📄 License
 
 MIT License
