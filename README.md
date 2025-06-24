@@ -16,10 +16,12 @@ PyShop is a modern, responsive e-commerce web application built with Django. It 
 - 🔍 Smart **search** and **filtering**
 - 👤 User **registration**, **login**, and **profile management**
 - 🖼️ Profile editing with **avatar upload**
-- 🛠️ Django admin for managing **products and offers**
+- 🛠️ Django admin for managing **products, offers, and profiles**
 - 📦 **Import/export** products in admin panel
+- 🎨 **Customizable admin interface** with themes (using `admin_interface`)
 - 🌗 Toggle between **light and dark mode**
 - 📝 Viewable **order history** (extendable for carts/checkout)
+- 🚀 Production-ready with **PostgreSQL** on Render
 
 ---
 
@@ -27,13 +29,14 @@ PyShop is a modern, responsive e-commerce web application built with Django. It 
 
 | Technology             | Purpose                         |
 |------------------------|----------------------------------|
-| Python 3 & Django 4    | Core backend framework          |
+| Python 3 & Django      | Core backend framework          |
 | Bootstrap 5 (CDN)      | UI and responsive design        |
-| SQLite (default)       | Lightweight dev database        |
-| PostgreSQL (prod)      | Production database             |
+| SQLite (dev)           | Lightweight dev database        |
+| PostgreSQL (Render)    | Production database             |
 | Pillow                 | Image handling (avatars, etc.)  |
 | django-widget-tweaks   | Form rendering customization    |
 | django-import-export   | Admin CSV/XLS import-export     |
+| admin-interface        | Modern Django admin theming     |
 
 ---
 
@@ -43,7 +46,7 @@ Follow these steps to run PyShop on your local machine:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Adelodunpeter25/pyshop.git
+git clone <your-repo-url>
 cd pyshop
 
 # 2. Create and activate a virtual environment
@@ -69,7 +72,7 @@ Visit [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your browser.
 
 ## 🌐 Deployment
 
-- Ready for deployment on Render, Heroku, or any cloud platform.
+- Deploy on Render (recommended), Heroku, or any cloud platform.
 - For production, use PostgreSQL and set up environment variables for security.
 - Collect static files with:
 
@@ -79,16 +82,29 @@ python manage.py collectstatic
 
 ---
 
-## ⚠️ Database Migration Note
+## 🔄 Migrating Data from SQLite to PostgreSQL
 
-If you switch from SQLite to PostgreSQL, migrate your data using Django’s `dumpdata` and `loaddata` commands:
+To move your products from SQLite to your Render PostgreSQL database:
 
 ```bash
-python manage.py dumpdata > data.json
-# Switch to PostgreSQL and run migrations
+# Export products from SQLite
+python manage.py dumpdata products > products.json
+
+# Switch DATABASES in settings.py to PostgreSQL and run migrations
 python manage.py migrate
-python manage.py loaddata data.json
+
+# Import products into PostgreSQL
+python manage.py loaddata products.json
 ```
+
+---
+
+## 🎨 Admin Panel Customization
+
+- The admin panel uses `admin_interface` for a modern look.
+- Customize themes and colors in the Django admin under the “Themes” section or via the `ADMIN_INTERFACE_THEME` setting.
+
+---
 
 ## 📄 License
 
