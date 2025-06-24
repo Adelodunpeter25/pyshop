@@ -1,13 +1,96 @@
 {% extends "base.html" %}
 {% block title %}Profile{% endblock %}
 {% block content %}
-<div class="container mt-5" style="max-width: 500px;">
-  <h2 class="mb-4 text-center">Your Profile</h2>
-  <div class="card p-4">
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    {# Add more profile fields here if needed #}
-    <a href="{% url 'logout' %}" class="btn btn-secondary mt-3">Logout</a>
+<style>
+  /* Remove hardcoded background, will be set dynamically */
+  .profile-card {
+    min-height: 520px;
+    max-width: 420px;
+    border-radius: 20px;
+    transition: transform 0.3s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
+  }
+  .profile-card:hover {
+    transform: scale(1.03) translateY(-6px);
+    box-shadow: 0 12px 36px rgba(49,130,206,0.18), 0 2px 8px rgba(0,0,0,0.10);
+  }
+  .avatar-effect {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    transition: transform 0.3s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
+    border: 3px solid #3182ce;
+  }
+  .avatar-effect:hover {
+    transform: scale(1.08) rotate(-2deg);
+    box-shadow: 0 8px 32px rgba(49,130,206,0.25);
+  }
+  .logout-btn-custom {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  }
+  .logout-btn-custom:hover, .logout-btn-custom:focus {
+    background-color: #1742a7;
+    border-color: #1742a7;
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(37,99,235,0.18);
+    transform: scale(1.04) translateY(-2px);
+  }
+</style>
+<div id="profile-bg" class="container d-flex justify-content-center align-items-center min-vh-100 px-2">
+  <div id="profile-card" class="card shadow-lg p-4 w-100 profile-card">
+    <h2 id="profile-title" class="mb-4 text-center" style="font-weight: 700;">Your Profile</h2>
+    {% if user.profile.avatar %}
+      <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="avatar-effect mb-3">
+    {% else %}
+      <img src="https://ui-avatars.com/api/?name={{ user.username|urlencode }}&background=3182ce&color=fff&size=140" alt="Default Avatar" class="avatar-effect mb-3">
+    {% endif %}
+    <div class="mb-3">
+      <p class="mb-1"><strong>Username:</strong> {{ user.username }}</p>
+      <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
+      {# Add more profile fields here if needed #}
+    </div>
+    <a href="{% url 'logout' %}" class="btn btn-primary w-100 mt-2 logout-btn-custom">Logout</a>
   </div>
 </div>
+<script>
+  function setProfileCardTheme() {
+    const card = document.getElementById('profile-card');
+    const title = document.getElementById('profile-title');
+    if (document.body.classList.contains('dark-mode')) {
+      card.classList.remove('bg-white');
+      card.classList.add('bg-dark', 'text-light');
+      title.classList.remove('text-dark');
+      title.classList.add('text-light');
+    } else {
+      card.classList.remove('bg-dark', 'text-light');
+      card.classList.add('bg-white');
+      title.classList.remove('text-light');
+      title.classList.add('text-dark');
+    }
+  }
+  function setProfileBgTheme() {
+    const bg = document.getElementById('profile-bg');
+    if (document.body.classList.contains('dark-mode')) {
+      bg.style.backgroundColor = '#181c1f';
+    } else {
+      bg.style.backgroundColor = '#f8fafc';
+    }
+  }
+  setProfileCardTheme();
+  setProfileBgTheme();
+  const observer = new MutationObserver(() => {
+    setProfileCardTheme();
+    setProfileBgTheme();
+  });
+  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+</script>
 {% endblock %}

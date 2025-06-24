@@ -6,6 +6,7 @@ from .models import Product, Profile
 from .forms import ProductForm, UserRegisterForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404
 
 def index(request):
     products = Product.objects.all()
@@ -103,3 +104,25 @@ def edit_profile_view(request):
     else:
         form = ProfileForm(instance=profile)
     return render(request, 'edit_profile.html', {'form': form})
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, 'product_detail.html', {'product': product})
+
+def add_to_cart(request, product_id):
+    if request.method == 'POST':
+        cart = request.session.get('cart', {})
+        cart[str(product_id)] = cart.get(str(product_id), 0) + 1
+        request.session['cart'] = cart
+        return redirect('product_detail', product_id=product_id)
+    return redirect('product_detail', product_id=product_id)
+
+def view_cart(request):
+    cart = request.session.get('cart', {})
+    product_ids = [int(pid) for pid in cart.keys()]
+    products = Product.objects.filter(id__in=product_ids)
+    cart_items = []
+    for product in products:
+        quantity = cart.get(str(product.id), 0)
+        cart_items.append({'product': product, 'quantity': quantity})
+    return render(request, 'cart.html', {'cart_items': cart_items})

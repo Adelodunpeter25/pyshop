@@ -131,6 +131,7 @@
             <button id="toggle-theme" class="btn btn-outline-light btn-sm me-2" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
               <span id="theme-icon">🌙</span>
             </button>
+            <a href="{% url 'view_cart' %}" class="btn btn-primary btn-sm me-2">View Cart</a>
             {% if user.is_authenticated %}
               <a href="{% url 'profile' %}" class="btn btn-outline-light btn-sm">Profile</a>
             {% endif %}

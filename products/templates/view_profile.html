@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Profile Details{% endblock %}
+{% block content %}
+<style>
+  .details-card {
+    max-width: 480px;
+    margin: 2rem auto;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0,33,71,0.10);
+    background: inherit;
+    padding: 2rem 1.5rem;
+  }
+  .details-avatar {
+    display: block;
+    margin: 0 auto 1.5rem auto;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #3182ce;
+    box-shadow: 0 2px 8px rgba(49,130,206,0.12);
+  }
+  .details-label {
+    font-weight: 600;
+    color: #2563eb;
+    margin-bottom: 0.2rem;
+  }
+  .details-value {
+    font-size: 1.08em;
+    margin-bottom: 1rem;
+    word-break: break-word;
+  }
+</style>
+<div class="details-card bg-white bg-dark text-dark text-light">
+  <h2 class="text-center mb-4" style="font-weight: 700;">Profile Details</h2>
+  {% if user.profile.avatar %}
+    <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="details-avatar">
+  {% else %}
+    <img src="https://ui-avatars.com/api/?name={{ user.username|urlencode }}&background=3182ce&color=fff&size=120" alt="Default Avatar" class="details-avatar">
+  {% endif %}
+  <div class="details-label">Username</div>
+  <div class="details-value">{{ user.username }}</div>
+  <div class="details-label">Email</div>
+  <div class="details-value">{{ user.email }}</div>
+  {% if user.profile.bio %}
+    <div class="details-label">Bio</div>
+    <div class="details-value">{{ user.profile.bio }}</div>
+  {% endif %}
+  <a href="{% url 'profile' %}" class="btn btn-outline-primary w-100 mt-3">Back to Profile</a>
+</div>
+{% endblock %}
