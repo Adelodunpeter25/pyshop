@@ -32,6 +32,8 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "pyshop1.onrender.com,127.0.0.1,local
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface', 
+    'colorfield',    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,8 +43,6 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'django.contrib.sites',
     'import_export',  
-    'admin_interface',
-    'colorfield',
     'widget_tweaks',
 ]
 
@@ -129,3 +129,19 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 SITE_ID = 2
+
+ADMIN_INTERFACE_THEME = {
+    'title': 'MyFirstWebsite Admin',
+    'logo': None,  # You can set a URL to your logo image
+    'env': 'production',
+    'color_scheme': 'dark',  # Options: 'light', 'dark', 'auto'
+    'active': True,
+    'css_header_background_color': '#1a202c',
+    'css_header_text_color': '#ffffff',
+    'css_module_background_color': '#2d3748',
+    'css_module_text_color': '#ffffff',
+    'css_generic_link_color': '#3182ce',
+    'css_save_button_background_color': '#38a169',
+    'css_save_button_text_color': '#ffffff',
+    # Add more customizations as needed
+}
