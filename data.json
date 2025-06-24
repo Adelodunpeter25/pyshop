@@ -139,7 +139,7 @@
     "stock": 3,
     "image_url": "https://pictures-nigeria.jijistatic.net/151727358_MzAwLTM2NS00YmY0MGJjMzBh.webp",
     "category": "Electronics",
-    "description": "Brand New Dell Xps 15, Intel Core i7, NVIDIA GTX�1650�Ti, 16gb, 512gb SSD",
+    "description": "Brand New Dell Xps 15, Intel Core i7, NVIDIA GTX 1650 Ti, 16gb, 512gb SSD",
     "subcategory": "Computer"
   }
 },
@@ -282,4 +282,347 @@
     "stock": 100,
     "image_url": "https://imgs.search.brave.com/tOeBvbP_b4n-UnRUqDvK4sk881eRJLR5EP21_jb9GdA/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NzFhd3BWS1RFcUwu/anBn",
     "category": "Groceries",
-    "description": 
+    "description": "₦9,000 Per Crate,\r\n\r\n\r\n₦300 Per Egg",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 18,
+  "fields": {
+    "name": "Gino Tomato Paste",
+    "price": "400",
+    "stock": 60,
+    "image_url": "https://imgs.search.brave.com/BH1uSebFmSSxUXVlBSnP7vRHJZRFtAgyAFCgfWlPV54/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kdWpp/cy5ueWMzLmNkbi5k/aWdpdGFsb2NlYW5z/cGFjZXMuY29tL3No/b3AvMjk1OS9jb252/ZXJzaW9ucy9HaW5v/LVRpbi1Ub21hdG9l/cy00MDBnLXNxdWFy/ZV9qcGcuanBn",
+    "category": "Groceries",
+    "description": "",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 19,
+  "fields": {
+    "name": "Mercedes Benz GLE 350",
+    "price": "40,000,000",
+    "stock": 10,
+    "image_url": "https://pictures-nigeria.jijistatic.net/167322673_MzAwLTIyNS0yYjQ4MDM4NjAx.webp",
+    "category": "Vehicles",
+    "description": "London Used 2016 GLE Class 350",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 20,
+  "fields": {
+    "name": "Macbook Pro 13 2020",
+    "price": "800,000",
+    "stock": 13,
+    "image_url": "https://pictures-nigeria.jijistatic.net/163776239_MzAwLTQwMC0xYTAzMTdkODVj.webp",
+    "category": "Electronics",
+    "description": "Apple Macbook Pro 13 2020 16gb 512gb SSD Intel Core i7 Available In Mint Condition",
+    "subcategory": "Computer"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 21,
+  "fields": {
+    "name": "Macbook Pro 13 M1",
+    "price": "1,100,000",
+    "stock": 4,
+    "image_url": "https://pictures-nigeria.jijistatic.net/174136906_MzAwLTQwMC1lYTQxMWRmNjZj.webp",
+    "category": "Electronics",
+    "description": "Apple Macbook Pro M1 16gb 512 SSD",
+    "subcategory": "Computer"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 22,
+  "fields": {
+    "name": "Airpods Pro 2",
+    "price": "200,000",
+    "stock": 15,
+    "image_url": "https://pictures-nigeria.jijistatic.net/175282264_MzAwLTQwMC02OTdlOWY2NGE0.webp",
+    "category": "Electronics",
+    "description": "Uk Used Airpods Pro 2 With Noise Cancellation",
+    "subcategory": "Audio Devices"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 23,
+  "fields": {
+    "name": "Iphone Xr",
+    "price": "210,000",
+    "stock": 22,
+    "image_url": "https://pictures-nigeria.jijistatic.net/175231542_MzAwLTQwMC1jZWExMjc0NDEy.webp",
+    "category": "Electronics",
+    "description": "Uk Used Apple Iphone Xr With 64gb Storage",
+    "subcategory": "Mobile Phone"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 24,
+  "fields": {
+    "name": "Orange",
+    "price": "250",
+    "stock": 150,
+    "image_url": "https://imgs.search.brave.com/OZUcCaO6d0ixkw-RZa3iIBlm4knAsn3mLq2zyPYs8XY/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuZnJlZWltYWdl/cy5jb20vdmFyaWFu/dHMvelIyRGRpYUpa/RjFFVk5aYms1bzR0/Ym12LzYyNGYwZGMx/ZGZmOWJkY2NhYjAz/MmY5M2MzM2U3OWRl/Nzg0ODE3NzBlNzll/MjFkM2IwNDY5ZGFm/NTFmMDI3OTc.jpeg",
+    "category": "Groceries",
+    "description": "Juicy Oranges",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 25,
+  "fields": {
+    "name": "Coconut",
+    "price": "400",
+    "stock": 64,
+    "image_url": "https://imgs.search.brave.com/70GOxnP3SLDf3GaeMZNQ_1imKxhxbsGSU0rifb_llmk/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2QxL2Q4/L2Y0L2QxZDhmNDgx/ZjQzNjIzNGI0ZWIy/YjkzZjJhYzViM2Vm/LmpwZw",
+    "category": "Groceries",
+    "description": "Fresh Coconut With Water",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 26,
+  "fields": {
+    "name": "Banana",
+    "price": "1,200 Per Bunch",
+    "stock": 80,
+    "image_url": "https://imgs.search.brave.com/ymzIN1lI_SEOyGvl5x_5399201ywJ604Zl_DyqWdf_o/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wNTAv/NjMwLzM2NC9zbWFs/bC9jbG9zZS11cC1z/d2VldC1mcmVzaC1i/YW5hbmEtZnJ1aXQt/c3RpbGwtaGFuZ2lu/Zy1vbi10aGUtdHJl/ZS1mcmVlLXBob3Rv/LmpwZw",
+    "category": "Groceries",
+    "description": "Fresh And Ripe Bananas",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 27,
+  "fields": {
+    "name": "Watermelon",
+    "price": "400",
+    "stock": 30,
+    "image_url": "https://imgs.search.brave.com/5ana8M3pchGyhKUH0rGIXt-Pno6xtsfi6j6FvWtbEks/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMjIv/MzM4LzQxOC9zbWFs/bC93YXRlcm1lbG9u/LXNsaWNlLWluLXdh/dGVybWVsb24tZmll/bGQtZnJlc2gtd2F0/ZXJtZWxvbi1mcnVp/dC1vbi1hZ3JpY3Vs/dHVyZS1nYXJkZW4t/d2F0ZXJtZWxvbi1m/YXJtLXdpdGgtbGVh/Zi10cmVlLXBsYW50/LWhhcnZlc3Rpbmct/d2F0ZXJtZWxvbnMt/aW4tdGhlLWZpZWxk/LWZyZWUtcGhvdG8u/SlBH",
+    "category": "Groceries",
+    "description": "Large Watermelons",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 28,
+  "fields": {
+    "name": "Pineapple",
+    "price": "250",
+    "stock": 40,
+    "image_url": "https://imgs.search.brave.com/WAJIoxWqyZVRCm0nVF_SfzA6OcHrTM35U1DlOnmWXxg/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wNTUv/ODE0LzI4My9zbWFs/bC9nb2xkZW4tcGlu/ZWFwcGxlcy1jbG9z/ZS11cC10cm9waWNh/bC1mcnVpdC1hYnVu/ZGFuY2UtcGhvdG8u/anBn",
+    "category": "Groceries",
+    "description": "Fresh Pineapple",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 29,
+  "fields": {
+    "name": "Avocado",
+    "price": "200",
+    "stock": 70,
+    "image_url": "https://imgs.search.brave.com/Atv9wrYZ6aTDXpt70z2nao4-XpJN1v18cl0uSyU1W58/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9zdDUu/ZGVwb3NpdHBob3Rv/cy5jb20vNjM4MzMz/NjYvNjkwNjcvaS80/NTAvZGVwb3NpdHBo/b3Rvc182OTA2Nzg1/MDItc3RvY2stcGhv/dG8tbG90LWF2b2Nh/ZG8tZnJ1aXRzLWxl/YXZlcy1jbG9zZS5q/cGc",
+    "category": "Groceries",
+    "description": "Fresh Avocado",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 30,
+  "fields": {
+    "name": "Apple",
+    "price": "300",
+    "stock": 100,
+    "image_url": "https://imgs.search.brave.com/5l41I4zMuudUZBnN-88G7dWdBINJBaqVNK6Yrhi6E0I/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMjIv/MTIyLzMzNC9zbWFs/bC9hcHBsZS1hcHBs/ZS1mcnVpdC1jbG9z/ZXVwLW9mLWFwcGxl/LWZydWl0LWZyZWUt/dmlkZW8uanBn",
+    "category": "Groceries",
+    "description": "Fresh Apple",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 31,
+  "fields": {
+    "name": "Samsung Galaxy S21",
+    "price": "300,000",
+    "stock": 45,
+    "image_url": "https://pictures-nigeria.jijistatic.net/175301155_MzAwLTQwMC04MjA4ZDE5MzBj.webp",
+    "category": "Electronics",
+    "description": "Uk Used Samsung Galaxy S21, 128gb, Mint Condition",
+    "subcategory": "Mobile Phone"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 32,
+  "fields": {
+    "name": "Samsung Galaxy S23",
+    "price": "840,000",
+    "stock": 5,
+    "image_url": "https://pictures-nigeria.jijistatic.net/166536310_MzAwLTQwMC1kMDAzMjZhMTQ4.webp",
+    "category": "Electronics",
+    "description": "Brand New Samsung Galaxy S23 256gb With Perfect Box",
+    "subcategory": "Smartphones"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 33,
+  "fields": {
+    "name": "Samsung Galaxy A06",
+    "price": "120,000",
+    "stock": 10,
+    "image_url": "https://pictures-nigeria.jijistatic.net/161250635_MzAwLTIyNS02OWIyMDg5ODNi.webp",
+    "category": "Electronics",
+    "description": "New Samsung A06 128gb, White\r\nIn The Box: Phone, Charger, Sim Ejector Tool\r\nComes With A Free Black Samsung Case",
+    "subcategory": "Mobile Phone"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 34,
+  "fields": {
+    "name": "Toyota Camry 2020",
+    "price": "20,000,000",
+    "stock": 1,
+    "image_url": "https://pictures-nigeria.jijistatic.net/174733417_MzAwLTI4OC00MWM3Mzg1M2Y1.webp",
+    "category": "Vehicles",
+    "description": "Brand New Toyota Camry 2020 Xle",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 35,
+  "fields": {
+    "name": "Toyota Corolla 2016",
+    "price": "15,500,000",
+    "stock": 1,
+    "image_url": "https://pictures-nigeria.jijistatic.net/175654768_MzAwLTIyNS1hN2FmYzJjNzBi.webp",
+    "category": "Vehicles",
+    "description": "London Used Toyota Corolla 2016, Air Conditional Cooling, Comes With Spare Tire",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 36,
+  "fields": {
+    "name": "Nissan Pathfinder 2006",
+    "price": "6,000,000",
+    "stock": 2,
+    "image_url": "https://pictures-nigeria.jijistatic.net/174976538_MTYwMC0xMjAwLTVkYWZkNzk0ZTg.webp",
+    "category": "Vehicles",
+    "description": "Nissan Pathfinder LE 4x4 2006 Black, Mint Condition",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 37,
+  "fields": {
+    "name": "Google Pixel 5",
+    "price": "699.0",
+    "stock": 60,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/google-pixel-5-5g.jpg",
+    "category": "Electronics",
+    "description": "6″ OLED 90 Hz display, Snapdragon 765G, 8 GB RAM, dual cameras, 4080 mAh battery, IP68",
+    "subcategory": ""
+  }
+},
+{
+  "model": "products.product",
+  "pk": 38,
+  "fields": {
+    "name": "OnePlus 7T",
+    "price": "599.0",
+    "stock": 35,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/oneplus-7t.jpg",
+    "category": "Electronics",
+    "description": "6.55″ Fluid AMOLED 90 Hz, Snapdragon 855+, triple camera, 30 W fast charge",
+    "subcategory": ""
+  }
+},
+{
+  "model": "products.product",
+  "pk": 39,
+  "fields": {
+    "name": "itel A06",
+    "price": "99.0",
+    "stock": 100,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/itel-a06.jpg",
+    "category": "Electronics",
+    "description": "Android 14 Go, quad-core 1.4 GHz, 2 GB + virtual RAM, 5000 mAh battery, budget",
+    "subcategory": ""
+  }
+},
+{
+  "model": "products.product",
+  "pk": 40,
+  "fields": {
+    "name": "Tecno Spark 10",
+    "price": "129.0",
+    "stock": 80,
+    "image_url": "https://fdn2.gsmarena.com/vv/bigpic/tecno-spark-10.jpg",
+    "category": "Electronics",
+    "description": "6.6″ HD+ 90 Hz, Helio G37, 8 GB RAM, 50 MP camera, 5000 mAh battery",
+    "subcategory": ""
+  }
+},
+{
+  "model": "products.product",
+  "pk": 41,
+  "fields": {
+    "name": "iPhone 6s",
+    "price": "38,000",
+    "stock": 60,
+    "image_url": "https://imgs.search.brave.com/qm2x6QGVsH8WKtxMDYSKU6EPnPhqdEzeIJTx6n4qX2E/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9RX05QXzJY/XzY4NjU5NS1NTE03/MTQxNzg1NzgzMl8w/OTIwMjMtVi1pcGhv/bmUtNnMtNjQtZ2It/cm9zYWJsYW5jby53/ZWJw",
+    "category": "Electronics",
+    "description": "Uk Used Apple Iphone 6s, 32gb, 100% Battery Health, Comes With Free Oraimo Powerbank",
+    "subcategory": "Mobile Phone"
+  }
+},
+{
+  "model": "products.offer",
+  "pk": 1,
+  "fields": {
+    "code": "VCA5CB6",
+    "description": "Discount of 10% on all products",
+    "discount": 20.0
+  }
+},
+{
+  "model": "products.profile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "peter"
+    ],
+    "bio": "I am the admin",
+    "avatar": ""
+  }
+},
+{
+  "model": "sites.site",
+  "fields": {
+    "domain": "example.com",
+    "name": "example.com"
+  }
+}
+]
