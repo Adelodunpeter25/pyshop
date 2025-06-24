@@ -1,0 +1,285 @@
+[
+{
+  "model": "admin_interface.theme",
+  "pk": 1,
+  "fields": {
+    "name": "Django",
+    "active": true,
+    "title": "Django administration",
+    "title_color": "#F5DD5D",
+    "title_visible": true,
+    "logo": "",
+    "logo_color": "#FFFFFF",
+    "logo_max_width": 400,
+    "logo_max_height": 100,
+    "logo_visible": true,
+    "favicon": "",
+    "env_name": "",
+    "env_color": "#E74C3C",
+    "env_visible_in_header": true,
+    "env_visible_in_favicon": true,
+    "language_chooser_active": true,
+    "language_chooser_control": "default-select",
+    "language_chooser_display": "code",
+    "css_header_background_color": "#0C4B33",
+    "css_header_text_color": "#44B78B",
+    "css_header_link_color": "#FFFFFF",
+    "css_header_link_hover_color": "#C9F0DD",
+    "css_module_background_color": "#44B78B",
+    "css_module_background_selected_color": "#FFFFCC",
+    "css_module_text_color": "#FFFFFF",
+    "css_module_link_color": "#FFFFFF",
+    "css_module_link_selected_color": "#FFFFFF",
+    "css_module_link_hover_color": "#C9F0DD",
+    "css_module_rounded_corners": true,
+    "css_generic_link_color": "#0C3C26",
+    "css_generic_link_hover_color": "#156641",
+    "css_generic_link_active_color": "#29B864",
+    "css_save_button_background_color": "#0C4B33",
+    "css_save_button_background_hover_color": "#0C3C26",
+    "css_save_button_text_color": "#FFFFFF",
+    "css_delete_button_background_color": "#BA2121",
+    "css_delete_button_background_hover_color": "#A41515",
+    "css_delete_button_text_color": "#FFFFFF",
+    "related_modal_active": true,
+    "related_modal_background_color": "#000000",
+    "related_modal_background_opacity": "0.3",
+    "related_modal_rounded_corners": true,
+    "related_modal_close_button_visible": true,
+    "list_filter_highlight": true,
+    "list_filter_dropdown": true,
+    "list_filter_sticky": true,
+    "list_filter_removal_links": false,
+    "foldable_apps": true,
+    "show_fieldsets_as_tabs": false,
+    "show_inlines_as_tabs": false,
+    "collapsible_stacked_inlines": false,
+    "collapsible_stacked_inlines_collapsed": true,
+    "collapsible_tabular_inlines": false,
+    "collapsible_tabular_inlines_collapsed": true,
+    "recent_actions_visible": true,
+    "form_submit_sticky": false,
+    "form_pagination_sticky": false
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$1stZTR3enkLno3PdMAZFcQ$Hg32wzRCE0oQty9f83pGy4/k8fD9OX9caLstawyz+TE=",
+    "last_login": "2025-06-24T01:13:14.401Z",
+    "is_superuser": true,
+    "username": "peter",
+    "first_name": "",
+    "last_name": "",
+    "email": "adelodunpeter69@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-06-24T01:12:18.470Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$CeeahVqXwgZSJovFFb2b8v$vPpSX0ysHB0lFepr4dREp801CDpGKKWmPjoZaLjWqgs=",
+    "last_login": "2025-06-24T15:58:25.796Z",
+    "is_superuser": false,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "adelodunpeter69@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-06-24T15:58:24.192Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "uwythhqcl0ketj2ee7j3h0q76c9hznwe",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyHbhdLi0Xu_gQC7SNVAUtqT8d9tkx70OPPezFs4v63ZbY0XN5O4ChSX3y74-ORyAHr4cq8y1rIuc5CHIk_a5FSJX7fT_TvIvuV9nQwQDOQpECF2YA3bwfZMBjSwsUgjg0qeO0wWMfYRNEat1ah4j0F8vuoGN8Y:1uU62T:fc_qc8oZIwCSRtZU-0gt63SuSHzN61WDvL9hpPnD-rM",
+    "expire_date": "2025-07-08T15:58:25.832Z"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 1,
+  "fields": {
+    "name": "iPhone 13 Pro Max",
+    "price": "800,000",
+    "stock": 2,
+    "image_url": "https://pictures-nigeria.jijistatic.net/115312118_MzAwLTQwMC0zMmI2YzNhNjkx.webp",
+    "category": "Electronics",
+    "description": "Apple Iphone 13 Pro Max 128gb Storage, 88% Battery Health, Comes With A Free Oraimo Powerbank And Cord",
+    "subcategory": "Mobile Phone"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 3,
+  "fields": {
+    "name": "HP EliteBook 830 g5",
+    "price": "450,000",
+    "stock": 6,
+    "image_url": "https://pictures-nigeria.jijistatic.net/168890037_MzAwLTQwMC03MGIwZmMxMTU5.webp",
+    "category": "Electronics",
+    "description": "HP Elitebook 830 g5 8gb 256gb SSD, Intel Core 15, Window 11 pro, Keyboard Light",
+    "subcategory": "Computer"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 4,
+  "fields": {
+    "name": "Dell XPS 15",
+    "price": "1,200,000",
+    "stock": 3,
+    "image_url": "https://pictures-nigeria.jijistatic.net/151727358_MzAwLTM2NS00YmY0MGJjMzBh.webp",
+    "category": "Electronics",
+    "description": "Brand New Dell Xps 15, Intel Core i7, NVIDIA GTX 1650 Ti, 16gb, 512gb SSD",
+    "subcategory": "Computer"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 5,
+  "fields": {
+    "name": "Lenovo ThinkPad X1 Carbon",
+    "price": "950,000",
+    "stock": 4,
+    "image_url": "https://pictures-nigeria.jijistatic.net/165637467_MzAwLTQwMC04ZmMzZjk0ZWE1.webp",
+    "category": "Electronics",
+    "description": "Lenovo Thinkpad X1 Carbon 16gb 1tb SSD Intel Core i7",
+    "subcategory": "Computer"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 8,
+  "fields": {
+    "name": "Sony WH-1000XM5",
+    "price": "20,000",
+    "stock": 60,
+    "image_url": "https://ng.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/27/0127014/1.jpg?7118",
+    "category": "Electronics",
+    "description": "",
+    "subcategory": "Audio Devices"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 9,
+  "fields": {
+    "name": "ADIDAS Run 70s",
+    "price": "90,000",
+    "stock": 10,
+    "image_url": "https://imgs.search.brave.com/d-u5Tifx9eeEFubWqT62sOTAJkaxweWpIUtp26bulOY/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9hZGlk/YXMtcnVuLXMtc2hv/ZXMtaXN0YW5idWwt/dHVya2V5LWp1bHkt/YmxhY2stY29sb3It/bGlmZXN0eWxlLTMy/ODIzNDc2NC5qcGc",
+    "category": "Footwears",
+    "description": "",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 10,
+  "fields": {
+    "name": "ADIDAS Duramo SL Shoes",
+    "price": "100,000",
+    "stock": 30,
+    "image_url": "https://ng.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/27/3268983/1.jpg?3293",
+    "category": "Footwears",
+    "description": "",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 11,
+  "fields": {
+    "name": "Monospec Sneakers",
+    "price": "30,000",
+    "stock": 30,
+    "image_url": "https://ng.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/00/295531/1.jpg?1832",
+    "category": "Footwears",
+    "description": "",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 12,
+  "fields": {
+    "name": "Men's Formal Leather Shoes",
+    "price": "70,000",
+    "stock": 50,
+    "image_url": "https://ng.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/82/9699211/1.jpg?2979",
+    "category": "Footwears",
+    "description": "",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 13,
+  "fields": {
+    "name": "Men's Brown Formal Lace Up",
+    "price": "50,000",
+    "stock": 45,
+    "image_url": "https://imgs.search.brave.com/Cl1kXbUpWaluOh7eIwsTrQhuEsJU3dz_G_4-YEyX850/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9reGFk/bWluLm1ldHJvc2hv/ZXMuY29tL3Byb2R1/Y3QvMTktNjYxNi81/NTAvMTktNjYxNkgx/Mi5qcGc",
+    "category": "Footwears",
+    "description": "",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 14,
+  "fields": {
+    "name": "Literide Authentic Sandals",
+    "price": "20,000",
+    "stock": 50,
+    "image_url": "https://imgs.search.brave.com/aRpRb406pcT-RwQGcQxk3VFqmHg7sHhMpQR5Ztc-s2o/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9uZy5q/dW1pYS5pcy91bnNh/ZmUvZml0LWluLzUw/MHg1MDAvZmlsdGVy/czpmaWxsKHdoaXRl/KS9wcm9kdWN0Lzc3/LzcyNDY0MTIvMS5q/cGc_MjA4Mg",
+    "category": "Footwears",
+    "description": "",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 15,
+  "fields": {
+    "name": "ADIDAS Original Sneakers Superstar Women",
+    "price": "150,000",
+    "stock": 19,
+    "image_url": "https://ng.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/63/313829/1.jpg?9725",
+    "category": "Footwears",
+    "description": "",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 16,
+  "fields": {
+    "name": "Bruno Marc",
+    "price": "300,000",
+    "stock": 15,
+    "image_url": "https://m.media-amazon.com/images/I/71UuwWzHeiL._AC_UL640_FMwebp_QL65_.jpg",
+    "category": "Footwears",
+    "description": "",
+    "subcategory": null
+  }
+},
+{
+  "model": "products.product",
+  "pk": 17,
+  "fields": {
+    "name": "Crate Of Egg",
+    "price": "9,000",
+    "stock": 100,
+    "image_url": "https://imgs.search.brave.com/tOeBvbP_b4n-UnRUqDvK4sk881eRJLR5EP21_jb9GdA/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NzFhd3BWS1RFcUwu/anBn",
+    "category": "Groceries",
+    "description": 
