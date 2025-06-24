@@ -43,7 +43,7 @@ Follow these steps to run PyShop on your local machine:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/pyshop.git
+git clone https://github.com/Adelodunpeter25/pyshop.git
 cd pyshop
 
 # 2. Create and activate a virtual environment
@@ -89,14 +89,6 @@ python manage.py dumpdata > data.json
 python manage.py migrate
 python manage.py loaddata data.json
 ```
-
----
-
-## 📸 Screenshots
-
-_Add screenshots of your landing page, product list, cart, and profile page here._
-
----
 
 ## 📄 License
 
