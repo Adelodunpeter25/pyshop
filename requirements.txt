@@ -10,6 +10,7 @@ numpy==2.0.2
 openpyxl==3.1.5
 pandas==2.3.0
 pillow==11.2.1
+psycopg2-binary
 python-dateutil==2.9.0.post0
 python-slugify==8.0.4
 pytz==2025.2
