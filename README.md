@@ -1,6 +1,6 @@
 # 🛍️ PyShop – Django E-commerce App
 
-PyShop is a modern, responsive e-commerce web application built with Django. It features a clean UI (with dark mode!), user authentication, product listings by category, admin tools, and more.
+PyShop is a modern, responsive e-commerce web application built with Django. It features a clean UI (with dark mode!), user authentication, product listings by category, admin tools, a responsive cart and more.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.8%2B-blue" alt="Python">
@@ -15,12 +15,10 @@ PyShop is a modern, responsive e-commerce web application built with Django. It 
 - 🛒 Browse products by **category and subcategory**
 - 🔍 Smart **search** and **filtering**
 - 👤 User **registration**, **login**, and **profile management**
-- 🖼️ Profile editing with **avatar upload**
 - 🛠️ Django admin for managing **products, offers, and profiles**
 - 📦 **Import/export** products in admin panel
 - 🎨 **Customizable admin interface** with themes (using `admin_interface`)
 - 🌗 Toggle between **light and dark mode**
-- 📝 Viewable **order history** (extendable for carts/checkout)
 - 🚀 Production-ready with **PostgreSQL** on Render
 
 ---
@@ -55,6 +53,14 @@ source .venv/bin/activate   # On Windows: .venv\Scripts\activate
 
 # 3. Install dependencies
 pip install -r requirements.txt
+
+---
+
+## 🛒 Product Management (Admin)
+
+- Log in to the Django admin at `/admin/` with your superuser account.
+- Admin users can add, edit, and delete products, offers, and profiles directly from the admin UI.
+- Use the import/export feature for bulk product management.
 
 # 4. Run database migrations
 python manage.py migrate
