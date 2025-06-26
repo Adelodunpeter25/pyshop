@@ -1,8 +1,4 @@
 id,name,price,stock,image_url,category,description,subcategory
-61,Sardine,56000 Per Carton,12,https://pictures-nigeria.jijistatic.net/136118827_MzAwLTIyNS1jNGNkYTk4MGY4.webp,Groceries,Princesse Sardines 125g ,
-62,Sea Salt,"2,500",80,https://pictures-nigeria.jijistatic.net/172658186_MzAwLTM5OC1mMzUzMGVhN2E0.webp,Groceries,Natural Sea Salt Directly From The Sea,
-63,Rice,90000 Per Bag,20,https://pictures-nigeria.jijistatic.net/137210715_MzAwLTQwMC1lMjI4MDhmOTYzLTE.webp,Groceries,Premium Per-Boiled Rice,
-64,Dangote Sugar,80000 Per Bag,10,https://pictures-nigeria.jijistatic.net/148736512_MzAwLTQwMC0xODU5YmFhOTVm.webp,Groceries,50kg Dangote Sugar,
-65,Tomatoes And Pepper,800 Per Bowls,700,https://imgs.search.brave.com/g6R0lPa9usOKpAH7OM0ZsmUO4yPOhx7jgK9Qeww-FiM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9uaWdl/cmlhbnByaWNlLmNv/bS93cC1jb250ZW50/L3VwbG9hZHMvMjAy/MC8wNS9wcmljZXMt/b2YtY29tbW9kaXRp/ZXMtaW4tbmlnZXJp/YS10b21hdG9lcy5w/bmc,Groceries,Fresh Tomatoes And Pepper Buy 10 Bowls And Get One Free,
-66,Garri,"80,000 Per Bag",40,https://img.example.com/pineapple.jpg,Groceries,Newly Packaged Bags Of White Garri,
-67,Basmati Rice,100000 Per Bag,23,https://pictures-nigeria.jijistatic.net/166878378_MzAwLTQwMC00ZDkxNjE4NjQ2.webp,Groceries,Maharani Basmati Rice 4x5kg,
+111,Nestle Milo,40000 Per Sachets,30,https://imgs.search.brave.com/ZPnZxQPks2-FKhIGu-yZ5CDiuXNOgRZp7_eSx33QVJg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9zZWxl/Y3RpdmUtZm9jdXNl/ZC1taWxvLWRyaW5r/LXBvd2Rlci10eXBl/LW5lc3RsZS1icmFu/ZC1qb2hvci1tYWxh/eXNpYS1qdW5lLXNl/bGVjdGl2ZS1mb2N1/c2VkLW1pbG8tZHJp/bmstcG93ZGVyLXR5/cGUtMjM3NTkzOTAz/LmpwZw,Groceries,Nestle Mile 20g X 200 Sachets,
+112,Nestle Golden Morn,30000 Per Sachets,40,https://imgs.search.brave.com/7O2nvBVJ7Q7RaKktq5zysndTjSQTsjt0B6Yer0xT8Q0/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aGVh/Y3NtLmNvbS9jZG4v/c2hvcC9maWxlcy9y/bi1pbWFnZV9waWNr/ZXJfbGliX3RlbXBf/MTAxNjcyYjgtNmIw/Yi00MGQ2LTg4MzYt/NDljNjBlMjBkZDgz/LmpwZz92PTE3MzQ3/MjA1MzImd2lkdGg9/MTA2Ng,Groceries,Nestle Golden Morn 45 X 100,
+113,Dana Milk Powder,"8,000 Per Sachet",35,https://imgs.search.brave.com/IF-nkKkdp8IDRvp1PBVkf0ssij3Vwx6CJTsYDo2bE0Q/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zaG9w/cml0ZS5uZy93cC1j/b250ZW50L3VwbG9h/ZHMvMjAyMy8wNC9w/NjEuanBn,Groceries,Dano Cool Cow ,Powdered Milk
