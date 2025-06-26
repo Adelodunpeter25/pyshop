@@ -5,7 +5,7 @@ from django.db import models
 class Product(models.Model):
     name = models.CharField(max_length=255)
     price = models.CharField(max_length=400)
-    stock = models.IntegerField()
+    stock = models.IntegerField(default=0)
     image_url = models.CharField(max_length=24000)
     category = models.CharField(max_length=100, default='General')
     description = models.TextField(blank=True, null=True) 

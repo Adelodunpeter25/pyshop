@@ -13,23 +13,17 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import dj_database_url
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret-key")
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "pyshop1.onrender.com,127.0.0.1,localhost").split(",")
 
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'admin_interface', 
@@ -49,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -133,9 +128,9 @@ SITE_ID = 2
 
 ADMIN_INTERFACE_THEME = {
     'title': 'MyFirstWebsite Admin',
-    'logo': None,  # You can set a URL to your logo image
+    'logo': None,  
     'env': 'production',
-    'color_scheme': 'dark',  # Options: 'light', 'dark', 'auto'
+    'color_scheme': 'dark', 
     'active': True,
     'css_header_background_color': '#1a202c',
     'css_header_text_color': '#ffffff',
@@ -144,5 +139,5 @@ ADMIN_INTERFACE_THEME = {
     'css_generic_link_color': '#3182ce',
     'css_save_button_background_color': '#38a169',
     'css_save_button_text_color': '#ffffff',
-    # Add more customizations as needed
+    
 }
