@@ -172,12 +172,21 @@
     {% endif %}
     {% block content %}
     {% endblock %}
+    
+    <footer class="py-3 mt-4 bg-light text-center">
+      <p class="text-muted mb-0">&copy; 2025 Adelodun Peter. All rights reserved.</p>
+    </footer>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
     <script>
       function setDarkMode() {
         document.body.classList.add('bg-dark', 'text-light', 'dark-mode');
         document.querySelector('.navbar-custom').classList.add('navbar-dark');
         document.querySelector('.navbar-custom').classList.remove('navbar-light');
+        document.querySelector('footer').classList.remove('bg-light');
+        document.querySelector('footer').classList.add('bg-dark');
+        document.querySelector('footer p').classList.remove('text-muted');
+        document.querySelector('footer p').classList.add('text-light');
         localStorage.setItem('theme', 'dark');
         document.getElementById('theme-icon').textContent = '☀️';
       }
@@ -185,6 +194,10 @@
         document.body.classList.remove('bg-dark', 'text-light', 'dark-mode');
         document.querySelector('.navbar-custom').classList.remove('navbar-dark');
         document.querySelector('.navbar-custom').classList.add('navbar-light');
+        document.querySelector('footer').classList.add('bg-light');
+        document.querySelector('footer').classList.remove('bg-dark');
+        document.querySelector('footer p').classList.add('text-muted');
+        document.querySelector('footer p').classList.remove('text-light');
         localStorage.setItem('theme', 'light');
         document.getElementById('theme-icon').textContent = '🌙';
       }
