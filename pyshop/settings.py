@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import dj_database_url
+from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -72,17 +73,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pyshop.wsgi.application'
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-DATABASES = {
-    'default': dj_database_url.parse(
-        'postgresql://myfirstwebsite_user:IEVdVgKbLS7kfQJJZjrWShcgKYbIou5P@dpg-d1cvbah5pdvs73c74d10-a.oregon-postgres.render.com/myfirstwebsite',
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
 
 
 # Password validation
@@ -136,8 +136,8 @@ ADMIN_INTERFACE_THEME = {
     'css_header_text_color': '#ffffff',
     'css_module_background_color': '#2d3748',
     'css_module_text_color': '#ffffff',
-    'css_generic_link_color': '#3182ce',
-    'css_save_button_background_color': '#38a169',
+    'css_generic_link_color': "#1d11a5",
+    'css_save_button_background_color': "#0c7846",
     'css_save_button_text_color': '#ffffff',
     
 }
