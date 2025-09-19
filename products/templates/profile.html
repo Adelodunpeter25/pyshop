@@ -1,215 +1,521 @@
 {% extends "base.html" %}
-{% block title %}User Dashboard{% endblock %}
+{% load humanize %}
+{% block title %}Dashboard - {{ user.username }}{% endblock %}
 {% block content %}
-<div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-12">
-            <h2 class="mb-4">
-                <i class="fas fa-user-circle me-2"></i>
-                Welcome, {{ user.username }}!
-            </h2>
+{% csrf_token %}
+<div class="dashboard-container">
+  <div class="container py-4">
+    <!-- Header Section -->
+    <div class="dashboard-header mb-5">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="dashboard-title">
+            <i class="fas fa-tachometer-alt me-3"></i>
+            Welcome back, {{ user.get_full_name|default:user.username }}!
+          </h1>
+          <p class="dashboard-subtitle">Manage your account and track your shopping activity</p>
         </div>
+        <div class="col-md-4 text-end">
+          <div class="user-avatar-large">
+            {% if profile.avatar %}
+              <img src="{{ profile.avatar.url }}" alt="Avatar" class="avatar-img">
+            {% else %}
+              <img src="https://ui-avatars.com/api/?name={{ user.username|urlencode }}&background=312e81&color=fff&size=100" alt="Avatar" class="avatar-img">
+            {% endif %}
+          </div>
+        </div>
+      </div>
     </div>
     
-    <!-- User Stats Cards -->
-    <div class="row mb-4">
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Cart Items
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ cart_count }}</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-shopping-cart fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Stats Cards -->
+    <div class="row mb-5">
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="stat-card cart-stat">
+          <div class="stat-icon">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ cart_count }}</h3>
+            <p>Items in Cart</p>
+          </div>
         </div>
-        
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Recently Viewed
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ recent_products|length }}</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-eye fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="stat-card viewed-stat">
+          <div class="stat-icon">
+            <i class="fas fa-eye"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ recent_products|length }}</h3>
+            <p>Recently Viewed</p>
+          </div>
         </div>
-        
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Member Since
-                            </div>
-                            <div class="h6 mb-0 font-weight-bold text-gray-800">{{ user.date_joined|date:"M Y" }}</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="stat-card status-stat">
+          <div class="stat-icon">
+            <i class="fas fa-user-check"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{% if user.is_active %}Active{% else %}Inactive{% endif %}</h3>
+            <p>Account Status</p>
+          </div>
         </div>
-        
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Account Status
-                            </div>
-                            <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                {% if user.is_active %}Active{% else %}Inactive{% endif %}
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-user-check fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
     
     <div class="row">
-        <!-- Profile Information -->
-        <div class="col-xl-4 col-lg-5">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Profile Information</h6>
-                    <a href="{% url 'edit_profile' %}" class="btn btn-sm btn-primary">Edit Profile</a>
+      <!-- Profile Information -->
+      <div class="col-lg-4 mb-4">
+        <div class="dashboard-card profile-card">
+          <div class="card-header">
+            <h5><i class="fas fa-user me-2"></i>Profile Information</h5>
+            <a href="{% url 'edit_profile' %}" class="btn btn-sm btn-outline-primary">Edit Profile</a>
+          </div>
+          <div class="card-body text-center">
+            <div class="profile-info">
+              <h4>{{ user.get_full_name|default:user.username }}</h4>
+              <p class="text-muted">{{ user.email }}</p>
+              {% if profile.bio %}
+                <p class="bio-text">{{ profile.bio }}</p>
+              {% endif %}
+              <div class="profile-meta">
+                <div class="meta-item">
+                  <i class="fas fa-calendar-plus"></i>
+                  <span>Joined {{ user.date_joined|date:"M d, Y" }}</span>
                 </div>
-                <div class="card-body text-center">
-                    {% if profile.avatar %}
-                        <img src="{{ profile.avatar.url }}" alt="Avatar" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover;">
-                    {% else %}
-                        <img src="https://ui-avatars.com/api/?name={{ user.username|urlencode }}&background=3182ce&color=fff&size=120" alt="Default Avatar" class="rounded-circle mb-3">
-                    {% endif %}
-                    <h5 class="mb-1">{{ user.get_full_name|default:user.username }}</h5>
-                    <p class="text-muted mb-2">{{ user.email }}</p>
-                    {% if profile.bio %}
-                        <p class="small">{{ profile.bio }}</p>
-                    {% endif %}
-                    <div class="mt-3">
-                        <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">
-                            <i class="fas fa-sign-out-alt me-1"></i>Logout
-                        </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recently Viewed Products -->
+      <div class="col-lg-8 mb-4">
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h5><i class="fas fa-history me-2"></i>Recently Viewed</h5>
+            <div>
+              {% if recent_products %}
+                <button onclick="clearRecentlyViewed()" class="btn btn-sm btn-outline-danger me-2">
+                  <i class="fas fa-trash me-1"></i>Clear
+                </button>
+              {% endif %}
+              <a href="{% url 'all_products' %}" class="btn btn-sm btn-outline-primary">Browse All</a>
+            </div>
+          </div>
+          <div class="card-body">
+            {% if recent_products %}
+              <div class="row">
+                {% for product in recent_products %}
+                <div class="col-md-6 col-xl-4 mb-3">
+                  <div class="recent-product-card" onclick="window.location.href='/products/{{ product.id }}/'">
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}" onerror="this.src='https://via.placeholder.com/150x120?text=No+Image'">
+                    <div class="product-info">
+                      <h6>{{ product.name|truncatechars:25 }}</h6>
+                      <p class="price">₦{{ product.price|floatformat:0|intcomma }}</p>
+                      <span class="category-badge">{{ product.category }}</span>
                     </div>
+                  </div>
                 </div>
-            </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="empty-state">
+                <i class="fas fa-eye-slash"></i>
+                <h5>No Recent Activity</h5>
+                <p>Start browsing products to see your viewing history</p>
+                <a href="{% url 'all_products' %}" class="btn btn-primary">Start Shopping</a>
+              </div>
+            {% endif %}
+          </div>
         </div>
-        
-        <!-- Recently Viewed Products -->
-        <div class="col-xl-8 col-lg-7">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Recently Viewed Products</h6>
-                    <a href="{% url 'all_products' %}" class="btn btn-sm btn-primary">Browse Products</a>
-                </div>
-                <div class="card-body">
-                    {% if recent_products %}
-                        <div class="row">
-                            {% for product in recent_products %}
-                            <div class="col-md-6 col-lg-4 mb-3">
-                                <div class="card h-100">
-                                    <img src="{{ product.image_url }}" class="card-img-top" alt="{{ product.name }}" style="height: 150px; object-fit: cover;">
-                                    <div class="card-body p-2">
-                                        <h6 class="card-title small">{{ product.name|truncatechars:30 }}</h6>
-                                        <p class="card-text small text-muted mb-1">₦{{ product.price|floatformat:0 }}</p>
-                                        <a href="{% url 'product_detail' product.id %}" class="btn btn-primary btn-sm w-100">View</a>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div class="text-center py-4">
-                            <i class="fas fa-eye-slash fa-3x text-muted mb-3"></i>
-                            <p class="text-muted">No recently viewed products</p>
-                            <a href="{% url 'all_products' %}" class="btn btn-primary">Start Shopping</a>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
     
     <!-- Quick Actions -->
     <div class="row">
-        <div class="col-12">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Quick Actions</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <a href="{% url 'view_cart' %}" class="btn btn-primary w-100">
-                                <i class="fas fa-shopping-cart me-2"></i>View Cart ({{ cart_count }})
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <a href="{% url 'all_products' %}" class="btn btn-success w-100">
-                                <i class="fas fa-search me-2"></i>Browse Products
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <a href="{% url 'edit_profile' %}" class="btn btn-info w-100">
-                                <i class="fas fa-user-edit me-2"></i>Edit Profile
-                            </a>
-                        </div>
-                        {% if user.is_staff %}
-                        <div class="col-md-3 mb-3">
-                            <a href="{% url 'admin_dashboard' %}" class="btn btn-warning w-100">
-                                <i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard
-                            </a>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
+      <div class="col-12">
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h5><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+          </div>
+          <div class="card-body">
+            <div class="quick-actions">
+              <a href="{% url 'view_cart' %}" class="action-btn cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                <span>View Cart</span>
+                <small>{{ cart_count }} items</small>
+              </a>
+              
+              <a href="{% url 'all_products' %}" class="action-btn browse-btn">
+                <i class="fas fa-search"></i>
+                <span>Browse Products</span>
+                <small>Discover new items</small>
+              </a>
+              
+              <a href="{% url 'edit_profile' %}" class="action-btn profile-btn">
+                <i class="fas fa-user-edit"></i>
+                <span>Edit Profile</span>
+                <small>Update your info</small>
+              </a>
+              
+              {% if user.is_staff %}
+              <a href="{% url 'admin_dashboard' %}" class="action-btn admin-btn">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Admin Panel</span>
+                <small>Manage store</small>
+              </a>
+              {% endif %}
+              
+              <a href="{% url 'logout' %}" class="action-btn logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+                <small>Sign out safely</small>
+              </a>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <style>
-.border-left-primary {
-    border-left: 0.25rem solid #4e73df !important;
+.dashboard-container {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  min-height: 100vh;
 }
-.border-left-success {
-    border-left: 0.25rem solid #1cc88a !important;
+
+body.dark-mode .dashboard-container {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
 }
-.border-left-warning {
-    border-left: 0.25rem solid #f6c23e !important;
+
+.dashboard-header {
+  background: linear-gradient(135deg, #312e81, #4c1d95);
+  color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
 }
-.border-left-info {
-    border-left: 0.25rem solid #36b9cc !important;
+
+.dashboard-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
-.text-xs {
-    font-size: 0.7rem;
+
+.dashboard-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
 }
-.text-gray-800 {
-    color: #5a5c69 !important;
+
+.user-avatar-large {
+  text-align: center;
 }
-.text-gray-300 {
-    color: #dddfeb !important;
+
+.avatar-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid rgba(255,255,255,0.2);
+  object-fit: cover;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+  border-left: 4px solid;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.cart-stat { border-left-color: #312e81; }
+.viewed-stat { border-left-color: #059669; }
+.member-stat { border-left-color: #0891b2; }
+.status-stat { border-left-color: #ea580c; }
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  margin-right: 1rem;
+}
+
+.cart-stat .stat-icon { background: #312e81; }
+.viewed-stat .stat-icon { background: #059669; }
+.member-stat .stat-icon { background: #0891b2; }
+.status-stat .stat-icon { background: #ea580c; }
+
+.stat-content h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1f2937;
+}
+
+.stat-content p {
+  margin: 0;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.dashboard-card .card-header {
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-card .card-header h5 {
+  margin: 0;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.dashboard-card .card-body {
+  padding: 1.5rem;
+}
+
+.profile-info h4 {
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.bio-text {
+  font-style: italic;
+  color: #6b7280;
+  margin: 1rem 0;
+}
+
+.profile-meta {
+  margin-top: 1.5rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.meta-item i {
+  margin-right: 0.5rem;
+  color: #312e81;
+}
+
+.recent-product-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.recent-product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.recent-product-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+.recent-product-card .product-info {
+  padding: 1rem;
+}
+
+.recent-product-card h6 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.recent-product-card .price {
+  font-weight: 700;
+  color: #312e81;
+  margin-bottom: 0.5rem;
+}
+
+.category-badge {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  color: #d1d5db;
+  margin-bottom: 1rem;
+}
+
+.empty-state h5 {
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: #9ca3af;
+  margin-bottom: 1.5rem;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  color: #374151;
+}
+
+.action-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: #1f2937;
+}
+
+.action-btn i {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.action-btn span {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.action-btn small {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.cart-btn:hover { border-color: #312e81; }
+.browse-btn:hover { border-color: #059669; }
+.profile-btn:hover { border-color: #0891b2; }
+.admin-btn:hover { border-color: #ea580c; }
+.logout-btn:hover { border-color: #dc2626; }
+
+.cart-btn:hover i { color: #312e81; }
+.browse-btn:hover i { color: #059669; }
+.profile-btn:hover i { color: #0891b2; }
+.admin-btn:hover i { color: #ea580c; }
+.logout-btn:hover i { color: #dc2626; }
+
+body.dark-mode .dashboard-card {
+  background: #374151;
+}
+
+body.dark-mode .dashboard-card .card-header {
+  background: linear-gradient(135deg, #4b5563, #374151);
+}
+
+body.dark-mode .dashboard-card .card-header h5 {
+  color: #f9fafb;
+}
+
+body.dark-mode .stat-card {
+  background: #374151;
+}
+
+body.dark-mode .stat-content h3 {
+  color: #f9fafb;
+}
+
+body.dark-mode .recent-product-card {
+  background: #4b5563;
+}
+
+body.dark-mode .recent-product-card h6 {
+  color: #f9fafb;
+}
+
+body.dark-mode .action-btn {
+  background: #4b5563;
+  border-color: #6b7280;
+  color: #f9fafb;
+}
+
+@media (max-width: 768px) {
+  .dashboard-title {
+    font-size: 1.8rem;
+  }
+  
+  .dashboard-header {
+    text-align: center;
+  }
+  
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
+
+<script>
+function clearRecentlyViewed() {
+  showConfirm('Are you sure you want to clear your recently viewed products?', function(confirmed) {
+    if (confirmed) {
+      fetch('/clear-recently-viewed/', {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+          'X-Requested-With': 'XMLHttpRequest',
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          location.reload();
+        }
+      })
+      .catch(error => console.log('Clear error:', error));
+    }
+  });
+}
+</script>
 {% endblock %}

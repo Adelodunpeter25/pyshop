@@ -14,51 +14,66 @@
     <!-- Search Filters -->
     <div class="row mb-4">
         <div class="col-12">
+            <!-- Filter Toggle -->
+            <div class="mb-3">
+                <button class="btn btn-primary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#mobileFilters" aria-expanded="false" aria-controls="mobileFilters">
+                    <i class="fas fa-filter me-2"></i>Show Filters
+                </button>
+            </div>
+            
             <div class="card">
-                <div class="card-body">
+                <div class="card-body collapse" id="mobileFilters">
                     <form method="get" class="row g-3">
                         <!-- Search Query -->
                         <div class="col-md-4">
                             <label for="search" class="form-label">Search</label>
-                            <input type="text" class="form-control" id="search" name="q" value="{{ search_query }}" placeholder="Search products...">
+                            <input type="text" class="form-control" id="search" name="q" value="{{ search_query }}" placeholder="Search products..." aria-describedby="searchHelp">
+                            <div id="searchHelp" class="form-text visually-hidden">Enter keywords to search for products</div>
                         </div>
                         
                         <!-- Category Filter -->
                         {% if categories %}
                         <div class="col-md-2">
                             <label for="category" class="form-label">Category</label>
-                            <select name="category" id="category" class="form-select">
+                            <select name="category" id="category" class="form-select" aria-describedby="categoryHelp">
                                 <option value="">All Categories</option>
                                 {% for cat in categories %}
                                     <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
                                 {% endfor %}
                             </select>
+                            <div id="categoryHelp" class="form-text visually-hidden">Filter products by category</div>
                         </div>
                         {% endif %}
                         
                         <!-- Price Range -->
                         <div class="col-md-2">
                             <label for="min_price" class="form-label">Min Price</label>
-                            <input type="number" class="form-control" id="min_price" name="min_price" value="{{ min_price }}" placeholder="0">
+                            <input type="number" class="form-control" id="min_price" name="min_price" value="{{ min_price }}" placeholder="0" aria-describedby="minPriceHelp">
+                            <div id="minPriceHelp" class="form-text visually-hidden">Minimum price filter</div>
                         </div>
                         <div class="col-md-2">
                             <label for="max_price" class="form-label">Max Price</label>
-                            <input type="number" class="form-control" id="max_price" name="max_price" value="{{ max_price }}" placeholder="999999">
+                            <input type="number" class="form-control" id="max_price" name="max_price" value="{{ max_price }}" placeholder="999999" aria-describedby="maxPriceHelp">
+                            <div id="maxPriceHelp" class="form-text visually-hidden">Maximum price filter</div>
                         </div>
                         
                         <!-- Sort Options -->
                         <div class="col-md-2">
                             <label for="sort" class="form-label">Sort By</label>
-                            <select name="sort" id="sort" class="form-select">
+                            <select name="sort" id="sort" class="form-select" aria-describedby="sortHelp">
                                 <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Name</option>
                                 <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>Price: Low to High</option>
                                 <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>Price: High to Low</option>
                                 <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest</option>
                             </select>
+                            <div id="sortHelp" class="form-text visually-hidden">Sort products by selected criteria</div>
                         </div>
                         
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
+                            <button type="submit" class="btn btn-primary me-2" id="filterBtn">
+                                <span class="spinner-border spinner-border-sm me-2 d-none" id="filterSpinner"></span>
+                                Apply Filters
+                            </button>
                             <a href="{% url 'all_products' %}" class="btn btn-outline-secondary">Clear</a>
                         </div>
                     </form>
@@ -90,30 +105,45 @@
         {% if products %}
             {% for product in products %}
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-                    <div class="card footwear-card w-100 shadow-sm position-relative" onclick="navigateToProduct({{ product.id }})" style="cursor: pointer;">
+                    <article class="card footwear-card w-100 shadow-sm position-relative" onclick="navigateToProduct({{ product.id }})" style="cursor: pointer;" role="button" tabindex="0" aria-label="View details for {{ product.name }}">
                         <img src="{{ product.image_url }}"
                              class="card-img-top footwear-img"
-                             alt="{{ product.name|default:'Product image' }}">
+                             alt="{{ product.name|default:'Product image' }}"
+                             loading="lazy"
+                             onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text mb-2">₦{{ product.price }}</p>
+                            <p class="card-text mb-2" aria-label="Price: {{ product.price }} Naira">₦{{ product.price }}</p>
                             
                         </div>
                         <div class="card-footer bg-transparent border-top-0">
-                            <form method="post" action="{% url 'add_to_cart' product.id %}" onsubmit="event.stopPropagation(); addToCartFromList(event, {{ product.id }});">
-                                {% csrf_token %}
-                                <button type="button" class="btn btn-footwear w-100" onclick="event.stopPropagation(); this.closest('form').dispatchEvent(new Event('submit'));">
-                                    <i class="fas fa-shopping-cart me-1"></i>Add to Cart
-                                </button>
-                            </form>
+                            {% if user.is_authenticated %}
+                                <form method="post" action="{% url 'add_to_cart' product.id %}" onsubmit="event.stopPropagation(); addToCartFromList(event, {{ product.id }});" aria-label="Add {{ product.name }} to cart">
+                                    {% csrf_token %}
+                                    <button type="button" class="btn btn-footwear w-100" onclick="event.stopPropagation(); this.closest('form').dispatchEvent(new Event('submit'));" aria-label="Add {{ product.name }} to shopping cart">
+                                        <i class="fas fa-shopping-cart me-1" aria-hidden="true"></i>Add to Cart
+                                    </button>
+                                </form>
+                            {% else %}
+                                <a href="{% url 'login' %}" class="btn btn-footwear w-100" onclick="event.stopPropagation();">
+                                    <i class="fas fa-sign-in-alt me-1" aria-hidden="true"></i>Login to Buy
+                                </a>
+                            {% endif %}
                         </div>
-                    </div>
+                    </article>
                 </div>
             {% endfor %}
         {% else %}
             <div class="col-12">
-                <div class="alert alert-info text-center" role="alert">
-                    No products available.
+                <div class="text-center py-5" role="alert" aria-live="polite">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h4>No products found</h4>
+                    {% if search_query or selected_category or min_price or max_price %}
+                        <p class="text-muted mb-4">No products match your current filters. Try adjusting your search criteria.</p>
+                        <a href="{% url 'all_products' %}" class="btn btn-primary">Clear All Filters</a>
+                    {% else %}
+                        <p class="text-muted mb-4">No products are currently available. Please check back later.</p>
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
@@ -191,6 +221,24 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 16px rgba(49, 46, 129, 0.4);
         }
+        /* Pagination Gradient Buttons */
+        .gradient-btn {
+            background: linear-gradient(135deg, #312e81, #4c1d95) !important;
+            color: white !important;
+            border: none !important;
+            transition: all 0.3s ease;
+        }
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, #1e1b4b, #312e81) !important;
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        .gradient-active {
+            background: linear-gradient(135deg, #312e81, #4c1d95) !important;
+            color: white !important;
+            border: none !important;
+        }
+        
         @media (max-width: 600px) {
             .footwear-img {
                 height: 210px;
@@ -204,8 +252,36 @@
     </style>
     
     <script>
+    // Show loading spinner on form submission
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterForm = document.querySelector('form');
+        const filterBtn = document.getElementById('filterBtn');
+        const filterSpinner = document.getElementById('filterSpinner');
+        
+        if (filterForm && filterBtn && filterSpinner) {
+            filterForm.addEventListener('submit', function() {
+                filterSpinner.classList.remove('d-none');
+                filterBtn.disabled = true;
+            });
+        }
+        
+        // Mobile filter toggle
+        const mobileFilters = document.getElementById('mobileFilters');
+        const filterToggleBtn = document.querySelector('[data-bs-target="#mobileFilters"]');
+        
+        if (mobileFilters && filterToggleBtn) {
+            mobileFilters.addEventListener('shown.bs.collapse', function() {
+                filterToggleBtn.innerHTML = '<i class="fas fa-filter me-2"></i>Hide Filters';
+            });
+            
+            mobileFilters.addEventListener('hidden.bs.collapse', function() {
+                filterToggleBtn.innerHTML = '<i class="fas fa-filter me-2"></i>Show Filters';
+            });
+        }
+    });
+    
     function navigateToProduct(productId) {
-        window.location.href = `/product/${productId}/`;
+        window.location.href = `/products/${productId}/`;
     }
     
     function addToCartFromList(event, productId) {
@@ -250,23 +326,23 @@
             <ul class="pagination justify-content-center">
                 {% if products.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">&laquo; First</a>
+                        <a class="page-link gradient-btn" href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}" aria-label="Go to first page">&laquo; First</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ products.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">Previous</a>
+                        <a class="page-link gradient-btn" href="?page={{ products.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}" aria-label="Go to previous page">Previous</a>
                     </li>
                 {% endif %}
                 
                 <li class="page-item active">
-                    <span class="page-link">Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
+                    <span class="page-link gradient-active" aria-current="page">Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
                 </li>
                 
                 {% if products.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ products.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">Next</a>
+                        <a class="page-link gradient-btn" href="?page={{ products.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}" aria-label="Go to next page">Next</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ products.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">Last &raquo;</a>
+                        <a class="page-link gradient-btn" href="?page={{ products.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}" aria-label="Go to last page">Last &raquo;</a>
                     </li>
                 {% endif %}
             </ul>

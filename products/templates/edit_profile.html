@@ -1,32 +1,231 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
-{% block title %}Edit Profile{% endblock %}
+{% block title %}Edit Profile - PyShop{% endblock %}
 {% block content %}
-<div class="container mt-5" style="max-width: 500px;">
-  <h2 class="mb-4 text-center" style="font-weight: 700; color: #002147;">Edit Profile</h2>
-  <div class="card p-4 border-0 shadow" style="border-radius: 16px;">
-    {% if form.instance.avatar %}
-      <div class="text-center mb-3">
-        <img src="{{ form.instance.avatar.url }}" alt="Current Avatar" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover; border: 2px solid #ccc;">
-        <div class="small text-muted mt-2">Current Avatar</div>
+<div class="edit-profile-container">
+  <div class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="profile-edit-card">
+          <div class="card-header">
+            <h2><i class="fas fa-user-edit me-3"></i>Edit Profile</h2>
+            <p>Update your personal information and preferences</p>
+          </div>
+          
+          <form method="post" enctype="multipart/form-data" class="profile-form">
+            {% csrf_token %}
+            
+            <!-- Avatar Section -->
+            <div class="form-section">
+              <h5><i class="fas fa-image me-2"></i>Profile Picture</h5>
+              <div class="avatar-section">
+                <div class="current-avatar">
+                  {% if form.instance.avatar %}
+                    <img src="{{ form.instance.avatar.url }}" alt="Current Avatar" class="avatar-preview">
+                  {% else %}
+                    <img src="https://ui-avatars.com/api/?name={{ user.username|urlencode }}&background=312e81&color=fff&size=120" alt="Default Avatar" class="avatar-preview">
+                  {% endif %}
+                </div>
+                <div class="avatar-upload">
+                  {{ form.avatar|add_class:'form-control' }}
+                  <small class="form-text text-muted">Upload a new profile picture (optional)</small>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Personal Information -->
+            <div class="form-section">
+              <h5><i class="fas fa-user me-2"></i>Personal Information</h5>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-floating mb-3">
+                    {{ form.first_name|add_class:'form-control' }}
+                    <label for="{{ form.first_name.id_for_label }}">First Name</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating mb-3">
+                    {{ form.last_name|add_class:'form-control' }}
+                    <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-floating mb-3">
+                {{ form.email|add_class:'form-control' }}
+                <label for="{{ form.email.id_for_label }}">Email Address</label>
+              </div>
+              <div class="form-floating mb-3">
+                {{ form.phone|add_class:'form-control' }}
+                <label for="{{ form.phone.id_for_label }}">Phone Number</label>
+              </div>
+            </div>
+            
+            <!-- Address Information -->
+            <div class="form-section">
+              <h5><i class="fas fa-map-marker-alt me-2"></i>Address Information</h5>
+              <div class="form-floating mb-3">
+                {{ form.address|add_class:'form-control' }}
+                <label for="{{ form.address.id_for_label }}">Street Address</label>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-floating mb-3">
+                    {{ form.city|add_class:'form-control' }}
+                    <label for="{{ form.city.id_for_label }}">City</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating mb-3">
+                    {{ form.country|add_class:'form-control' }}
+                    <label for="{{ form.country.id_for_label }}">Country</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Bio Section -->
+            <div class="form-section">
+              <h5><i class="fas fa-quote-left me-2"></i>About You</h5>
+              <div class="form-floating mb-3">
+                {{ form.bio|add_class:'form-control bio-textarea' }}
+                <label for="{{ form.bio.id_for_label }}">Bio</label>
+              </div>
+            </div>
+            
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-save me-2"></i>Save Changes
+              </button>
+              <a href="{% url 'profile' %}" class="btn btn-outline-secondary btn-lg">
+                <i class="fas fa-times me-2"></i>Cancel
+              </a>
+            </div>
+          </form>
+        </div>
       </div>
-    {% endif %}
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% for field in form %}
-        <label for="{{ field.id_for_label }}" class="form-label" style="font-weight: 600;">{{ field.label }}:</label>
-        {% if field.name == 'avatar' %}
-          {{ field|add_class:'form-control form-control-lg mb-3' }}
-          <div class="form-text mb-2">Upload a new avatar (optional)</div>
-        {% else %}
-          {{ field|add_class:'form-control form-control-lg mb-3' }}
-        {% endif %}
-        {% for error in field.errors %}
-          <div class="text-danger small">{{ error }}</div>
-        {% endfor %}
-      {% endfor %}
-      <button type="submit" class="btn btn-primary w-100">Save Changes</button>
-    </form>
+    </div>
   </div>
 </div>
+
+<style>
+.edit-profile-container {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  min-height: 100vh;
+}
+
+body.dark-mode .edit-profile-container {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+}
+
+.profile-edit-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.profile-edit-card .card-header {
+  background: linear-gradient(135deg, #312e81, #4c1d95);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+.profile-edit-card .card-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.profile-edit-card .card-header p {
+  opacity: 0.9;
+  margin: 0;
+}
+
+.profile-form {
+  padding: 2rem;
+}
+
+.form-section {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+}
+
+.form-section h5 {
+  color: #312e81;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.avatar-preview {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #e5e7eb;
+}
+
+.avatar-upload {
+  flex: 1;
+}
+
+.bio-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.form-actions .btn {
+  min-width: 150px;
+}
+
+body.dark-mode .profile-edit-card {
+  background: #374151;
+}
+
+body.dark-mode .form-section {
+  border-bottom-color: #4b5563;
+}
+
+body.dark-mode .form-section h5 {
+  color: #fbbf24;
+}
+
+body.dark-mode .avatar-preview {
+  border-color: #4b5563;
+}
+
+@media (max-width: 768px) {
+  .avatar-section {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .profile-form {
+    padding: 1.5rem;
+  }
+}
+</style>
 {% endblock %}

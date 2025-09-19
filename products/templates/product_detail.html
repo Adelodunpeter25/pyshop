@@ -1,71 +1,207 @@
 {% extends "base.html" %}
-{% block title %}{{ product.name }} Details{% endblock %}
+{% load humanize %}
+{% block title %}{{ product.name }} - PyShop{% endblock %}
 {% block content %}
-<style>
-  .product-detail-card {
-    max-width: 520px;
-    margin: 2rem auto;
-    border-radius: 20px;
-    box-shadow: 0 4px 24px rgba(0,33,71,0.10);
-    background: inherit;
-    padding: 2rem 1.5rem;
-  }
-  .product-detail-img {
-    display: block;
-    margin: 0 auto 1.5rem auto;
-    width: 220px;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(49,130,206,0.12);
-    background: #f5f5f5;
-  }
-  .product-detail-label {
-    font-weight: 600;
-    color: #2563eb;
-    margin-bottom: 0.2rem;
-  }
-  .product-detail-value {
-    font-size: 1.08em;
-    margin-bottom: 1rem;
-    word-break: break-word;
-  }
-</style>
-<div id="product-detail-card" class="product-detail-card">
-  <h2 class="text-center mb-4" style="font-weight: 700;">{{ product.name }}</h2>
-  <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-detail-img">
-  <div class="product-detail-label">Price</div>
-  <div class="product-detail-value">₦{{ product.price }}</div>
-  <div class="product-detail-label">Stock</div>
-  <div class="product-detail-value">{{ product.stock }}</div>
-  {% if product.description %}
-    <div class="product-detail-label">Description</div>
-    <div class="product-detail-value">{{ product.description }}</div>
+<div class="container py-4">
+  <div class="row">
+    <div class="col-lg-6 mb-4">
+      <div class="product-image-container">
+        <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-detail-img" onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
+      </div>
+    </div>
+    
+    <div class="col-lg-6">
+      <div class="product-info">
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'landing' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'all_products' %}">Products</a></li>
+            <li class="breadcrumb-item active">{{ product.name|truncatechars:30 }}</li>
+          </ol>
+        </nav>
+        
+        <h1 class="product-title">{{ product.name }}</h1>
+        
+        <div class="product-meta mb-3">
+          <span class="badge bg-primary me-2">{{ product.category }}</span>
+          {% if product.subcategory %}
+            <span class="badge bg-secondary">{{ product.subcategory }}</span>
+          {% endif %}
+        </div>
+        
+        <div class="product-price mb-4">
+          <span class="price-current">₦{{ product.price|floatformat:0|intcomma }}</span>
+        </div>
+        
+        {% if product.description %}
+          <div class="product-description mb-4">
+            <h5>Description</h5>
+            <p>{{ product.description }}</p>
+          </div>
+        {% endif %}
+        
+        <div class="product-stock mb-4">
+          {% if product.stock > 0 %}
+            <span class="stock-available">
+              <i class="fas fa-check-circle me-1"></i>
+              {{ product.stock }} in stock
+            </span>
+          {% else %}
+            <span class="stock-unavailable">
+              <i class="fas fa-times-circle me-1"></i>
+              Out of stock
+            </span>
+          {% endif %}
+        </div>
+        
+        <div class="product-actions">
+          {% if user.is_authenticated %}
+            {% if product.stock > 0 %}
+              <form method="post" action="{% url 'add_to_cart' product.id %}" class="mb-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                  <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                </button>
+              </form>
+            {% else %}
+              <button class="btn btn-secondary btn-lg w-100" disabled>
+                <i class="fas fa-times me-2"></i>Out of Stock
+              </button>
+            {% endif %}
+          {% else %}
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg w-100">
+              <i class="fas fa-sign-in-alt me-2"></i>Login to Purchase
+            </a>
+          {% endif %}
+          
+          <a href="{% url 'all_products' %}" class="btn btn-outline-secondary w-100 mt-2">
+            <i class="fas fa-arrow-left me-2"></i>Continue Shopping
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {% if related_products %}
+    <div class="row mt-5">
+      <div class="col-12">
+        <h3 class="mb-4">Related Products</h3>
+        <div class="row">
+          {% for related in related_products %}
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card related-product-card" onclick="window.location.href='/products/{{ related.id }}/'" style="cursor: pointer;">
+                <img src="{{ related.image_url }}" class="card-img-top related-img" alt="{{ related.name }}" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
+                <div class="card-body">
+                  <h6 class="card-title">{{ related.name|truncatechars:25 }}</h6>
+                  <p class="card-text price-small">₦{{ related.price|floatformat:0|intcomma }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
   {% endif %}
-  <div class="product-detail-label">Category</div>
-  <div class="product-detail-value">{{ product.category }}</div>
-  {% if product.subcategory %}
-    <div class="product-detail-label">Subcategory</div>
-    <div class="product-detail-value">{{ product.subcategory }}</div>
-  {% endif %}
-  <form method="post" action="{% url 'add_to_cart' product.id %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary w-100 mt-3">Add to Cart</button>
-  </form>
 </div>
-<script>
-  function setProductDetailCardTheme() {
-    const card = document.getElementById('product-detail-card');
-    if (document.body.classList.contains('dark-mode')) {
-      card.classList.remove('bg-white');
-      card.classList.add('bg-dark', 'text-light');
-    } else {
-      card.classList.remove('bg-dark', 'text-light');
-      card.classList.add('bg-white');
-    }
+
+<style>
+.product-image-container {
+  position: sticky;
+  top: 100px;
+}
+
+.product-detail-img {
+  width: 100%;
+  max-width: 500px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.product-detail-img:hover {
+  transform: scale(1.02);
+}
+
+.product-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+body.dark-mode .product-title {
+  color: #f9fafb;
+}
+
+.price-current {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #312e81;
+}
+
+body.dark-mode .price-current {
+  color: #fbbf24;
+}
+
+.stock-available {
+  color: #059669;
+  font-weight: 600;
+}
+
+.stock-unavailable {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.related-product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.related-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.related-img {
+  height: 180px;
+  object-fit: cover;
+}
+
+.price-small {
+  font-weight: 600;
+  color: #312e81;
+  margin: 0;
+}
+
+body.dark-mode .price-small {
+  color: #fbbf24;
+}
+
+body.dark-mode .related-product-card {
+  background: #374151;
+  color: #f9fafb;
+}
+
+@media (max-width: 768px) {
+  .product-image-container {
+    position: static;
   }
-  setProductDetailCardTheme();
-  const observer = new MutationObserver(setProductDetailCardTheme);
-  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-</script>
+  
+  .product-detail-img {
+    height: 300px;
+  }
+  
+  .product-title {
+    font-size: 1.5rem;
+  }
+  
+  .price-current {
+    font-size: 1.5rem;
+  }
+}
+</style>
 {% endblock %}

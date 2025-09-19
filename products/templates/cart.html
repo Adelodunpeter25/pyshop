@@ -22,33 +22,69 @@
         {% for item in cart_items %}
           <div class="card mb-3 cart-item">
             <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-md-2 col-3">
-                  <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="img-fluid rounded cart-item-image">
+              <!-- Mobile Layout -->
+              <div class="d-md-none">
+                <div class="row mb-2">
+                  <div class="col-3">
+                    <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="img-fluid rounded cart-item-image">
+                  </div>
+                  <div class="col-9">
+                    <h6 class="mb-1">{{ item.product.name }}</h6>
+                    <p class="text-muted mb-1 small">{{ item.product.category }}</p>
+                    <strong class="text-primary">₦{{ item.product.price|floatformat:2 }}</strong>
+                  </div>
                 </div>
-                <div class="col-md-4 col-9">
-                  <h6 class="mb-1">{{ item.product.name }}</h6>
-                  <p class="text-muted mb-0 small">{{ item.product.category }}</p>
+                <div class="row align-items-center">
+                  <div class="col-8">
+                    <form method="post" action="{% url 'update_cart_quantity' item.product.id %}" class="d-flex align-items-center quantity-form">
+                      {% csrf_token %}
+                      <button type="button" class="btn btn-outline-secondary btn-sm quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                      <input type="number" name="quantity" value="{{ item.quantity }}" min="0" max="99" class="form-control form-control-sm mx-2 text-center quantity-input" style="width: 50px;">
+                      <button type="button" class="btn btn-outline-secondary btn-sm quantity-btn" onclick="increaseQuantity(this)">+</button>
+                      <button type="submit" class="btn btn-primary btn-sm ms-2 d-none update-btn">Update</button>
+                    </form>
+                  </div>
+                  <div class="col-4 text-end">
+                    <form method="post" action="{% url 'remove_from_cart' item.product.id %}" class="d-inline">
+                      {% csrf_token %}
+                      <button class="btn btn-outline-danger btn-sm" type="button" onclick="confirmRemoveItem(this)">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </form>
+                  </div>
                 </div>
-                <div class="col-md-2 col-4">
-                  <strong>₦{{ item.product.price|floatformat:2 }}</strong>
-                </div>
-                <div class="col-md-3 col-4">
-                  <form method="post" action="{% url 'update_cart_quantity' item.product.id %}" class="d-flex align-items-center quantity-form">
-                    {% csrf_token %}
-                    <button type="button" class="btn btn-outline-secondary btn-sm quantity-btn" onclick="decreaseQuantity(this)">-</button>
-                    <input type="number" name="quantity" value="{{ item.quantity }}" min="0" max="99" class="form-control form-control-sm mx-2 text-center quantity-input" style="width: 60px;">
-                    <button type="button" class="btn btn-outline-secondary btn-sm quantity-btn" onclick="increaseQuantity(this)">+</button>
-                    <button type="submit" class="btn btn-primary btn-sm ms-2 d-none update-btn">Update</button>
-                  </form>
-                </div>
-                <div class="col-md-1 col-4 text-end">
-                  <form method="post" action="{% url 'remove_from_cart' item.product.id %}" class="d-inline">
-                    {% csrf_token %}
-                    <button class="btn btn-outline-danger btn-sm" type="button" onclick="confirmRemoveItem(this)">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </form>
+              </div>
+              
+              <!-- Desktop Layout -->
+              <div class="d-none d-md-block">
+                <div class="row align-items-center">
+                  <div class="col-md-2">
+                    <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="img-fluid rounded cart-item-image">
+                  </div>
+                  <div class="col-md-4">
+                    <h6 class="mb-1">{{ item.product.name }}</h6>
+                    <p class="text-muted mb-0 small">{{ item.product.category }}</p>
+                  </div>
+                  <div class="col-md-2">
+                    <strong>₦{{ item.product.price|floatformat:2 }}</strong>
+                  </div>
+                  <div class="col-md-3">
+                    <form method="post" action="{% url 'update_cart_quantity' item.product.id %}" class="d-flex align-items-center quantity-form">
+                      {% csrf_token %}
+                      <button type="button" class="btn btn-outline-secondary btn-sm quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                      <input type="number" name="quantity" value="{{ item.quantity }}" min="0" max="99" class="form-control form-control-sm mx-2 text-center quantity-input" style="width: 60px;">
+                      <button type="button" class="btn btn-outline-secondary btn-sm quantity-btn" onclick="increaseQuantity(this)">+</button>
+                      <button type="submit" class="btn btn-primary btn-sm ms-2 d-none update-btn">Update</button>
+                    </form>
+                  </div>
+                  <div class="col-md-1 text-end">
+                    <form method="post" action="{% url 'remove_from_cart' item.product.id %}" class="d-inline">
+                      {% csrf_token %}
+                      <button class="btn btn-outline-danger btn-sm" type="button" onclick="confirmRemoveItem(this)">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
               <div class="row mt-2">
@@ -81,11 +117,14 @@
               <strong>Total:</strong>
               <strong class="text-primary">₦{{ cart_total|floatformat:2|intcomma }}</strong>
             </div>
-            <button class="btn btn-primary w-100 mb-2" disabled>
-              Proceed to Checkout
-              <small class="d-block">(Coming Soon)</small>
-            </button>
-            <a href="{% url 'all_products' %}" class="btn btn-outline-secondary w-100">Continue Shopping</a>
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary" disabled>
+                Proceed to Checkout
+                <small class="d-block d-md-none">(Coming Soon)</small>
+                <small class="d-none d-md-block">(Coming Soon)</small>
+              </button>
+              <a href="{% url 'all_products' %}" class="btn btn-outline-secondary">Continue Shopping</a>
+            </div>
           </div>
         </div>
       </div>
@@ -128,14 +167,32 @@
   position: sticky;
   top: 100px;
 }
+
 @media (max-width: 768px) {
   .cart-item-image {
-    height: 60px;
-    width: 60px;
+    height: 70px;
+    width: 70px;
   }
+  
+  .cart-summary {
+    position: static;
+    margin-top: 2rem;
+  }
+  
+  .quantity-input {
+    width: 50px !important;
+  }
+  
   .quantity-form {
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    justify-content: flex-start;
+  }
+  
+  .cart-item {
+    margin-bottom: 1rem;
+  }
+  
+  .card-body {
+    padding: 1rem 0.75rem;
   }
 }
 </style>

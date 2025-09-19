@@ -122,31 +122,85 @@
       }
 
       
-      /* Mobile Responsive Styles */
-      @media (max-width: 991.98px) {
-        body {
-          padding-top: 80px;
+      /* Mobile Sidebar */
+      .mobile-sidebar {
+        position: fixed;
+        top: 0;
+        right: -300px;
+        width: 300px;
+        height: 100vh;
+        background: white;
+        z-index: 1060;
+        transition: right 0.3s ease;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+      }
+      
+      .mobile-sidebar.active {
+        right: 0;
+      }
+      
+      .sidebar-header {
+        padding: 1rem;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(135deg, #312e81, #4c1d95);
+        color: white;
+      }
+      
+      .sidebar-content {
+        padding: 1rem;
+      }
+      
+      .sidebar-content .nav-link {
+        color: #1f2937;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+      }
+      
+      .sidebar-content .nav-link:hover {
+        background: rgba(49, 46, 129, 0.1);
+        color: #312e81;
+      }
+      
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.5);
+        z-index: 1055;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+      
+      .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      body.dark-mode .mobile-sidebar {
+        background: #1f2937;
+      }
+      
+      body.dark-mode .sidebar-content .nav-link {
+        color: #f9fafb;
+      }
+      
+      body.dark-mode .sidebar-content .nav-link:hover {
+        background: rgba(255,255,255,0.1);
+        color: white;
+      }
+      
+      @media (min-width: 992px) {
+        .mobile-sidebar, .sidebar-overlay {
+          display: none;
         }
-        .navbar-collapse {
-          position: absolute;
-          top: 56px;
-          left: 0;
-          width: 100vw;
-          background: white;
-          z-index: 1051;
-          padding: 1.5rem;
-          border-top: 1px solid rgba(0,0,0,0.1);
-        }
-        .navbar-nav {
-          text-align: center;
-          margin-bottom: 1rem;
-        }
-        .nav-link {
-          padding: 0.75rem 1rem !important;
-          margin: 0.25rem 0;
-          border-radius: 8px;
-        }
-
       }
       
       @media (max-width: 576px) {
@@ -193,10 +247,10 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">PyShop</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" onclick="toggleSidebar()" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-center" id="navbarNavDarkDropdown">
+        <div class="collapse navbar-collapse justify-content-center d-none d-lg-flex" id="navbarNavDarkDropdown">
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link" href="/all/">
@@ -232,12 +286,14 @@
 
           <div class="d-flex flex-column flex-lg-row align-items-center ms-0 ms-lg-3 gap-2 gap-lg-0">
 
-            <a href="{% url 'view_cart' %}" class="btn btn-primary btn-sm me-2 position-relative cart-btn">
-              <i class="fas fa-shopping-cart"></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge" style="font-size: 0.7em;">
-                <span class="cart-count">0</span>
-              </span>
-            </a>
+            {% if user.is_authenticated %}
+              <a href="{% url 'view_cart' %}" class="btn btn-primary btn-sm me-2 position-relative cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge" style="font-size: 0.7em;">
+                  <span class="cart-count">0</span>
+                </span>
+              </a>
+            {% endif %}
             {% if user.is_authenticated %}
               <div class="dropdown">
                 <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -267,6 +323,69 @@
         </div>
       </div>
     </nav>
+    
+    <!-- Mobile Sidebar -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+      <div class="sidebar-header">
+        <h5>Menu</h5>
+        <button class="btn-close" onclick="toggleSidebar()" aria-label="Close menu"></button>
+      </div>
+      <div class="sidebar-content">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="/all/">
+              <i class="fas fa-th-large me-2"></i>All
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/footwears/">
+              <i class="fas fa-shoe-prints me-2"></i>Footwears
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/groceries/">
+              <i class="fas fa-shopping-basket me-2"></i>Groceries
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/electronics/">
+              <i class="fas fa-laptop me-2"></i>Electronics
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/vehicles/">
+              <i class="fas fa-car me-2"></i>Vehicles
+            </a>
+          </li>
+        </ul>
+        <hr>
+        <div class="sidebar-actions">
+          {% if user.is_authenticated %}
+            <a href="{% url 'view_cart' %}" class="btn btn-outline-primary btn-sm mb-2 w-100">
+              <i class="fas fa-shopping-cart me-2"></i>Cart
+            </a>
+          {% endif %}
+          {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}" class="btn btn-outline-secondary btn-sm mb-2 w-100">
+              <i class="fas fa-user me-2"></i>Profile
+            </a>
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm w-100">
+              <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </a>
+          {% else %}
+            <a href="{% url 'login' %}" class="btn btn-outline-primary btn-sm mb-2 w-100">
+              <i class="fas fa-sign-in-alt me-2"></i>Login
+            </a>
+            <a href="{% url 'register' %}" class="btn btn-primary btn-sm w-100">
+              <i class="fas fa-user-plus me-2"></i>Register
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
     <style>
       .bg-dark-blue {
         background: #002147 !important;
@@ -396,6 +515,21 @@
         const theme = localStorage.getItem('theme');
         if (theme === 'dark') setLightMode();
         else setDarkMode();
+      }
+      
+      function toggleSidebar() {
+        const sidebar = document.getElementById('mobileSidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+        
+        // Prevent body scroll when sidebar is open
+        if (sidebar.classList.contains('active')) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
       }
 
       (function() {

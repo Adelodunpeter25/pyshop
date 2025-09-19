@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret-key")
 
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "pyshop1.onrender.com,127.0.0.1,localhost").split(",")
 
 
@@ -168,6 +168,10 @@ LOGGING = {
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Media files (uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SITE_ID = 2
 

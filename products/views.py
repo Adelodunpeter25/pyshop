@@ -106,37 +106,222 @@ def all_products(request):
     })
 
 def groceries(request):
+    query = request.GET.get('q', '').strip()
+    min_price = request.GET.get('min_price', '')
+    max_price = request.GET.get('max_price', '')
+    sort_by = request.GET.get('sort', 'name')
+    
     products = Product.objects.filter(category__iexact='Groceries')
-    return render(request, 'index.html', {'products': products, 'category': 'Groceries'})
+    
+    # Search filtering
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) | 
+            Q(description__icontains=query)
+        )
+    
+    # Price filtering
+    if min_price:
+        try:
+            products = products.filter(price__gte=float(min_price))
+        except ValueError:
+            pass
+    if max_price:
+        try:
+            products = products.filter(price__lte=float(max_price))
+        except ValueError:
+            pass
+    
+    # Sorting
+    sort_options = {
+        'name': 'name',
+        'price_low': 'price',
+        'price_high': '-price',
+        'newest': '-id'
+    }
+    if sort_by in sort_options:
+        products = products.order_by(sort_options[sort_by])
+    
+    # Add pagination
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'index.html', {
+        'products': page_obj,
+        'category': 'Groceries',
+        'search_query': query,
+        'min_price': min_price,
+        'max_price': max_price,
+        'sort_by': sort_by,
+        'is_paginated': page_obj.has_other_pages()
+    })
 
 def footwears(request):
-    selected_category = request.GET.get('category', 'Footwears')
-    if selected_category == 'All':
-        products = Product.objects.all()
-    else:
-        products = Product.objects.filter(category__iexact=selected_category)
-    return render(request, 'footwears.html', {'products': products, 'category': selected_category})
+    query = request.GET.get('q', '').strip()
+    min_price = request.GET.get('min_price', '')
+    max_price = request.GET.get('max_price', '')
+    sort_by = request.GET.get('sort', 'name')
+    
+    products = Product.objects.filter(category__iexact='Footwears')
+    
+    # Search filtering
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) | 
+            Q(description__icontains=query)
+        )
+    
+    # Price filtering
+    if min_price:
+        try:
+            products = products.filter(price__gte=float(min_price))
+        except ValueError:
+            pass
+    if max_price:
+        try:
+            products = products.filter(price__lte=float(max_price))
+        except ValueError:
+            pass
+    
+    # Sorting
+    sort_options = {
+        'name': 'name',
+        'price_low': 'price',
+        'price_high': '-price',
+        'newest': '-id'
+    }
+    if sort_by in sort_options:
+        products = products.order_by(sort_options[sort_by])
+    
+    # Add pagination
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'index.html', {
+        'products': page_obj,
+        'category': 'Footwears',
+        'search_query': query,
+        'min_price': min_price,
+        'max_price': max_price,
+        'sort_by': sort_by,
+        'is_paginated': page_obj.has_other_pages()
+    })
 
 def vehicles(request):
+    query = request.GET.get('q', '').strip()
+    min_price = request.GET.get('min_price', '')
+    max_price = request.GET.get('max_price', '')
+    sort_by = request.GET.get('sort', 'name')
+    
     products = Product.objects.filter(category__iexact='Vehicles')
-    return render(request, 'index.html', {'products': products, 'category': 'Vehicles'})
+    
+    # Search filtering
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) | 
+            Q(description__icontains=query)
+        )
+    
+    # Price filtering
+    if min_price:
+        try:
+            products = products.filter(price__gte=float(min_price))
+        except ValueError:
+            pass
+    if max_price:
+        try:
+            products = products.filter(price__lte=float(max_price))
+        except ValueError:
+            pass
+    
+    # Sorting
+    sort_options = {
+        'name': 'name',
+        'price_low': 'price',
+        'price_high': '-price',
+        'newest': '-id'
+    }
+    if sort_by in sort_options:
+        products = products.order_by(sort_options[sort_by])
+    
+    # Add pagination
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'index.html', {
+        'products': page_obj,
+        'category': 'Vehicles',
+        'search_query': query,
+        'min_price': min_price,
+        'max_price': max_price,
+        'sort_by': sort_by,
+        'is_paginated': page_obj.has_other_pages()
+    })
 
 def electronics(request):
+    query = request.GET.get('q', '').strip()
     subcategory = request.GET.get('subcategory', '')
+    min_price = request.GET.get('min_price', '')
+    max_price = request.GET.get('max_price', '')
+    sort_by = request.GET.get('sort', 'name')
+    
     products = Product.objects.filter(category__iexact='Electronics')
     if subcategory:
         products = products.filter(subcategory__iexact=subcategory)
+    
+    # Search filtering
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) | 
+            Q(description__icontains=query) |
+            Q(subcategory__icontains=query)
+        )
+    
+    # Price filtering
+    if min_price:
+        try:
+            products = products.filter(price__gte=float(min_price))
+        except ValueError:
+            pass
+    if max_price:
+        try:
+            products = products.filter(price__lte=float(max_price))
+        except ValueError:
+            pass
+    
+    # Sorting
+    sort_options = {
+        'name': 'name',
+        'price_low': 'price',
+        'price_high': '-price',
+        'newest': '-id'
+    }
+    if sort_by in sort_options:
+        products = products.order_by(sort_options[sort_by])
     
     # Get subcategories dynamically from database
     subcategories = list(set(Product.objects.filter(
         category__iexact='Electronics'
     ).exclude(subcategory__isnull=True).values_list('subcategory', flat=True)))
     
+    # Add pagination
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
     return render(request, 'index.html', {
-        'products': products,
+        'products': page_obj,
         'category': 'Electronics',
         'subcategories': subcategories,
-        'selected_subcategory': subcategory
+        'selected_subcategory': subcategory,
+        'search_query': query,
+        'min_price': min_price,
+        'max_price': max_price,
+        'sort_by': sort_by,
+        'is_paginated': page_obj.has_other_pages()
     })
 
 @login_required
@@ -201,12 +386,19 @@ def profile_view(request):
 def edit_profile_view(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        form = ProfileForm(request.POST, request.FILES, instance=profile, user=request.user)
         if form.is_valid():
+            # Save user fields
+            request.user.first_name = form.cleaned_data['first_name']
+            request.user.last_name = form.cleaned_data['last_name']
+            request.user.email = form.cleaned_data['email']
+            request.user.save()
+            # Save profile
             form.save()
+            messages.success(request, 'Profile updated successfully!')
             return redirect('profile')
     else:
-        form = ProfileForm(instance=profile)
+        form = ProfileForm(instance=profile, user=request.user)
     return render(request, 'edit_profile.html', {'form': form})
 
 def product_detail(request, product_id):
@@ -231,6 +423,10 @@ def product_detail(request, product_id):
 
 @require_POST
 def add_to_cart(request, product_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please log in to add items to your cart.")
+        return redirect('login')
+        
     cart = request.session.get('cart', {})
     cart[str(product_id)] = cart.get(str(product_id), 0) + 1
     request.session['cart'] = cart
@@ -356,3 +552,9 @@ def get_cart_count(request):
     cart = request.session.get('cart', {})
     count = sum(cart.values())
     return JsonResponse({'count': count})
+
+@require_POST
+def clear_recently_viewed(request):
+    """Clear recently viewed products from session"""
+    request.session['recently_viewed'] = []
+    return JsonResponse({'success': True})
