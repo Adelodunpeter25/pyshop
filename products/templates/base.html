@@ -9,16 +9,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <style>
       .navbar-custom {
-        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%) !important;
+        background: white !important;
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         z-index: 1050;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 20px rgba(30, 58, 138, 0.15);
-
-
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       }
       body.dark-mode .navbar-custom {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%) !important;
@@ -29,27 +27,13 @@
         font-weight: 800;
         letter-spacing: 1.5px;
         font-size: 1.5em;
-        color: #fff !important;
+        color: #312e81 !important;
         transition: all 0.3s ease;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         position: relative;
       }
       .navbar-custom .navbar-brand:hover {
         transform: scale(1.05);
-        color: #fbbf24 !important;
-      }
-      .navbar-custom .navbar-brand::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: linear-gradient(90deg, #fbbf24, #f59e0b);
-        transition: width 0.3s ease;
-      }
-      .navbar-custom .navbar-brand:hover::after {
-        width: 100%;
+        color: #4c1d95 !important;
       }
       body.dark-mode .navbar-custom .navbar-brand {
         color: #f1f1f1 !important;
@@ -57,54 +41,35 @@
       .navbar-custom .nav-link {
         font-weight: 600;
         font-size: 1.05em;
-        color: rgba(255,255,255,0.9) !important;
+        color: #1f2937 !important;
         transition: all 0.3s ease;
         padding: 0.75rem 1rem !important;
         margin: 0 0.25rem;
         border-radius: 8px;
         position: relative;
-        overflow: hidden;
-      }
-      .navbar-custom .nav-link::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left 0.5s ease;
-      }
-      .navbar-custom .nav-link:hover::before {
-        left: 100%;
       }
       .navbar-custom .nav-link:hover {
-        color: #fff !important;
-        background: rgba(255,255,255,0.15);
+        color: #312e81 !important;
+        background: rgba(49, 46, 129, 0.1);
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       }
       .navbar-custom .nav-link.active {
-        color: #fbbf24 !important;
-        background: rgba(251,191,36,0.2);
-        box-shadow: 0 2px 8px rgba(251,191,36,0.3);
+        color: #312e81 !important;
+        background: rgba(49, 46, 129, 0.15);
       }
       .navbar-custom .btn-outline-light, .navbar-custom .btn-outline-light:focus {
         font-weight: 600;
         border-radius: 25px;
-        border: 2px solid rgba(255,255,255,0.8);
-        color: #fff !important;
-        background: rgba(255,255,255,0.1);
+        border: 2px solid #312e81;
+        color: #312e81 !important;
+        background: transparent;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-
         padding: 0.5rem 1.2rem;
       }
       .navbar-custom .btn-outline-light:hover {
-        background: rgba(255,255,255,0.2) !important;
+        background: #312e81 !important;
         color: #fff !important;
-        border-color: #fbbf24;
-        box-shadow: 0 4px 15px rgba(251,191,36,0.3);
+        border-color: #312e81;
         transform: translateY(-2px);
       }
       .btn-primary {
@@ -135,7 +100,7 @@
         color: #fff !important;
       }
       .navbar-collapse {
-        background: #002147;
+        background: white;
       }
       .navbar-toggler[aria-expanded="true"] {
         background: #00102a;
@@ -167,10 +132,10 @@
           top: 56px;
           left: 0;
           width: 100vw;
-          background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+          background: white;
           z-index: 1051;
           padding: 1.5rem;
-          border-top: 1px solid rgba(255,255,255,0.1);
+          border-top: 1px solid rgba(0,0,0,0.1);
         }
         .navbar-nav {
           text-align: center;
@@ -232,7 +197,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-center" id="navbarNavDarkDropdown">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link" href="/all/">
                 <i class="fas fa-th-large me-1"></i>
@@ -268,8 +233,7 @@
           <div class="d-flex flex-column flex-lg-row align-items-center ms-0 ms-lg-3 gap-2 gap-lg-0">
 
             <a href="{% url 'view_cart' %}" class="btn btn-primary btn-sm me-2 position-relative cart-btn">
-              <i class="fas fa-shopping-cart me-1"></i>
-              <span class="d-none d-md-inline">Cart</span>
+              <i class="fas fa-shopping-cart"></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge" style="font-size: 0.7em;">
                 <span class="cart-count">0</span>
               </span>
@@ -352,6 +316,25 @@
       </div>
     </div>
     
+    <!-- Custom Confirmation Dialog -->
+    <div class="modal fade" id="confirmModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm Action</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <p id="confirmMessage">Are you sure you want to proceed?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="confirmBtn">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <style>
     .loading-overlay {
       position: fixed;
@@ -394,7 +377,8 @@
         document.querySelector('footer p').classList.remove('text-muted');
         document.querySelector('footer p').classList.add('text-light');
         localStorage.setItem('theme', 'dark');
-        document.getElementById('theme-icon').className = 'fas fa-sun';
+        const themeIcon = document.getElementById('theme-icon');
+        if (themeIcon) themeIcon.className = 'fas fa-sun';
       }
       function setLightMode() {
         document.body.classList.remove('bg-dark', 'text-light', 'dark-mode');
@@ -405,7 +389,8 @@
         document.querySelector('footer p').classList.add('text-muted');
         document.querySelector('footer p').classList.remove('text-light');
         localStorage.setItem('theme', 'light');
-        document.getElementById('theme-icon').className = 'fas fa-moon';
+        const themeIcon = document.getElementById('theme-icon');
+        if (themeIcon) themeIcon.className = 'fas fa-moon';
       }
       function toggleTheme() {
         const theme = localStorage.getItem('theme');
@@ -428,8 +413,51 @@
         document.getElementById('loading-overlay').classList.add('d-none');
       }
       
+      // Custom confirmation dialog
+      function showConfirm(message, callback) {
+        const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+        document.getElementById('confirmMessage').textContent = message;
+        document.getElementById('confirmBtn').onclick = function() {
+          modal.hide();
+          if (callback) callback(true);
+        };
+        modal.show();
+      }
+      
+      // Override window.confirm
+      window.confirm = function(message) {
+        return new Promise((resolve) => {
+          showConfirm(message, resolve);
+        });
+      };
+      
+      // Update cart badge
+      function updateCartBadge() {
+        fetch('/get-cart-count/', {
+          method: 'GET',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          const cartBadge = document.querySelector('.cart-badge');
+          const cartCount = document.querySelector('.cart-count');
+          if (cartCount) {
+            cartCount.textContent = data.count || 0;
+            if (data.count > 0) {
+              cartBadge.classList.remove('d-none');
+            } else {
+              cartBadge.classList.add('d-none');
+            }
+          }
+        })
+        .catch(error => console.log('Cart update error:', error));
+      }
+      
       // Show loading on form submissions
       document.addEventListener('DOMContentLoaded', function() {
+        updateCartBadge();
         const forms = document.querySelectorAll('form');
         forms.forEach(form => {
           form.addEventListener('submit', function(e) {
@@ -456,6 +484,10 @@
           link.addEventListener('click', function(e) {
             if (!e.ctrlKey && !e.metaKey) {
               setTimeout(showLoading, 100);
+              // Update cart on navigation
+              if (link.href.includes('add_to_cart') || link.href.includes('cart')) {
+                setTimeout(updateCartBadge, 500);
+              }
             }
           });
         });

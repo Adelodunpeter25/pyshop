@@ -26,6 +26,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+debug.log
 
 # Virtual environment
 firstwebsite/
@@ -61,7 +62,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
-
+pyshop/__pycache__
 # mypy
 .mypy_cache/
 .dmypy.json

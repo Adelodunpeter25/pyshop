@@ -52,8 +52,8 @@ def check_data_integrity():
     print(f"Products without names: {no_name}")
     
     # Check categories
-    categories = Product.objects.values_list('category', flat=True).distinct()
-    print(f"Categories: {list(categories)}")
+    categories = list(set(Product.objects.values_list('category', flat=True)))
+    print(f"Categories: {categories}")
 
 if __name__ == "__main__":
     check_database_performance()

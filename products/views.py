@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -15,33 +15,24 @@ def index(request):
     return render(request, 'index.html', {'products': products})
 
 def landing(request):
-    from django.db.models import Case, When, IntegerField
+    # Get one product from each category
+    featured_products = []
     
-    # Single optimized query to get one product per category
-    categories = ['Footwears', 'Groceries', 'Electronics', 'Vehicles']
-    
-    featured_products = Product.objects.filter(
-        category__in=categories
-    ).exclude(
-        image_url__isnull=True
-    ).exclude(
-        image_url__exact=''
-    ).exclude(
-        image_url__icontains='placeholder'
-    ).exclude(
-        name__iexact='Apple'  # Exclude broken Apple product
-    ).exclude(
-        name__icontains='Airpods'  # Exclude broken Airpods
-    ).order_by(
-        Case(
-            When(category__iexact='Footwears', then=1),
-            When(category__iexact='Groceries', then=2),
-            When(category__iexact='Electronics', then=3),
-            When(category__iexact='Vehicles', then=4),
-            output_field=IntegerField()
-        ),
-        '-id'
-    ).distinct('category')[:4]
+    footwears = Product.objects.filter(category__iexact='Footwears').exclude(image_url__isnull=True).exclude(image_url__exact='').first()
+    if footwears:
+        featured_products.append(footwears)
+        
+    groceries = Product.objects.filter(category__iexact='Groceries').exclude(image_url__isnull=True).exclude(image_url__exact='').first()
+    if groceries:
+        featured_products.append(groceries)
+        
+    electronics = Product.objects.filter(category__iexact='Electronics').exclude(image_url__isnull=True).exclude(image_url__exact='').first()
+    if electronics:
+        featured_products.append(electronics)
+        
+    vehicles = Product.objects.filter(category__iexact='Vehicles').exclude(image_url__isnull=True).exclude(image_url__exact='').first()
+    if vehicles:
+        featured_products.append(vehicles)
     
     return render(request, 'landing.html', {'featured_products': featured_products})
 
@@ -54,7 +45,7 @@ def all_products(request):
     max_price = request.GET.get('max_price', '')
     sort_by = request.GET.get('sort', 'name')
     
-    products = Product.objects.select_related().all()
+    products = Product.objects.all()
     
     # Search filtering
     if query:
@@ -86,7 +77,7 @@ def all_products(request):
         'name': 'name',
         'price_low': 'price',
         'price_high': '-price',
-        'newest': '-id'  # Use id instead of created_at for better performance
+        'newest': '-id'
     }
     if sort_by in sort_options:
         products = products.order_by(sort_options[sort_by])
@@ -94,7 +85,7 @@ def all_products(request):
     # Cache categories for 5 minutes
     categories = cache.get('product_categories')
     if not categories:
-        categories = list(Product.objects.values_list('category', flat=True).distinct())
+        categories = list(set(Product.objects.values_list('category', flat=True)))
         cache.set('product_categories', categories, 300)
     
     # Add pagination
@@ -137,9 +128,9 @@ def electronics(request):
         products = products.filter(subcategory__iexact=subcategory)
     
     # Get subcategories dynamically from database
-    subcategories = Product.objects.filter(
+    subcategories = list(set(Product.objects.filter(
         category__iexact='Electronics'
-    ).values_list('subcategory', flat=True).distinct().exclude(subcategory__isnull=True)
+    ).exclude(subcategory__isnull=True).values_list('subcategory', flat=True)))
     
     return render(request, 'index.html', {
         'products': products,
@@ -257,7 +248,7 @@ def view_cart(request):
         })
     
     product_ids = [int(pid) for pid in cart.keys()]
-    products = Product.objects.filter(id__in=product_ids).only('id', 'name', 'price', 'image_url')
+    products = Product.objects.filter(id__in=product_ids)
     cart_items = []
     cart_total = 0
     cart_count = 0
@@ -359,3 +350,9 @@ def admin_dashboard(request):
     }
     
     return render(request, 'admin_dashboard.html', context)
+
+def get_cart_count(request):
+    """AJAX endpoint to get current cart count"""
+    cart = request.session.get('cart', {})
+    count = sum(cart.values())
+    return JsonResponse({'count': count})

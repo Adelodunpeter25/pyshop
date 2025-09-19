@@ -45,7 +45,7 @@
                 <div class="col-md-1 col-4 text-end">
                   <form method="post" action="{% url 'remove_from_cart' item.product.id %}" class="d-inline">
                     {% csrf_token %}
-                    <button class="btn btn-outline-danger btn-sm" onclick="return confirm('Remove this item from cart?')">
+                    <button class="btn btn-outline-danger btn-sm" type="button" onclick="confirmRemoveItem(this)">
                       <i class="fas fa-trash"></i>
                     </button>
                   </form>
@@ -164,5 +164,15 @@ document.querySelectorAll('.quantity-input').forEach(input => {
     updateBtn.classList.remove('d-none');
   });
 });
+
+// Confirm item removal with custom dialog
+function confirmRemoveItem(button) {
+  const form = button.closest('form');
+  showConfirm('Are you sure you want to remove this item from your cart?', function(confirmed) {
+    if (confirmed) {
+      form.submit();
+    }
+  });
+}
 </script>
 {% endblock %}
