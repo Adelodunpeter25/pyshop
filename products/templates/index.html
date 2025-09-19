@@ -11,6 +11,63 @@
 {% endblock %}
 
 {% block content %}
+    <!-- Search Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <!-- Search Query -->
+                        <div class="col-md-4">
+                            <label for="search" class="form-label">Search</label>
+                            <input type="text" class="form-control" id="search" name="q" value="{{ search_query }}" placeholder="Search products...">
+                        </div>
+                        
+                        <!-- Category Filter -->
+                        {% if categories %}
+                        <div class="col-md-2">
+                            <label for="category" class="form-label">Category</label>
+                            <select name="category" id="category" class="form-select">
+                                <option value="">All Categories</option>
+                                {% for cat in categories %}
+                                    <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Price Range -->
+                        <div class="col-md-2">
+                            <label for="min_price" class="form-label">Min Price</label>
+                            <input type="number" class="form-control" id="min_price" name="min_price" value="{{ min_price }}" placeholder="0">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="max_price" class="form-label">Max Price</label>
+                            <input type="number" class="form-control" id="max_price" name="max_price" value="{{ max_price }}" placeholder="999999">
+                        </div>
+                        
+                        <!-- Sort Options -->
+                        <div class="col-md-2">
+                            <label for="sort" class="form-label">Sort By</label>
+                            <select name="sort" id="sort" class="form-select">
+                                <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Name</option>
+                                <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>Price: Low to High</option>
+                                <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>Price: High to Low</option>
+                                <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
+                            <a href="{% url 'all_products' %}" class="btn btn-outline-secondary">Clear</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Electronics Subcategory Filter -->
     {% if category == 'Electronics' and subcategories %}
         <form method="get" class="mb-4 d-flex align-items-center">
             <label for="subcategory" class="me-2 mb-0 subcategory-label">Subcategory:</label>
@@ -21,6 +78,13 @@
                 {% endfor %}
             </select>
         </form>
+    {% endif %}
+    
+    <!-- Results Count -->
+    {% if products %}
+        <div class="mb-3">
+            <p class="text-muted">Showing {{ products|length }} of {{ products.paginator.count }} products</p>
+        </div>
     {% endif %}
     <div class="row g-4">
         {% if products %}
@@ -108,18 +172,19 @@
             font-size: 1em;
         }
         .btn-footwear {
-            background: #0a3d91 !important;
+            background: linear-gradient(135deg, #312e81, #4c1d95) !important;
             color: #fff;
             border: none;
             border-radius: 8px;
             font-weight: 600;
-            transition: background 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(49, 46, 129, 0.3);
         }
         .btn-footwear:hover {
-            background: #002147 !important;
+            background: linear-gradient(135deg, #1e1b4b, #312e81) !important;
             color: #fff;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(49, 46, 129, 0.4);
         }
         @media (max-width: 600px) {
             .footwear-img {
@@ -132,4 +197,33 @@
             }
         }
     </style>
+    
+    <!-- Pagination -->
+    {% if is_paginated %}
+        <nav aria-label="Products pagination" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if products.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">&laquo; First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ products.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">Previous</a>
+                    </li>
+                {% endif %}
+                
+                <li class="page-item active">
+                    <span class="page-link">Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
+                </li>
+                
+                {% if products.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ products.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ products.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">Last &raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
 {% endblock %}

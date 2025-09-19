@@ -1,46 +1,168 @@
 {% extends "base.html" %}
 {% load humanize %}
-{% block title %}Your Cart{% endblock %}
+{% block title %}Your Cart ({{ cart_count|default:0 }} items){% endblock %}
 {% block content %}
-<div class="container py-5">
-  <h2 class="mb-4 text-center" style="font-weight: 700;">Your Cart</h2>
+<div class="container py-4">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-4 d-flex align-items-center">
+        <i class="fas fa-shopping-cart me-2"></i>
+        Your Cart
+        {% if cart_count %}
+          <span class="badge bg-primary ms-2">{{ cart_count }} items</span>
+        {% endif %}
+      </h2>
+    </div>
+  </div>
+  
   {% if cart_items %}
-    <div class="table-responsive">
-      <table class="table table-bordered align-middle">
-        <thead class="table-light">
-          <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in cart_items %}
-            <tr>
-              <td class="d-flex align-items-center gap-2">
-                <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">
-                <span>{{ item.product.name }}</span>
-              </td>
-              <td>₦{{ item.product.price }}</td>
-              <td>{{ item.quantity }}</td>
-              <td>
-                <form method="post" action="{% url 'remove_from_cart' item.product.id %}">
-                  {% csrf_token %}
-                  <button class="btn btn-danger btn-sm">Remove</button>
-                </form>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="row">
+      <div class="col-lg-8">
+        <!-- Cart Items -->
+        {% for item in cart_items %}
+          <div class="card mb-3 cart-item">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-2 col-3">
+                  <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="img-fluid rounded cart-item-image">
+                </div>
+                <div class="col-md-4 col-9">
+                  <h6 class="mb-1">{{ item.product.name }}</h6>
+                  <p class="text-muted mb-0 small">{{ item.product.category }}</p>
+                </div>
+                <div class="col-md-2 col-4">
+                  <strong>₦{{ item.product.price|floatformat:2 }}</strong>
+                </div>
+                <div class="col-md-3 col-4">
+                  <form method="post" action="{% url 'update_cart_quantity' item.product.id %}" class="d-flex align-items-center quantity-form">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-outline-secondary btn-sm quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="0" max="99" class="form-control form-control-sm mx-2 text-center quantity-input" style="width: 60px;">
+                    <button type="button" class="btn btn-outline-secondary btn-sm quantity-btn" onclick="increaseQuantity(this)">+</button>
+                    <button type="submit" class="btn btn-primary btn-sm ms-2 d-none update-btn">Update</button>
+                  </form>
+                </div>
+                <div class="col-md-1 col-4 text-end">
+                  <form method="post" action="{% url 'remove_from_cart' item.product.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger btn-sm" onclick="return confirm('Remove this item from cart?')">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-12 text-end">
+                  <small class="text-muted">Subtotal: <strong>₦{{ item.item_total|floatformat:2 }}</strong></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <div class="col-lg-4">
+        <!-- Cart Summary -->
+        <div class="card cart-summary">
+          <div class="card-header">
+            <h5 class="mb-0">Order Summary</h5>
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-2">
+              <span>Items ({{ cart_count }}):</span>
+              <span>₦{{ cart_total|floatformat:2 }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span>Shipping:</span>
+              <span class="text-success">Free</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between mb-3">
+              <strong>Total:</strong>
+              <strong class="text-primary">₦{{ cart_total|floatformat:2|intcomma }}</strong>
+            </div>
+            <button class="btn btn-primary w-100 mb-2" disabled>
+              Proceed to Checkout
+              <small class="d-block">(Coming Soon)</small>
+            </button>
+            <a href="{% url 'all_products' %}" class="btn btn-outline-secondary w-100">Continue Shopping</a>
+          </div>
+        </div>
+      </div>
     </div>
   {% else %}
-    <div class="alert alert-info text-center">Your cart is empty.</div>
+    <div class="row">
+      <div class="col-12">
+        <div class="text-center py-5">
+          <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+          <h4>Your cart is empty</h4>
+          <p class="text-muted mb-4">Looks like you haven't added any items to your cart yet.</p>
+          <a href="{% url 'all_products' %}" class="btn btn-primary">Start Shopping</a>
+        </div>
+      </div>
+    </div>
   {% endif %}
-  <div class="text-end mt-3">
-    <h5><strong>Total Price: ₦{{ cart_total|default:0|floatformat:2|intcomma }}</strong></h5>
-  </div>
-  <a href="{% url 'all_products' %}" class="btn btn-outline-primary mt-4">Continue Shopping</a>
 </div>
+
+<style>
+.cart-item {
+  transition: box-shadow 0.2s;
+}
+.cart-item:hover {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.cart-item-image {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+}
+.quantity-input {
+  -moz-appearance: textfield;
+}
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cart-summary {
+  position: sticky;
+  top: 100px;
+}
+@media (max-width: 768px) {
+  .cart-item-image {
+    height: 60px;
+    width: 60px;
+  }
+  .quantity-form {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+</style>
+
+<script>
+function increaseQuantity(btn) {
+  const input = btn.parentElement.querySelector('.quantity-input');
+  const updateBtn = btn.parentElement.querySelector('.update-btn');
+  input.value = parseInt(input.value) + 1;
+  updateBtn.classList.remove('d-none');
+}
+
+function decreaseQuantity(btn) {
+  const input = btn.parentElement.querySelector('.quantity-input');
+  const updateBtn = btn.parentElement.querySelector('.update-btn');
+  if (parseInt(input.value) > 0) {
+    input.value = parseInt(input.value) - 1;
+    updateBtn.classList.remove('d-none');
+  }
+}
+
+// Show update button when quantity is manually changed
+document.querySelectorAll('.quantity-input').forEach(input => {
+  input.addEventListener('input', function() {
+    const updateBtn = this.parentElement.querySelector('.update-btn');
+    updateBtn.classList.remove('d-none');
+  });
+});
+</script>
 {% endblock %}

@@ -2,286 +2,479 @@
 
 {% block title %}Welcome to PyShop{% endblock %}
 
-
-
 {% block content %}
-<nav class="navbar">
-    <div class="navbar-left">
-        <a href="/" class="navbar-brand">PyShop</a>
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="min-height: 85vh; padding-top: 3rem;">
+            <div class="col-lg-8 col-md-10 text-center">
+                <div class="hero-content">
+                    <h1 class="hero-title">Welcome to <span class="brand-highlight">PyShop</span></h1>
+                    <p class="hero-subtitle">Discover amazing products across all categories.<br>From electronics to groceries, we have everything you need.</p>
+                    <a href="{% url 'all_products' %}" class="btn btn-primary btn-lg hero-cta">
+                        Start Browsing
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="navbar-right">
-        {% if user.is_authenticated %}
-            <span class="navbar-user">Hi, {{ user.username }}</span>
-        {% else %}
-            <a href="{% url 'login' %}" class="btn btn-primary login-btn" style="width: 96px; margin-right: 8px;">Login</a>
-            <a href="{% url 'register' %}" class="btn btn-outline-primary signup-btn" style="width: 96px;">Sign Up</a>
-        {% endif %}
+</div>
+
+<!-- Some Products Section -->
+<div class="products-section py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="section-title">Some Products</h2>
+                <p class="section-subtitle">Discover our featured products</p>
+            </div>
+        </div>
+        <div id="productsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+            <div class="carousel-inner">
+                {% if featured_products %}
+                    <div class="carousel-item active">
+                        <div class="row justify-content-center">
+                            {% for product in featured_products %}
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="product-card">
+                                    <img src="{{ product.image_url }}" class="product-image" alt="{{ product.name }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.name|truncatechars:30 }}</h5>
+                                        <p class="card-text text-muted mb-2">{{ product.category }}</p>
+                                        <p class="card-text price">₦{{ product.price|floatformat:0 }}</p>
+                                        <a href="{% url 'product_detail' product.id %}" class="btn btn-primary w-100">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row justify-content-center">
+                            {% for product in featured_products %}
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="product-card">
+                                    <img src="{{ product.image_url }}" class="product-image" alt="{{ product.name }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ product.name|truncatechars:30 }}</h5>
+                                        <p class="card-text text-muted mb-2">{{ product.category }}</p>
+                                        <p class="card-text price">₦{{ product.price|floatformat:0 }}</p>
+                                        <a href="{% url 'product_detail' product.id %}" class="btn btn-primary w-100">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <p>No products available at the moment.</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#productsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'all_products' %}" class="btn btn-light btn-lg view-all-btn">
+                View All Products
+            </a>
+        </div>
     </div>
-</nav>
-<div class="hero">
-    <h1>Find Anything on PyShop</h1>
-    <p>Buy products easily. Browse by category below.</p>
 </div>
-<div class="categories">
-    <a href="/all/" class="category" style="text-decoration: none; color: inherit;">
-        <div class="category-icon">🛒</div>
-        <div class="category-title">All</div>
-    </a>
-    <a href="/footwears/" class="category" style="text-decoration: none; color: inherit;">
-        <div class="category-icon">👟</div>
-        <div class="category-title">Footwears</div>
-    </a>
-    <a href="/groceries/" class="category" style="text-decoration: none; color: inherit;">
-        <div class="category-icon">🛍️</div>
-        <div class="category-title">Groceries</div>
-    </a>
-    <a href="/electronics/" class="category" style="text-decoration: none; color: inherit;">
-        <div class="category-icon">💻</div>
-        <div class="category-title">Electronics</div>
-    </a>
-    <a href="/vehicles/" class="category" style="text-decoration: none; color: inherit;">
-        <div class="category-icon">🚗</div>
-        <div class="category-title">Vehicles</div>
-    </a>
+
+<!-- Features Section -->
+<div class="features-section py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="section-title">Why Choose PyShop?</h2>
+                <p class="section-subtitle">Experience the best online shopping with our amazing features</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h4>Fast Delivery</h4>
+                    <p>Quick and reliable delivery to your doorstep</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Secure Shopping</h4>
+                    <p>Your data and payments are always protected</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h4>24/7 Support</h4>
+                    <p>We're here to help you anytime you need us</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Categories Section -->
+<div class="categories-section py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="section-title">Shop by Category</h2>
+                <p class="section-subtitle">Find exactly what you're looking for</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <a href="{% url 'all_products' %}" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-th-large"></i>
+                    </div>
+                    <h5>All Products</h5>
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <a href="{% url 'footwears' %}" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-shoe-prints"></i>
+                    </div>
+                    <h5>Footwears</h5>
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <a href="{% url 'groceries' %}" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-shopping-basket"></i>
+                    </div>
+                    <h5>Groceries</h5>
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <a href="{% url 'electronics' %}" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h5>Electronics</h5>
+                </a>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 mb-4">
+                <a href="{% url 'vehicles' %}" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h5>Vehicles</h5>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
-    .navbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: linear-gradient(90deg, #011c3a 80%, #00102a 100%);
-        border-bottom: 1.5px solid #e0e0e0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 36px;
-        z-index: 100;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        transition: background 0.2s;
-    }
-    body.dark-mode .navbar {
-        background: linear-gradient(90deg, #0a1931 80%, #002147 100%);
-        border-bottom: 1.5px solid #444a57;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-    }
-    .navbar, .navbar * {
-        color: #fff !important;
-        transition: color 0.2s;
-    }
-    .navbar .navbar-brand {
-        font-size: 1.6em;
-        font-weight: 800;
-        letter-spacing: 1px;
-    }
-    .navbar .navbar-user {
-        font-weight: 600;
-        margin-right: 8px;
-    }
-    .navbar .btn, .navbar .navbar-btn {
-        color: #002147 !important;
-        background: #fff;
-        border: 1.5px solid #fff;
-        font-weight: 600;
-        transition: background 0.2s, color 0.2s;
-    }
-    .navbar .btn:hover, .navbar .navbar-btn:hover {
-        background: #03139f !important;
-        color: #002147 !important;
-    }
-    body.dark-mode .navbar, body.dark-mode .navbar * {
-        color: #f1f1f1 !important;
-    }
-    body.dark-mode .navbar .btn, body.dark-mode .navbar .navbar-btn {
-        color: #002147 !important;
-        background: #f1f1f1;
-        border: 1.5px solid #f1f1f1;
-    }
-    body.dark-mode .navbar .btn:hover, body.dark-mode .navbar .navbar-btn:hover {
-        background: #051d89 !important;
-        color: #002147 !important;
-    }
-    .navbar-left {
-        display: flex;
-        align-items: center;
-    }
-    .navbar-brand {
-        font-size: 1.6em;
-        font-weight: 800;
-        color: #002147;
-        text-decoration: none;
-        letter-spacing: 1px;
-    }
-    .navbar-right {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-    }
-    .navbar-user {
-        color: #002147;
-        font-weight: 600;
-        margin-right: 8px;
-    }
-    .navbar-btn {
-        padding: 8px 16px;
-        border-radius: 8px;
-        border: 1.5px solid #002147;
-        color: #002147;
-        background: #fff;
-        text-decoration: none;
-        font-weight: 600;
-        transition: background 0.2s, color 0.2s;
-    }
-    .navbar-btn:hover {
-        background: #002147;
-        color: #fff;
-    }
-    .navbar-btn-login {
-        background: #002147;
-        color: #fff;
-        border: none;
-    }
-    .navbar-btn-login:hover {
-        background: #00112a;
-    }
-    .navbar-btn-logout {
-        background: #c00;
-        color: #fff;
-        border: none;
-    }
-    .navbar-btn-logout:hover {
-        background: rgb(112, 3, 3);
-    }
-    body.dark-mode .navbar-brand,
-    body.dark-mode .navbar-user {
-        color: #f1f1f1;
-    }
-    body.dark-mode .navbar-btn {
-        background: #23272f;
-        color: #f1f1f1;
-        border: 1.5px solid #444a57;
-    }
-    body.dark-mode .navbar-btn:hover {
-        background: #002147;
-        color: #fff;
-    }
-    body.dark-mode .navbar-btn-login {
-        background: #002147;
-        color: #fff;
-        border: none;
-    }
-    body.dark-mode .navbar-btn-logout {
-        background: #c00;
-        color: #fff;
-        border: none;
-    }
-    .hero {
-        margin-top: 70px;
-        background: #002147;
-        color: #fff;
-        padding: 60px 20px 40px 20px;
-        text-align: center;
-    }
-    .hero h1 {
-        font-size: 3.5em;
-        font-weight: 800;
-        margin-bottom: 10px;
-        letter-spacing: 1px;
-        text-shadow: 2px 4px 12px rgba(0,0,0,0.12);
-    }
-    .hero p {
-        font-size: 1.2em;
-        margin-bottom: 30px;
-    }
-    .categories {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 30px;
-        margin: 50px 0;
-    }
-    .category {
-        background: #fff;
-        border-radius: 14px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-        padding: 48px 26px;
-        width: 160px;
-        text-align: center;
-        transition: box-shadow 0.2s, transform 0.2s, background 0.2s, color 0.2s;
-        color: #222;
-    }
-    body.dark-mode .category {
-        background: #23272f;
-        color: #f1f1f1;
-        border: 1.5px solid #444a57;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.25);
-    }
-    .category-title {
-        font-size: 1.25em;
-        color: #222;
-    }
-    body.dark-mode .category-title {
-        color: #f1f1f1;
-    }
-    .category:hover {
-        box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-        transform: scale(1.08) translateY(-6px);
-    }
-    .category-icon {
-        font-size: 2.8em;
-        margin-bottom: 16px;
-    }
-    .landing-btn {
-        transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
-        box-shadow: 0 2px 8px rgba(0,33,71,0.08);
-    }
-    .landing-btn:hover, .landing-btn:focus {
-        background: #0a3d91 !important;
-        color: #fff !important;
-        box-shadow: 0 6px 18px rgba(0,33,71,0.18);
-        transform: scale(1.06) translateY(-2px);
-        text-decoration: none;
-    }
-    .login-btn {
-      font-weight: 600;
-      border-radius: 8px;
-      padding: 6px 0;
-      font-size: 1em;
-      background: #fff;
-      color: #002147;
-      border: 1.5px solid #002147;
-      box-shadow: 0 2px 8px rgba(0,33,71,0.08);
-      transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
-    }
-    .login-btn:hover, .login-btn:focus, .signup-btn:hover, .signup-btn:focus {
-      background: #0052cc !important;
-      color: #fff !important;
-      box-shadow: 0 6px 18px rgba(0,33,71,0.18);
-      transform: scale(1.04) translateY(-2px);
-    }
-    .signup-btn {
-      font-weight: 600;
-      border-radius: 8px;
-      padding: 6px 0;
-      font-size: 1em;
-      background: #fff;
-      color: #002147;
-      border: 1.5px solid #002147;
-      box-shadow: 0 2px 8px rgba(0,33,71,0.08);
-      transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
-    }
-    .login-btn, .signup-btn {
-    display: inline-block;
-    width: 96px;
-    padding: 6px 0;
-    font-size: 1em;
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #312e81 0%, #4c1d95 50%, #1e1b4b 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+}
+
+.brand-highlight {
+    color: #fbbf24;
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    opacity: 0.9;
+    line-height: 1.8;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-cta {
+    background: white !important;
+    border: none;
+    border-radius: 50px;
+    padding: 25px 60px;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #1f2937;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(251, 191, 36, 0.3);
+    min-width: 250px;
+    min-height: 65px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-cta:hover {
+    transform: translateY(-3px);
+    background: white !important;
+    box-shadow: 0 15px 35px rgba(255, 255, 255, 0.3);
+    color: #1f2937 !important;
+}
+
+/* Products Section */
+.products-section {
+    background: #f8fafc;
+}
+
+body.dark-mode .products-section {
+    background: #1f2937;
+}
+
+.product-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    height: 420px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+body.dark-mode .product-card {
+    background: #374151;
+    color: #f9fafb;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.product-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.product-card .card-body {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card .price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #312e81;
+}
+
+body.dark-mode .product-card .price {
+    color: #fbbf24;
+}
+
+.product-card .btn {
+    background: linear-gradient(135deg, #312e81, #4c1d95) !important;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.product-card .btn:hover {
+    background: linear-gradient(135deg, #1e1b4b, #312e81) !important;
+    transform: translateY(-2px);
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #312e81;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+/* Features Section */
+.features-section {
+    background: #f8fafc;
+}
+
+body.dark-mode .features-section {
+    background: #1f2937;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+body.dark-mode .section-title {
+    color: #f9fafb;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #6b7280;
+    margin-bottom: 3rem;
+}
+
+body.dark-mode .section-subtitle {
+    color: #d1d5db;
+}
+
+.feature-card {
     text-align: center;
-  }
-    @media (max-width: 600px) {
-        .categories {
-            flex-direction: column;
-            align-items: center;
-        }
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+body.dark-mode .feature-card {
+    background: #374151;
+    color: #f9fafb;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #312e81, #4c1d95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: white;
+    font-size: 2rem;
+}
+
+/* Categories Section */
+.categories-section {
+    background: white;
+}
+
+body.dark-mode .categories-section {
+    background: #111827;
+}
+
+.category-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    padding: 2rem 1rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+body.dark-mode .category-card {
+    background: #374151;
+    color: #f9fafb;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border-color: #4c1d95;
+    text-decoration: none;
+    color: inherit;
+}
+
+.category-card .category-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #312e81, #4c1d95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.category-card h5 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* View All Button */
+.view-all-btn {
+    background: white !important;
+    color: #1f2937 !important;
+    border: 2px solid #e5e7eb !important;
+}
+
+.view-all-btn:hover {
+    background: #f3f4f6 !important;
+    color: #1f2937 !important;
+    border-color: #d1d5db !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.8rem;
     }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .hero-cta {
+        font-size: 1.1rem;
+        padding: 12px 30px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+}
 </style>
 {% endblock %}
