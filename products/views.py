@@ -1,16 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Product, Profile
-from .forms import ProductForm, UserRegisterForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.db.models import Q
+from django.core.paginator import Paginator
+from .models import Product, Profile
+from .forms import ProductForm, UserRegisterForm, ProfileForm
 
 def index(request):
-    products = Product.objects.all()
+    products = Product.objects.all()[:20]  # Limit to 20 products for performance
     return render(request, 'index.html', {'products': products})
 
 def landing(request):
@@ -19,11 +20,25 @@ def landing(request):
 def all_products(request):
     query = request.GET.get('q', '').strip()
     products = Product.objects.all()
+    
     if query:
         products = products.filter(
-            name__icontains=query
+            Q(name__icontains=query) | 
+            Q(description__icontains=query) |
+            Q(category__icontains=query)
         )
-    return render(request, 'index.html', {'products': products, 'category': 'All', 'search_query': query})
+    
+    # Add pagination
+    paginator = Paginator(products, 12)  # Show 12 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'index.html', {
+        'products': page_obj,
+        'category': 'All', 
+        'search_query': query,
+        'is_paginated': page_obj.has_other_pages()
+    })
 
 def groceries(request):
     products = Product.objects.filter(category__iexact='Groceries')
@@ -46,7 +61,12 @@ def electronics(request):
     products = Product.objects.filter(category__iexact='Electronics')
     if subcategory:
         products = products.filter(subcategory__iexact=subcategory)
-    subcategories = ['Mobile Phone', 'Computer', 'Audio Devices']
+    
+    # Get subcategories dynamically from database
+    subcategories = Product.objects.filter(
+        category__iexact='Electronics'
+    ).values_list('subcategory', flat=True).distinct().exclude(subcategory__isnull=True)
+    
     return render(request, 'index.html', {
         'products': products,
         'category': 'Electronics',
@@ -122,22 +142,28 @@ def add_to_cart(request, product_id):
 
 def view_cart(request):
     cart = request.session.get('cart', {})
+    if not cart:
+        return render(request, 'cart.html', {'cart_items': [], 'cart_total': 0})
+    
     product_ids = [int(pid) for pid in cart.keys()]
     products = Product.objects.filter(id__in=product_ids)
     cart_items = []
     cart_total = 0
+    
     for product in products:
         quantity = cart.get(str(product.id), 0)
-        item_total = 0
-        try:
-            # Remove commas and currency symbols, then convert to float
-            price_str = str(product.price).replace(',', '').replace('₦', '').strip()
-            item_total = float(price_str) * quantity
-        except Exception:
-            pass
+        item_total = float(product.price) * quantity
         cart_total += item_total
-        cart_items.append({'product': product, 'quantity': quantity, 'item_total': item_total})
-    return render(request, 'cart.html', {'cart_items': cart_items, 'cart_total': cart_total})
+        cart_items.append({
+            'product': product, 
+            'quantity': quantity, 
+            'item_total': item_total
+        })
+    
+    return render(request, 'cart.html', {
+        'cart_items': cart_items, 
+        'cart_total': cart_total
+    })
 
 def remove_from_cart(request, product_id):
     if request.method == 'POST':
