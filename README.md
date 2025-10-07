@@ -49,27 +49,6 @@ PyShop is a modern, responsive e-commerce website built with Python and Django. 
 | admin-interface      | Modern Django admin theming    |
 
 ---
-
-## 📸 Screenshots
-
-### 🏠 Homepage
-
-![Homepage](screenshots/landing.png)
-
-### 🛒 Product Listing
-
-![Products](screenshots/products.png)
-
-### 👤 User Profile
-
-![Profile](screenshots/profile.png)
-
-### ⚙️ Cart
-
-![Cart](screenshots/cart.png)
-
----
-
 ## ⚡ Getting Started
 
 Follow these steps to run PyShop on your local machine:
