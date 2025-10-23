@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Payment{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Complete Payment</h5>
+                </div>
+                <div class="card-body text-center">
+                    <h3 class="mb-4">₦{{ order.total_amount|floatformat:0|intcomma }}</h3>
+                    <p class="text-muted">Order Reference: {{ order.reference }}</p>
+                    <button id="payButton" class="btn btn-primary btn-lg">Pay with Paystack</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+document.getElementById('payButton').addEventListener('click', function() {
+    var handler = PaystackPop.setup({
+        key: '{{ paystack_public_key }}',
+        email: '{{ user.email }}',
+        amount: {{ amount_in_kobo }},
+        currency: 'NGN',
+        ref: '{{ order.reference }}',
+        callback: function(response) {
+            fetch('{% url "verify_payment" order.id %}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'reference=' + response.reference
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '{% url "order_detail" order.id %}';
+                } else {
+                    alert('Payment verification failed: ' + data.message);
+                }
+            });
+        },
+        onClose: function() {
+            alert('Payment cancelled');
+        }
+    });
+    handler.openIframe();
+});
+</script>
+{% endblock %}

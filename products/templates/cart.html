@@ -118,11 +118,7 @@
               <strong class="text-primary">₦{{ cart_total|floatformat:2|intcomma }}</strong>
             </div>
             <div class="d-grid gap-2">
-              <button class="btn btn-primary" disabled>
-                Proceed to Checkout
-                <small class="d-block d-md-none">(Coming Soon)</small>
-                <small class="d-none d-md-block">(Coming Soon)</small>
-              </button>
+              <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
               <a href="{% url 'all_products' %}" class="btn btn-outline-secondary">Continue Shopping</a>
             </div>
           </div>

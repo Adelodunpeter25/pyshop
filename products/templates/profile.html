@@ -150,6 +150,12 @@
                 <small>{{ cart_count }} items</small>
               </a>
               
+              <a href="{% url 'order_history' %}" class="action-btn browse-btn">
+                <i class="fas fa-receipt"></i>
+                <span>My Orders</span>
+                <small>Order history</small>
+              </a>
+              
               <a href="{% url 'all_products' %}" class="action-btn browse-btn">
                 <i class="fas fa-search"></i>
                 <span>Browse Products</span>

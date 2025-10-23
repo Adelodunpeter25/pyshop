@@ -11,6 +11,7 @@ dependencies = [
     "whitenoise==6.9.0",
     "dj-database-url==3.0.0",
     "django-jazzmin>=3.0.1",
+    "pypaystack2>=2.1.1",
 ]
 
 [project.optional-dependencies]

@@ -43,6 +43,7 @@ media/
 staticfiles/
 admin-interface/
 avatars/
+products/migrations
 
 # PyCharm / VSCode / IDE files
 .idea/
