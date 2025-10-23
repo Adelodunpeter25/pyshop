@@ -1,10 +1,11 @@
 # 🛍️ PyShop – Django E-commerce Website
 
-PyShop is a modern, responsive e-commerce website built with Python and Django. It features a clean UI (with dark mode!), user authentication, product listings by category, admin tools, a responsive cart and more.
+PyShop is a modern, responsive e-commerce website built with Python and Django. It features a clean UI, user authentication, product listings by category, Paystack payment integration, order management, and a beautiful Jazzmin admin interface.
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.8%2B-blue" alt="Python">
+  <img src="https://img.shields.io/badge/Python-3.9%2B-blue" alt="Python">
   <img src="https://img.shields.io/badge/Django-4.x-green" alt="Django">
+  <img src="https://img.shields.io/badge/Paystack-Integrated-orange" alt="Paystack">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
 </p>
 
@@ -14,11 +15,11 @@ PyShop is a modern, responsive e-commerce website built with Python and Django. 
 
 * [🚀 Features](#-features)
 * [🛠️ Tech Stack](#️-tech-stack)
-* [📸 Screenshots](#-screenshots)
 * [⚡ Getting Started](#-getting-started)
-* [🛒 Product Management (Admin)](#-product-management-admin)
+* [💳 Payment Setup](#-payment-setup)
+* [🛒 Admin Panel](#-admin-panel)
+* [📁 Project Structure](#-project-structure)
 * [🌐 Deployment](#-deployment)
-* [🔄 Migrating Data from SQLite to PostgreSQL](#-migrating-data-from-sqlite-to-postgresql)
 * [📄 License](#-license)
 
 ---
@@ -26,13 +27,14 @@ PyShop is a modern, responsive e-commerce website built with Python and Django. 
 ## 🚀 Features
 
 * 🛒 Browse products by **category and subcategory**
-* 🔍 Smart **search** and **filtering**
+* 🔍 Smart **search** and **filtering** with pagination
 * 👤 User **registration**, **login**, and **profile management**
-* 🛠️ Django admin for managing **products, offers, and profiles**
-* 📦 **Import/export** products in admin panel
-* 🎨 **Customizable admin interface** with themes (using `admin_interface`)
-* 🌗 Toggle between **light and dark mode**
-* 🚀 Production-ready with **PostgreSQL** on Render
+* 💳 **Paystack payment integration** for secure checkout
+* 📦 **Order management** with order history and tracking
+* 🧾 **Invoice generation** and order details
+* 🛠️ **Jazzmin admin** for managing products, orders, and users
+* 📱 **Responsive design** with mobile-friendly UI
+* 🚀 Production-ready with **PostgreSQL** support
 
 ---
 
@@ -40,15 +42,17 @@ PyShop is a modern, responsive e-commerce website built with Python and Django. 
 
 | Technology           | Purpose                        |
 | -------------------- | ------------------------------ |
-| Python 3 & Django    | Core backend framework         |
+| Python 3.9+ & Django 4.x | Core backend framework     |
 | Bootstrap 5 (CDN)    | UI and responsive design       |
 | SQLite (dev)         | Lightweight dev database       |
-| PostgreSQL (Render)  | Production database            |
+| PostgreSQL (prod)    | Production database            |
+| Paystack             | Payment processing             |
+| django-jazzmin       | Modern admin interface         |
 | django-widget-tweaks | Form rendering customization   |
-| django-import-export | Admin CSV/XLS import-export    |
-| admin-interface      | Modern Django admin theming    |
+| uv                   | Fast Python package manager    |
 
 ---
+
 ## ⚡ Getting Started
 
 Follow these steps to run PyShop on your local machine:
@@ -64,36 +68,81 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 # 3. Create virtual environment and install dependencies
 uv sync
 
-# 4. Run database migrations
+# 4. Set up environment variables
+cp .env.example .env
+# Edit .env and add your Paystack keys
+
+# 5. Run database migrations
 uv run python manage.py migrate
 
-# 5. Create a superuser
+# 6. Create a superuser
 uv run python manage.py createsuperuser
 
-# 6. Start the development server
+# 7. Start the development server
 uv run python manage.py runserver
 ```
 
 Visit [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your browser.
 
+### Using Makefile (Optional)
+
+```bash
+make install      # Install dependencies
+make migrate      # Run migrations
+make superuser    # Create superuser
+make run          # Start server
+make clean        # Clean cache files
+```
+
 ---
 
-## 🛒 Product Management (Admin)
+## 💳 Payment Setup
 
-* Log in to the Django admin at `/admin` with your superuser account.
-* Admin users can add, edit, and delete products, offers, and profiles directly from the admin UI.
-* Use the import/export feature for bulk product management.
+1. Sign up at [Paystack](https://paystack.com)
+2. Get your API keys from the dashboard
+3. Add to `.env` file:
+   ```
+   PAYSTACK_SECRET_KEY=sk_test_xxxxx
+   PAYSTACK_PUBLIC_KEY=pk_test_xxxxx
+   ```
+
+---
+
+## 🛒 Admin Panel
+
+* Access the Jazzmin admin at `/admin` with your superuser account
+* Manage products, orders, users, and offers
+* View order details and update order status
+* Track inventory and low stock alerts
+* Beautiful dark-themed interface
+
+---
+
+## 📁 Project Structure
+
+```
+products/
+├── views/
+│   ├── product_views.py    # Product listings & details
+│   ├── auth_views.py       # Authentication
+│   ├── cart_views.py       # Shopping cart
+│   ├── order_views.py      # Orders & payment
+│   └── profile_views.py    # User profiles
+├── models.py               # Database models
+├── admin.py                # Admin configuration
+└── templates/              # HTML templates
+```
 
 ---
 
 ## 🌐 Deployment
 
-* Deploy on Render (recommended), Heroku, or any cloud platform.
-* For production, use PostgreSQL and set up environment variables for security.
+* Deploy on Render (recommended), Heroku, or any cloud platform
+* For production, use PostgreSQL and set up environment variables
 * Collect static files with:
 
 ```bash
-python manage.py collectstatic
+uv run python manage.py collectstatic
 ```
 
 ### 🔗 Live Demo
@@ -103,23 +152,14 @@ You can check out a live version of PyShop here:
 
 ---
 
-## 🔄 Migrating Data from SQLite to PostgreSQL
-
-To move your products from SQLite to your Render PostgreSQL database:
-
-```bash
-# Export products from SQLite
-python manage.py dumpdata products > products.json
-
-# Switch DATABASES in settings.py to PostgreSQL and run migrations
-python manage.py migrate
-
-# Import products into PostgreSQL
-python manage.py loaddata products.json
-```
-
----
-
 ## 📄 License
 
 MIT License
+
+---
+
+## 👨‍💻 Author
+
+**Adelodun Peter**
+
+© 2025 PyShop. All rights reserved.
