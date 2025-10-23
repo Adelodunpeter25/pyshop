@@ -106,16 +106,13 @@
         background: #00102a;
       }
       .navbar-toggler {
-        border: 2px solid #a7a5b7;
+        border: 2px solid #312e81;
         border-radius: 6px;
-        background: rgba(255,255,255,0.12);
+        background: transparent;
         transition: border-color 0.2s, background 0.2s;
       }
       .navbar-toggler .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,1)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-      }
-      body.dark-mode .navbar-toggler .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,1)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(49,46,129,1)' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
       }
       body {
         padding-top: 70px;
@@ -285,7 +282,6 @@
           </ul>
 
           <div class="d-flex flex-column flex-lg-row align-items-center ms-0 ms-lg-3 gap-2 gap-lg-0">
-
             {% if user.is_authenticated %}
               <a href="{% url 'view_cart' %}" class="btn btn-primary btn-sm me-2 position-relative cart-btn">
                 <i class="fas fa-shopping-cart"></i>
@@ -487,36 +483,6 @@
     }
     </style>
     <script>
-      function setDarkMode() {
-        document.body.classList.add('bg-dark', 'text-light', 'dark-mode');
-        document.querySelector('.navbar-custom').classList.add('navbar-dark');
-        document.querySelector('.navbar-custom').classList.remove('navbar-light');
-        document.querySelector('footer').classList.remove('bg-light');
-        document.querySelector('footer').classList.add('bg-dark');
-        document.querySelector('footer p').classList.remove('text-muted');
-        document.querySelector('footer p').classList.add('text-light');
-        localStorage.setItem('theme', 'dark');
-        const themeIcon = document.getElementById('theme-icon');
-        if (themeIcon) themeIcon.className = 'fas fa-sun';
-      }
-      function setLightMode() {
-        document.body.classList.remove('bg-dark', 'text-light', 'dark-mode');
-        document.querySelector('.navbar-custom').classList.remove('navbar-dark');
-        document.querySelector('.navbar-custom').classList.add('navbar-light');
-        document.querySelector('footer').classList.add('bg-light');
-        document.querySelector('footer').classList.remove('bg-dark');
-        document.querySelector('footer p').classList.add('text-muted');
-        document.querySelector('footer p').classList.remove('text-light');
-        localStorage.setItem('theme', 'light');
-        const themeIcon = document.getElementById('theme-icon');
-        if (themeIcon) themeIcon.className = 'fas fa-moon';
-      }
-      function toggleTheme() {
-        const theme = localStorage.getItem('theme');
-        if (theme === 'dark') setLightMode();
-        else setDarkMode();
-      }
-      
       function toggleSidebar() {
         const sidebar = document.getElementById('mobileSidebar');
         const overlay = document.getElementById('sidebarOverlay');
@@ -531,12 +497,6 @@
           document.body.style.overflow = '';
         }
       }
-
-      (function() {
-        const theme = localStorage.getItem('theme');
-        if (theme === 'dark') setDarkMode();
-        else setLightMode();
-      })();
       
       // Loading indicators
       function showLoading() {

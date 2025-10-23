@@ -55,7 +55,7 @@ Follow these steps to run PyShop on your local machine:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Adelodunpeter25/myfirstwebsite
+git clone https://github.com/Adelodunpeter25/pyshop.git
 cd pyshop
 
 # 2. Install uv (if not installed)
@@ -80,7 +80,7 @@ Visit [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your browser.
 
 ## 🛒 Product Management (Admin)
 
-* Log in to the Django admin at `/admin/` with your superuser account.
+* Log in to the Django admin at `/admin` with your superuser account.
 * Admin users can add, edit, and delete products, offers, and profiles directly from the admin UI.
 * Use the import/export feature for bulk product management.
 
