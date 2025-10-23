@@ -56,23 +56,22 @@ Follow these steps to run PyShop on your local machine:
 ```bash
 # 1. Clone the repository
 git clone https://github.com/Adelodunpeter25/myfirstwebsite
-tcd pyshop
+cd pyshop
 
-# 2. Create and activate a virtual environment
-python -m venv .venv
-source .venv/bin/activate   # On Windows: .venv\Scripts\activate
+# 2. Install uv (if not installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# 3. Install dependencies
-pip install -r requirements.txt
+# 3. Create virtual environment and install dependencies
+uv sync
 
 # 4. Run database migrations
-python manage.py migrate
+uv run python manage.py migrate
 
 # 5. Create a superuser
-python manage.py createsuperuser
+uv run python manage.py createsuperuser
 
 # 6. Start the development server
-python manage.py runserver
+uv run python manage.py runserver
 ```
 
 Visit [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your browser.

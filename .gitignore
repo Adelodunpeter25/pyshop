@@ -31,11 +31,17 @@ debug.log
 # Virtual environment
 firstwebsite/
 venv/
+.venv/
+.python-version
 
 # Django stuff:
 *.log
 local_settings.py
+db.sqlite3
 media/
+staticfiles/
+admin-interface/
+avatars/
 
 # PyCharm / VSCode / IDE files
 .idea/
@@ -82,3 +88,11 @@ cython_debug/
 
 # Logs
 *.log
+debug.log
+
+# Data exports
+data.json
+products.json
+
+# UV
+uv.lock

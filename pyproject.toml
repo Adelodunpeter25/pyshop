@@ -1,0 +1,39 @@
+[project]
+name = "pyshop"
+version = "1.0.0"
+description = "Django E-commerce Website"
+requires-python = ">=3.9"
+dependencies = [
+    "django>=4.2,<5.0",
+    "asgiref==3.8.1",
+    "sqlparse==0.5.3",
+    "tzdata==2025.2",
+    "dj-database-url==3.0.0",
+    "django-admin-interface==0.30.1",
+    "django-colorfield==0.14.0",
+    "django-import-export==4.3.8",
+    "django-widget-tweaks==1.5.0",
+    "et-xmlfile==2.0.0",
+    "tablib==3.8.0",
+    "diff-match-patch==20241021",
+    "pillow==11.2.1",
+    "gunicorn==23.0.0",
+    "whitenoise==6.9.0",
+    "python-dateutil==2.9.0.post0",
+    "python-slugify==8.0.4",
+    "packaging==25.0",
+    "typing-extensions==4.14.0",
+    "pytz==2025.2",
+    "six==1.17.0",
+]
+
+[project.optional-dependencies]
+production = [
+    "psycopg2-binary==2.9.10",
+]
+
+[project.scripts]
+server = "manage:main"
+
+[tool.uv]
+dev-dependencies = []
