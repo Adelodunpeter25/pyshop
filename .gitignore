@@ -33,6 +33,7 @@ firstwebsite/
 venv/
 .venv/
 .python-version
+.venv
 
 # Django stuff:
 *.log

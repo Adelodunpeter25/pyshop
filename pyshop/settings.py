@@ -27,8 +27,6 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "pyshop1.onrender.com,127.0.0.1,local
 
 
 INSTALLED_APPS = [
-    'admin_interface', 
-    'colorfield',    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,8 +35,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'products.apps.ProductsConfig',
-    'django.contrib.sites',
-    'import_export',  
     'widget_tweaks',
 ]
 
@@ -172,21 +168,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Media files (uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-SITE_ID = 2
-
-ADMIN_INTERFACE_THEME = {
-    'title': 'MyFirstWebsite Admin',
-    'logo': None,  
-    'env': 'production',
-    'color_scheme': 'dark', 
-    'active': True,
-    'css_header_background_color': '#1a202c',
-    'css_header_text_color': '#ffffff',
-    'css_module_background_color': '#2d3748',
-    'css_module_text_color': '#ffffff',
-    'css_generic_link_color': "#1d11a5",
-    'css_save_button_background_color': "#0c7846",
-    'css_save_button_text_color': '#ffffff',
-    
-}
