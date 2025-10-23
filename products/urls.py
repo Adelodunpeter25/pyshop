@@ -20,7 +20,6 @@ urlpatterns = [
     path('cart/', views.view_cart, name='view_cart'),
     path('cart/remove/<int:product_id>/', views.remove_from_cart, name='remove_from_cart'),
     path('cart/update/<int:product_id>/', views.update_cart_quantity, name='update_cart_quantity'),
-    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('get-cart-count/', views.get_cart_count, name='get_cart_count'),
     path('clear-recently-viewed/', views.clear_recently_viewed, name='clear_recently_viewed'),
 ]

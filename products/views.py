@@ -494,58 +494,7 @@ def get_cart_count(request):
     cart = request.session.get('cart', {})
     return sum(cart.values())
 
-@login_required
-def admin_dashboard(request):
-    """Admin dashboard with analytics"""
-    if not request.user.is_staff:
-        messages.error(request, "Access denied. Admin privileges required.")
-        return redirect('index')
-    
-    from django.db.models import Count, Avg
-    
-    # Basic stats
-    total_products = Product.objects.count()
-    total_users = Profile.objects.count()
-    low_stock_products = Product.objects.filter(stock__lt=10).count()
-    
-    # Category breakdown
-    category_stats = Product.objects.values('category').annotate(
-        count=Count('id'),
-        avg_price=Avg('price')
-    ).order_by('-count')
-    
-    # Recent products - use id instead of created_at for compatibility
-    recent_products = Product.objects.order_by('-id')[:5]
-    
-    # Price analysis with safe defaults
-    price_stats = {
-        'avg_price': 0,
-        'min_price': 0,
-        'max_price': 0
-    }
-    
-    if Product.objects.exists():
-        price_agg = Product.objects.aggregate(avg_price=Avg('price'))
-        price_stats['avg_price'] = price_agg['avg_price'] or 0
-        
-        min_product = Product.objects.order_by('price').first()
-        max_product = Product.objects.order_by('-price').first()
-        
-        if min_product:
-            price_stats['min_price'] = min_product.price
-        if max_product:
-            price_stats['max_price'] = max_product.price
-    
-    context = {
-        'total_products': total_products,
-        'total_users': total_users,
-        'low_stock_products': low_stock_products,
-        'category_stats': category_stats,
-        'recent_products': recent_products,
-        'price_stats': price_stats,
-    }
-    
-    return render(request, 'admin_dashboard.html', context)
+
 
 def get_cart_count(request):
     """AJAX endpoint to get current cart count"""
