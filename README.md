@@ -29,12 +29,15 @@ PyShop is a modern, responsive e-commerce website built with Python and Django. 
 * 🛒 Browse products by **category and subcategory**
 * 🔍 Smart **search** and **filtering** with pagination
 * 👤 User **registration**, **login**, and **profile management**
-* 💳 **Paystack payment integration** for secure checkout
-* 📦 **Order management** with order history and tracking
+* 💳 **Paystack payment integration** with webhook support for secure checkout
+* � **Prersistent cart** - cart items survive logout and sync across sessions
+* 📊 **Real-time stock validation** - prevents overselling
+* �  **Order management** with order history and tracking
 * 🧾 **Invoice generation** and order details
-* 🛠️ **Jazzmin admin** for managing products, orders, and users
+* �️ **Jaczzmin admin** for managing products, orders, and users
 * 📱 **Responsive design** with mobile-friendly UI
 * 🚀 Production-ready with **PostgreSQL** support
+* ⚡ **Automatic payment verification** via Paystack webhooks
 
 ---
 
@@ -46,9 +49,11 @@ PyShop is a modern, responsive e-commerce website built with Python and Django. 
 | Bootstrap 5 (CDN)    | UI and responsive design       |
 | SQLite (dev)         | Lightweight dev database       |
 | PostgreSQL (prod)    | Production database            |
-| Paystack             | Payment processing             |
+| Paystack (pypaystack2) | Payment processing           |
+| Pillow               | Image handling and processing  |
 | django-jazzmin       | Modern admin interface         |
 | django-widget-tweaks | Form rendering customization   |
+| Whitenoise           | Static file serving            |
 | uv                   | Fast Python package manager    |
 
 ---
@@ -101,10 +106,17 @@ make clean        # Clean cache files
 1. Sign up at [Paystack](https://paystack.com)
 2. Get your API keys from the dashboard
 3. Add to `.env` file:
-   ```
+   ```env
+   DJANGO_SECRET_KEY=your-secret-key-here
    PAYSTACK_SECRET_KEY=sk_test_xxxxx
    PAYSTACK_PUBLIC_KEY=pk_test_xxxxx
+   ALLOWED_HOSTS=127.0.0.1,localhost,yourdomain.com
    ```
+4. Configure webhook in Paystack dashboard (for production):
+   - Go to Settings → Webhooks
+   - Add webhook URL: `https://yourdomain.com/webhooks/paystack/`
+   - Select event: `charge.success`
+   - Save and copy the webhook secret (optional, for additional security)
 
 ---
 
@@ -124,26 +136,66 @@ make clean        # Clean cache files
 products/
 ├── views/
 │   ├── product_views.py    # Product listings & details
-│   ├── auth_views.py       # Authentication
-│   ├── cart_views.py       # Shopping cart
-│   ├── order_views.py      # Orders & payment
+│   ├── auth_views.py       # Authentication & cart migration
+│   ├── cart_views.py       # Persistent shopping cart
+│   ├── order_views.py      # Orders, payment & webhooks
 │   └── profile_views.py    # User profiles
-├── models.py               # Database models
+├── models.py               # Database models (Product, Cart, Order, etc.)
 ├── admin.py                # Admin configuration
+├── forms.py                # Form definitions
 └── templates/              # HTML templates
 ```
+
+### Key Models
+
+- **Product** - Product catalog with stock management
+- **Cart & CartItem** - Persistent cart storage (survives logout)
+- **Order & OrderItem** - Order management with status tracking
+- **Profile** - Extended user information
+- **Offer** - Discount codes and promotions
 
 ---
 
 ## 🌐 Deployment
 
-* Deploy on Render (recommended), Heroku, or any cloud platform
-* For production, use PostgreSQL and set up environment variables
-* Collect static files with:
+### Production Checklist
 
-```bash
-uv run python manage.py collectstatic
-```
+1. **Database**: Switch to PostgreSQL
+   ```env
+   DATABASE_URL=postgresql://user:password@host:port/dbname
+   ```
+
+2. **Environment Variables**: Set all required variables
+   ```env
+   DJANGO_SECRET_KEY=your-production-secret-key
+   DEBUG=False
+   ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
+   PAYSTACK_SECRET_KEY=sk_live_xxxxx
+   PAYSTACK_PUBLIC_KEY=pk_live_xxxxx
+   ```
+
+3. **Static Files**: Collect static files
+   ```bash
+   uv run python manage.py collectstatic
+   ```
+
+4. **Migrations**: Run database migrations
+   ```bash
+   uv run python manage.py migrate
+   ```
+
+5. **Webhook Configuration**: 
+   - Configure webhook URL in Paystack dashboard
+   - URL format: `https://yourdomain.com/webhooks/paystack/`
+   - Enable `charge.success` event
+   - Webhook handles automatic payment verification and stock reduction
+
+### Deployment Platforms
+
+* **Render** (recommended) - Easy deployment with PostgreSQL
+* **Heroku** - Classic PaaS with add-ons
+* **Railway** - Modern deployment platform
+* **DigitalOcean** - VPS with more control
 
 ### 🔗 Live Demo
 
