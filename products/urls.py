@@ -25,6 +25,7 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('payment/<int:order_id>/', views.payment, name='payment'),
     path('verify-payment/<int:order_id>/', views.verify_payment, name='verify_payment'),
+    path('webhooks/paystack/', views.paystack_webhook, name='paystack_webhook'),
     path('orders/', views.order_history, name='order_history'),
     path('orders/<int:order_id>/', views.order_detail, name='order_detail'),
 ]
