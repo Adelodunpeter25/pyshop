@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: my-django-app
+    env: python
+    region: oregon  # or frankfurt, or whatever is closest to you
+    buildCommand: |
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+      /opt/render/.local/bin/uv sync
+      /opt/render/.local/bin/uv run python manage.py collectstatic --noinput
+    startCommand: /opt/render/.local/bin/uv run gunicorn pyshop.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: pyshop.settings
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PORT
+        value: 8000
+    autoDeploy: true
